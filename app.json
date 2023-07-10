@@ -22,8 +22,14 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#FBE9CD"
       }
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "53517abb-b8f9-43af-979a-66159a31a088"
+      }
+    },
+    "owner": "marechal-dev"
   }
 }
