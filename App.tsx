@@ -4,20 +4,21 @@ import { StatusBar } from "expo-status-bar"
 import * as SplashScreen from "expo-splash-screen"
 import { loadAsync } from "expo-font"
 
+import { SafeAreaProvider } from "react-native-safe-area-context"
 import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 
 import { appTheme } from "./src/theme/app-theme"
+import { RootStackParamList } from "./src/types/navigator-types"
 import { navigatorScreenOptions } from "./src/theme/screen-options"
 
-import { OnboardingScreen } from "./src/screens/OnboardingScreen/OnboardingScreen"
-import { RootStackParamList } from "./src/types/navigator-types"
-import { LoginScreen } from "./src/screens/LoginScreen/LoginScreen"
-import { ForgotPasswordScreen } from "./src/screens/ForgotPasswordScreen/ForgotPasswordScreen"
-import { RegisterNewAccountScreen } from "./src/screens/RegisterNewAccountScreen"
-import { NgoLoginScreen } from "./src/screens/NgoLoginScreen/NgoLoginScreen"
-import { SafeAreaProvider } from "react-native-safe-area-context"
-import { AppContainer } from "./src/core/components/AppContainer"
+import { AppShell } from "./src/components/core/primitives/AppShell"
+
+import { OnboardingScreen } from "./src/screens/Onboarding/OnboardingScreen"
+import { LoginScreen } from "./src/screens/Login/LoginScreen"
+import { ForgotPasswordScreen } from "./src/screens/ForgotPassword/ForgotPasswordScreen"
+import { OrgLoginScreen } from "./src/screens/OrgLogin/NgoLoginScreen"
+import { SignInScreen } from "./src/screens/SignIn"
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
@@ -56,7 +57,7 @@ export default function App() {
     <>
       <StatusBar style="dark" />
       <SafeAreaProvider>
-        <AppContainer onLayout={onLayoutRootView}>
+        <AppShell onLayout={onLayoutRootView}>
           <NavigationContainer theme={appTheme}>
             <Stack.Navigator
               screenOptions={navigatorScreenOptions}
@@ -68,14 +69,11 @@ export default function App() {
                 name="ForgotPassword"
                 component={ForgotPasswordScreen}
               />
-              <Stack.Screen
-                name="RegisterNewAccount"
-                component={RegisterNewAccountScreen}
-              />
-              <Stack.Screen name="NgoLogin" component={NgoLoginScreen} />
+              <Stack.Screen name="SignIn" component={SignInScreen} />
+              <Stack.Screen name="OrgLogin" component={OrgLoginScreen} />
             </Stack.Navigator>
           </NavigationContainer>
-        </AppContainer>
+        </AppShell>
       </SafeAreaProvider>
     </>
   )

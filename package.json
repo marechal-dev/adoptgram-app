@@ -7,8 +7,8 @@
     "email": "pietro.developer@gmail.com"
   },
   "scripts": {
-    "start": "expo start",
-    "start:android": "expo start --android",
+    "start": "expo start --tunnel",
+    "start:android": "expo start --android --tunnel",
     "start:ios": "expo start --ios",
     "start:web": "expo start --web"
   },
