@@ -30,4 +30,9 @@ export const styles = StyleSheet.create({
     borderColor: colors.brand.blue800,
     borderRadius: 12,
   },
+  errorMessage: {
+    fontFamily: "Poppins",
+    fontSize: 14,
+    color: colors.brand.red600,
+  },
 })

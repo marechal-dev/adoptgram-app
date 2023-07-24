@@ -1,12 +1,12 @@
-import { StyleSheet } from "react-native";
-import { colors } from "../../../theme/colors";
+import { StyleSheet } from "react-native"
+import { colors } from "../../../theme/colors"
 
 export const styles = StyleSheet.create({
   formContainer: {
     width: "100%",
     flexDirection: "column",
     justifyContent: "flex-start",
-    alignItems: "center"
+    alignItems: "center",
   },
   formStepTitle: {
     color: colors.text.mainText90,
@@ -16,5 +16,15 @@ export const styles = StyleSheet.create({
     fontFamily: "Poppins",
     fontStyle: "italic",
     marginBottom: 16,
-  }
+  },
+  inputsContainer: {
+    width: "100%",
+    rowGap: 24,
+    marginBottom: 26,
+  },
+  errorMessage: {
+    fontFamily: "Poppins",
+    fontSize: 14,
+    color: colors.brand.red600,
+  },
 })

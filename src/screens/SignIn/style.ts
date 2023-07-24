@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native"
-import { colors } from "../../theme/colors";
+import { colors } from "../../theme/colors"
 
 export const styles = StyleSheet.create({
   innerContainer: {
@@ -13,10 +13,10 @@ export const styles = StyleSheet.create({
     color: colors.text.mainText90,
   },
   formToggleContainer: {
-    minWidth: 280,
+    width: "100%",
     flexDirection: "row",
     justifyContent: "center",
     columnGap: 66,
     marginVertical: 24,
   },
-});
+})

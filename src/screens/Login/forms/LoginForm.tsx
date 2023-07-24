@@ -1,21 +1,23 @@
-import { View } from "react-native"
+import { Alert, View } from "react-native"
 
-import { z } from "zod"
+import AsyncStorage from "@react-native-async-storage/async-storage"
+
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-import { PressableText } from "../../components/core/primitives/PressableText/PressableText"
-import { BrandButton } from "../../components/core/brand/BrandButton/BrandButton"
+import { AxiosError } from "axios"
 
-import { styles } from "./style"
-import { colors } from "../../theme/colors"
-import { BrandInput } from "../../components/core/brand/BrandInput"
+import { colors } from "../../../theme/colors"
 
-const loginFormSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-})
-type LoginFormData = z.infer<typeof loginFormSchema>
+import { styles } from "../style"
+
+import { loginFormSchema, LoginFormData } from "../schemas/login-schema"
+import { LoginPayload } from "../payloads/login-payload"
+
+import { BrandButton } from "../../../components/core/brand/BrandButton/BrandButton"
+import { BrandInput } from "../../../components/core/brand/BrandInput"
+import { PressableText } from "../../../components/core/primitives/PressableText/PressableText"
+import { axiosSocialApiClient } from "../../../lib/axios"
 
 type LoginFormProps = {
   onForgotPasswordPressHandler: () => void
@@ -24,10 +26,29 @@ type LoginFormProps = {
 export function LoginForm({ onForgotPasswordPressHandler }: LoginFormProps) {
   const { control, handleSubmit } = useForm<LoginFormData>({
     resolver: zodResolver(loginFormSchema),
+    defaultValues: {
+      kind: "CommonUser",
+    },
   })
 
-  function handleLoginFormSubmit(data: LoginFormData) {
-    console.log(data)
+  async function handleLoginFormSubmit(data: LoginPayload) {
+    try {
+      const response = await axiosSocialApiClient.post("/auth/sessions", data)
+
+      if (response.status === 200) {
+        await AsyncStorage.setItem("token", response.data.token)
+        Alert.alert(
+          "Login bem-sucedido",
+          `${JSON.stringify(response.data.token)}`,
+        )
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        Alert.alert("Erro", `${error.response?.data?.message}`)
+      } else {
+        Alert.alert("Erro", "Erro desconhecido")
+      }
+    }
   }
 
   return (
@@ -74,6 +95,7 @@ export function LoginForm({ onForgotPasswordPressHandler }: LoginFormProps) {
           </BrandInput.Root>
         )}
       />
+
       <PressableText
         onPressHandler={onForgotPasswordPressHandler}
         pressableStyle={styles.forgotPasswordWrapper}
@@ -86,7 +108,9 @@ export function LoginForm({ onForgotPasswordPressHandler }: LoginFormProps) {
         paddingOverride={{
           paddingHorizontal: 10,
         }}
-        onPressHandler={handleSubmit(handleLoginFormSubmit)}
+        onPressHandler={handleSubmit(async (data) =>
+          handleLoginFormSubmit(data),
+        )}
       >
         Entrar
       </BrandButton>

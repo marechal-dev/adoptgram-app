@@ -1,5 +1,5 @@
-import { StyleSheet } from "react-native";
-import { colors } from "../../../../theme/colors";
+import { StyleSheet } from "react-native"
+import { colors } from "../../../../theme/colors"
 
 export const styles = StyleSheet.create({
   outerContainer: {
@@ -9,20 +9,20 @@ export const styles = StyleSheet.create({
     flexDirection: "column",
     rowGap: 8,
     alignItems: "center",
-    maxWidth: 56,
+    maxWidth: 58,
   },
   roundedContainer: {
-    width: 58,
-    height: 58,
+    width: 64,
+    height: 64,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 40,
-    backgroundColor: colors.brand.orange500
+    backgroundColor: colors.brand.orange500,
   },
   buttonText: {
     width: "100%",
     textAlign: "center",
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: "Poppins",
   },
 })

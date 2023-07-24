@@ -25,12 +25,13 @@ export function FormToggleButton({
             backgroundColor: isSelected
               ? colors.brand.blue800
               : colors.brand.orange500,
+            elevation: isSelected ? 0 : 10,
           },
         ]}
       >
         <Feather
           name={icon}
-          size={34}
+          size={38}
           color={isSelected ? colors.brand.orange500 : colors.brand.blue800}
         />
       </View>

@@ -10,7 +10,7 @@ import { PressableText } from "../../components/core/primitives/PressableText/Pr
 import { Container } from "../../components/core/primitives/Container"
 import { HorizontalDivider } from "../../components/ui/HorizontalDivider"
 
-import { LoginForm } from "./LoginForm"
+import { LoginForm } from "./forms/LoginForm"
 
 import HERO_IMAGE from "../../../assets/images/cat.svg"
 
