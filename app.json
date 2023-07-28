@@ -10,6 +10,9 @@
     "platforms": [
       "android"
     ],
+    "experiments": {
+      "tsconfigPaths": true
+    },
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -23,7 +26,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FBE9CD"
-      }
+      },
+      "package": "com.devarmysoftware.adoptgram"
     },
     "extra": {
       "eas": {

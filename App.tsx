@@ -1,3 +1,5 @@
+import "react-native-gesture-handler"
+
 import { useCallback, useEffect, useState } from "react"
 
 import { StatusBar } from "expo-status-bar"
@@ -6,32 +8,33 @@ import { loadAsync } from "expo-font"
 
 import { SafeAreaProvider } from "react-native-safe-area-context"
 import { NavigationContainer } from "@react-navigation/native"
-import { createNativeStackNavigator } from "@react-navigation/native-stack"
+// import { createNativeStackNavigator } from "@react-navigation/native-stack"
 
-import { appTheme } from "./src/theme/app-theme"
-import { RootStackParamList } from "./src/types/navigator-types"
-import { navigatorScreenOptions } from "./src/theme/screen-options"
+import { appTheme } from "@Theme/app-theme"
+// import { removeHeader, removeHeaderTitle } from "@Theme/screen-options"
+// import { RootStackParamList } from "@Types/navigator-types"
 
-import { AppShell } from "./src/components/core/primitives/AppShell"
+import { AppShell } from "@Components/core/primitives/AppShell"
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import { StackNavigator } from "@Navigation/stack"
+// import { StackNavigator } from "@Navigation/stack"
 
-import { OnboardingScreen } from "./src/screens/Onboarding/OnboardingScreen"
-import { LoginScreen } from "./src/screens/Login/LoginScreen"
-import { ForgotPasswordScreen } from "./src/screens/ForgotPassword/ForgotPasswordScreen"
-import { OrgLoginScreen } from "./src/screens/OrgLogin/NgoLoginScreen"
-import { SignInScreen } from "./src/screens/SignIn"
-
-const Stack = createNativeStackNavigator<RootStackParamList>()
+// const Stack = createNativeStackNavigator<RootStackParamList>()
 
 SplashScreen.preventAutoHideAsync()
 
+type IsFirstTime = "true" | "false"
+type DefaultRoute = "Onboarding" | "Login"
+
 export default function App() {
+  const [defaultRoute, setDefaultRoute] = useState<DefaultRoute>("Onboarding")
   const [appIsReady, setAppIsReady] = useState<boolean>(false)
 
   useEffect(() => {
     const loadFonts = async () => {
       try {
         await loadAsync({
-          Poppins: require("./assets/fonts/Poppins.ttf"),
+          Poppins: require("@Assets/fonts/Poppins.ttf"),
         })
       } catch (error) {
         console.error(error)
@@ -40,7 +43,18 @@ export default function App() {
       }
     }
 
+    const getDefaultRoute = async () => {
+      const isFirstTime = (await AsyncStorage.getItem(
+        "isFirstTime",
+      )) as IsFirstTime
+
+      setDefaultRoute(
+        !isFirstTime || isFirstTime === "true" ? "Onboarding" : "Login",
+      )
+    }
+
     loadFonts()
+    getDefaultRoute()
   }, [])
 
   const onLayoutRootView = useCallback(async () => {
@@ -55,23 +69,43 @@ export default function App() {
 
   return (
     <>
-      <StatusBar style="dark" />
+      <StatusBar translucent style="dark" />
       <SafeAreaProvider>
         <AppShell onLayout={onLayoutRootView}>
           <NavigationContainer theme={appTheme}>
-            <Stack.Navigator
-              screenOptions={navigatorScreenOptions}
-              initialRouteName="Onboarding"
-            >
+            <StackNavigator defaultRoute={defaultRoute} />
+
+            {/* <Stack.Navigator initialRouteName={defaultRoute}>
               <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-              <Stack.Screen name="Login" component={LoginScreen} />
+              <Stack.Screen
+                name="Login"
+                component={LoginScreen}
+                options={{
+                  headerShown: false,
+                }}
+              />
               <Stack.Screen
                 name="ForgotPassword"
                 component={ForgotPasswordScreen}
+                options={{
+                  headerTitle: removeHeaderTitle,
+                }}
               />
-              <Stack.Screen name="SignIn" component={SignInScreen} />
-              <Stack.Screen name="OrgLogin" component={OrgLoginScreen} />
-            </Stack.Navigator>
+              <Stack.Screen
+                name="SignIn"
+                component={SignInScreen}
+                options={{
+                  headerTitle: removeHeaderTitle,
+                }}
+              />
+              <Stack.Screen
+                name="OrganizationLogin"
+                component={OrganizationLoginScreen}
+                options={{
+                  headerTitle: removeHeaderTitle,
+                }}
+              />
+            </Stack.Navigator> */}
           </NavigationContainer>
         </AppShell>
       </SafeAreaProvider>

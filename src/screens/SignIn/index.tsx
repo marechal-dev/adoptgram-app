@@ -3,11 +3,12 @@ import { View, ScrollView, Text } from "react-native"
 
 import { styles } from "./style"
 
-import { Container } from "../../components/core/primitives/Container"
+import { SignInScreenProps } from "@Types/screens-types"
+
+import { Container } from "@Components/core/primitives/Container"
 import { FormToggleButton } from "./components/FormToggleButton"
 import { CommonUserForm } from "./forms/CommonUserForm"
-import { OrgForm } from "./forms/OrgForm"
-import { SignInScreenProps } from "../../types/screens-types"
+import { OrgForm } from "./forms/OrganizationForm"
 
 type CurrentForm = "CommonUser" | "ORG"
 

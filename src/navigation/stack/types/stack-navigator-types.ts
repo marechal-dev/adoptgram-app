@@ -3,5 +3,5 @@ export type RootStackParamList = {
   Login: undefined
   ForgotPassword: undefined
   SignIn: undefined
-  OrgLogin: undefined
+  OrganizationLogin: undefined
 }

@@ -1,7 +1,8 @@
 import { View, Text, Pressable } from "react-native"
-import { styles } from "./style"
-import { colors } from "../../../../theme/colors"
 import Feather from "@expo/vector-icons/Feather"
+
+import { styles } from "./style"
+import { colors } from "@Theme/colors"
 
 interface FormToggleButtonProps {
   icon: keyof typeof Feather.glyphMap

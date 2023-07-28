@@ -6,12 +6,16 @@ import {
   useWindowDimensions,
 } from "react-native"
 
-import { styles } from "./style"
-import { BrandButton } from "../../components/core/brand/BrandButton/BrandButton"
-import { OnboardingScreenProps } from "../../types/screens-types"
-import { Container } from "../../components/core/primitives/Container"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
-import heroGif from "../../../assets/images/sammy-delivery.gif"
+import { styles } from "./style"
+
+import HERO_GIF from "@Assets/images/sammy-delivery.gif"
+
+import { OnboardingScreenProps } from "@Types/screens-types"
+
+import { BrandButton } from "@Components/core/brand/BrandButton/BrandButton"
+import { Container } from "@Components/core/primitives/Container"
 
 export function OnboardingScreen({ navigation }: OnboardingScreenProps) {
   const { width, height } = useWindowDimensions()
@@ -57,6 +61,11 @@ export function OnboardingScreen({ navigation }: OnboardingScreenProps) {
     },
   })
 
+  async function handleSeeMoreButtonTouch() {
+    await AsyncStorage.setItem("isFirstTime", "false")
+    navigation.navigate("Login")
+  }
+
   return (
     <Container.SafeArea
       style={[
@@ -70,7 +79,7 @@ export function OnboardingScreen({ navigation }: OnboardingScreenProps) {
           responsiveMarginBetweenOnboardingInformationAndButton.responsiveMargin,
         ]}
       >
-        <Image source={heroGif} style={styles.onboardingImage} />
+        <Image source={HERO_GIF} style={styles.onboardingImage} />
         <Text
           style={[
             styles.onboardingText,
@@ -82,7 +91,7 @@ export function OnboardingScreen({ navigation }: OnboardingScreenProps) {
         </Text>
       </View>
 
-      <BrandButton onPressHandler={() => navigation.navigate("Login")}>
+      <BrandButton onPressHandler={handleSeeMoreButtonTouch}>
         Quero saber mais!
       </BrandButton>
     </Container.SafeArea>

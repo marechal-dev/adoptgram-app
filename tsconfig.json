@@ -4,5 +4,32 @@
     "strict": true,
     "strictNullChecks": true,
     "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@Assets/*": [
+        "./assets/*"
+      ],
+      "@Components/*": [
+        "./src/components/*"
+      ],
+      "@Constants/*": [
+        "./src/constants/*"
+      ],
+      "@Lib/*": [
+        "./src/lib/*"
+      ],
+      "@Navigation/*": [
+        "./src/navigation/*"
+      ],
+      "@Screens/*": [
+        "./src/screens/*"
+      ],
+      "@Theme/*": [
+        "./src/theme/*"
+      ],
+      "@Types/*": [
+        "./src/types/*"
+      ],
+    }
   }
 }

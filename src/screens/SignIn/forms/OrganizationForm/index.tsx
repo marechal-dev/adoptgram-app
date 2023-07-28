@@ -3,12 +3,13 @@ import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useNavigation } from "@react-navigation/native"
 
-import { axiosSocialApiClient } from "../../../../lib/axios"
-
 import { styles } from "../styles"
 
-import { BrandInput } from "../../../../components/core/brand/BrandInput"
-import { BrandButton } from "../../../../components/core/brand/BrandButton/BrandButton"
+import { axiosSocialApiClient } from "@Lib/axios"
+
+import { BrandInput } from "@Components/core/brand/BrandInput"
+import { BrandButton } from "@Components/core/brand/BrandButton/BrandButton"
+
 import {
   RegisterOrganizationFormData,
   registerOrganizationFormSchema,

@@ -2,33 +2,32 @@ import { View, Text } from "react-native"
 
 import { Image } from "expo-image"
 
-import { LoginScreenProps } from "../../types/screens-types"
+import HERO_IMAGE from "@Assets/images/dog-standing.svg"
 
-import { styles } from "./style"
+import { styles } from "./styles"
 
-import { PressableText } from "../../components/core/primitives/PressableText/PressableText"
-import { Container } from "../../components/core/primitives/Container"
-import { HorizontalDivider } from "../../components/ui/HorizontalDivider"
+import { OrganizationLoginForm } from "./forms/OrganizationLoginForm"
 
-import { LoginForm } from "./forms/LoginForm"
+import { OrganizationLoginScreenProps } from "@Navigation/stack/types/screen-types"
 
-import HERO_IMAGE from "../../../assets/images/cat.svg"
+import { Container } from "@Components/core/primitives/Container"
+import { PressableText } from "@Components/core/primitives/PressableText/PressableText"
+import { HorizontalDivider } from "@Components/ui/HorizontalDivider"
 
-export function LoginScreen({ navigation }: LoginScreenProps) {
-  // const { width, height } = useWindowDimensions()
-
+export function OrganizationLoginScreen({
+  navigation,
+}: OrganizationLoginScreenProps) {
   return (
     <Container.SafeArea style={styles.outerContainer}>
       <Image style={styles.loginImage} source={HERO_IMAGE} />
 
       <View style={styles.headingContainer}>
-        <Text style={styles.loginHeading}>
-          Olá! Bem-vindo ao{" "}
-          <Text style={styles.emphasizedHeadingSpan}>AdoptGram</Text>!
-        </Text>
+        <Text style={styles.loginTypeIndicator}>ORG</Text>
+
+        <Text style={styles.loginHeading}>Você faz o AdoptGram acontecer!</Text>
       </View>
 
-      <LoginForm
+      <OrganizationLoginForm
         onForgotPasswordPressHandler={() =>
           navigation.navigate("ForgotPassword")
         }
@@ -50,7 +49,7 @@ export function LoginScreen({ navigation }: LoginScreenProps) {
         <View style={styles.otherOptionsTextsContainer}>
           <Text style={styles.otherOptionsText}>É uma ONG?</Text>
           <PressableText
-            onPressHandler={() => navigation.navigate("OrgLogin")}
+            onPressHandler={() => navigation.navigate("OrganizationLogin")}
             pressableStyle={styles.otherOptionsPressable}
             textStyle={styles.otherOptionsPressableText}
           >

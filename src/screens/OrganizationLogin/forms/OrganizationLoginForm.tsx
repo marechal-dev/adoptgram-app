@@ -9,7 +9,7 @@ import { AxiosError } from "axios"
 import { axiosSocialApiClient } from "@Lib/axios"
 
 import { colors } from "@Theme/colors"
-import { styles } from "../style"
+import { styles } from "../styles"
 
 import { loginFormSchema, LoginFormData } from "../schemas/login-schema"
 import { LoginPayload } from "../payloads/login-payload"
@@ -22,7 +22,9 @@ type LoginFormProps = {
   onForgotPasswordPressHandler: () => void
 }
 
-export function LoginForm({ onForgotPasswordPressHandler }: LoginFormProps) {
+export function OrganizationLoginForm({
+  onForgotPasswordPressHandler,
+}: LoginFormProps) {
   const { control, handleSubmit } = useForm<LoginFormData>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {

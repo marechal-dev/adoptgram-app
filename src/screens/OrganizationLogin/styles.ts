@@ -6,10 +6,10 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 42,
+    paddingHorizontal: 40,
   },
   loginImage: {
-    minWidth: 280,
+    minWidth: 236,
     minHeight: 108,
     maxWidth: 300,
     maxHeight: 128,
@@ -20,6 +20,15 @@ export const styles = StyleSheet.create({
     minHeight: 60,
     maxWidth: 200,
     marginBottom: 30,
+    rowGap: 8,
+  },
+  loginTypeIndicator: {
+    textAlign: "center",
+    fontFamily: "Poppins",
+    fontSize: 22,
+    lineHeight: 30,
+    color: colors.text.mainText90,
+    fontWeight: "bold",
   },
   loginHeading: {
     textAlign: "center",

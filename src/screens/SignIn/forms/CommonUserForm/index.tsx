@@ -5,9 +5,9 @@ import { useNavigation } from "@react-navigation/native"
 
 import { styles } from "../styles"
 
-import { BrandInput } from "../../../../components/core/brand/BrandInput"
-import { BrandButton } from "../../../../components/core/brand/BrandButton/BrandButton"
-import { axiosSocialApiClient } from "../../../../lib/axios"
+import { axiosSocialApiClient } from "@Lib/axios"
+import { BrandButton } from "@Components/core/brand/BrandButton/BrandButton"
+import { BrandInput } from "@Components/core/brand/BrandInput"
 
 import {
   registerCommonUserFormSchema,

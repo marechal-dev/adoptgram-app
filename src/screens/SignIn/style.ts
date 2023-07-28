@@ -3,7 +3,6 @@ import { colors } from "../../theme/colors"
 
 export const styles = StyleSheet.create({
   innerContainer: {
-    paddingTop: 82,
     paddingHorizontal: 36,
   },
   headingText: {
