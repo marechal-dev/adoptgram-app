@@ -29,11 +29,25 @@
       },
       "package": "com.devarmysoftware.adoptgram"
     },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "devarmysoftware",
+            "project": "adoptgram"
+          }
+        }
+      ]
+    },
     "extra": {
       "eas": {
         "projectId": "53517abb-b8f9-43af-979a-66159a31a088"
       }
     },
-    "owner": "marechal-dev"
+    "owner": "marechal-dev",
+    "plugins": [
+      "sentry-expo"
+    ]
   }
 }

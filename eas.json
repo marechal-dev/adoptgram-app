@@ -4,23 +4,13 @@
   },
   "build": {
     "development": {
-      "env": {
-        "EXPO_PUBLIC_SOCIAL_API_URL": "https://adoptgram-social.onrender.com"
-      },
       "developmentClient": true,
       "distribution": "internal"
     },
     "preview": {
-      "env": {
-        "EXPO_PUBLIC_SOCIAL_API_URL": "https://adoptgram-social.onrender.com"
-      },
       "distribution": "internal"
     },
-    "production": {
-      "env": {
-        "EXPO_PUBLIC_SOCIAL_API_URL": "https://adoptgram-social.onrender.com"
-      }
-    }
+    "production": {}
   },
   "submit": {
     "production": {}

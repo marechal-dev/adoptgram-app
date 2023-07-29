@@ -6,20 +6,24 @@ import { StatusBar } from "expo-status-bar"
 import * as SplashScreen from "expo-splash-screen"
 import { loadAsync } from "expo-font"
 
+import AsyncStorage from "@react-native-async-storage/async-storage"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 import { NavigationContainer } from "@react-navigation/native"
-// import { createNativeStackNavigator } from "@react-navigation/native-stack"
+
+import * as Sentry from "sentry-expo"
+import * as SentryNative from "@sentry/react-native"
 
 import { appTheme } from "@Theme/app-theme"
-// import { removeHeader, removeHeaderTitle } from "@Theme/screen-options"
-// import { RootStackParamList } from "@Types/navigator-types"
 
+import { sentryDsn } from "@Constants/index"
 import { AppShell } from "@Components/core/primitives/AppShell"
-import AsyncStorage from "@react-native-async-storage/async-storage"
 import { StackNavigator } from "@Navigation/stack"
-// import { StackNavigator } from "@Navigation/stack"
 
-// const Stack = createNativeStackNavigator<RootStackParamList>()
+Sentry.init({
+  dsn: sentryDsn,
+  enableInExpoDevelopment: true,
+  debug: true,
+})
 
 SplashScreen.preventAutoHideAsync()
 
@@ -37,12 +41,16 @@ export default function App() {
           Poppins: require("@Assets/fonts/Poppins.ttf"),
         })
       } catch (error) {
-        console.error(error)
+        SentryNative.captureException(error)
       } finally {
         setAppIsReady(true)
       }
     }
 
+    loadFonts()
+  }, [])
+
+  useEffect(() => {
     const getDefaultRoute = async () => {
       const isFirstTime = (await AsyncStorage.getItem(
         "isFirstTime",
@@ -53,7 +61,6 @@ export default function App() {
       )
     }
 
-    loadFonts()
     getDefaultRoute()
   }, [])
 
@@ -74,38 +81,6 @@ export default function App() {
         <AppShell onLayout={onLayoutRootView}>
           <NavigationContainer theme={appTheme}>
             <StackNavigator defaultRoute={defaultRoute} />
-
-            {/* <Stack.Navigator initialRouteName={defaultRoute}>
-              <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-              <Stack.Screen
-                name="Login"
-                component={LoginScreen}
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="ForgotPassword"
-                component={ForgotPasswordScreen}
-                options={{
-                  headerTitle: removeHeaderTitle,
-                }}
-              />
-              <Stack.Screen
-                name="SignIn"
-                component={SignInScreen}
-                options={{
-                  headerTitle: removeHeaderTitle,
-                }}
-              />
-              <Stack.Screen
-                name="OrganizationLogin"
-                component={OrganizationLoginScreen}
-                options={{
-                  headerTitle: removeHeaderTitle,
-                }}
-              />
-            </Stack.Navigator> */}
           </NavigationContainer>
         </AppShell>
       </SafeAreaProvider>

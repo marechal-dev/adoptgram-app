@@ -8,7 +8,7 @@ import { styles } from "./style"
 
 import { LoginForm } from "./forms/LoginForm"
 
-import { LoginScreenProps } from "@Types/screens-types"
+import { LoginScreenProps } from "@Navigation/stack/types/screen-types"
 
 import { Container } from "@Components/core/primitives/Container"
 import { PressableText } from "@Components/core/primitives/PressableText/PressableText"

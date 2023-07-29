@@ -5,6 +5,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
+import Sentry from "@sentry/react-native"
+
 import { AxiosError } from "axios"
 import { axiosSocialApiClient } from "@Lib/axios"
 
@@ -31,6 +33,12 @@ export function LoginForm({ onForgotPasswordPressHandler }: LoginFormProps) {
   })
 
   async function handleLoginFormSubmit(data: LoginPayload) {
+    const loginTransaction = Sentry.startTransaction({
+      name: "Login Transaction",
+      data,
+      description: "Start the Login request",
+    })
+
     try {
       const response = await axiosSocialApiClient.post("/auth/sessions", data)
 
@@ -47,7 +55,11 @@ export function LoginForm({ onForgotPasswordPressHandler }: LoginFormProps) {
       } else {
         Alert.alert("Erro", "Erro desconhecido")
       }
+
+      Sentry.captureException(error)
     }
+
+    loginTransaction.finish()
   }
 
   return (
