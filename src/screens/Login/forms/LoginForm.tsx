@@ -11,7 +11,7 @@ import { AxiosError } from "axios"
 import { axiosSocialApiClient } from "@Lib/axios"
 
 import { colors } from "@Theme/colors"
-import { styles } from "../style"
+import { styles } from "../styles"
 
 import { loginFormSchema, LoginFormData } from "../schemas/login-schema"
 import { LoginPayload } from "../payloads/login-payload"

@@ -1,9 +1,9 @@
 import { useState } from "react"
 import { View, ScrollView, Text } from "react-native"
 
-import { styles } from "./style"
+import { styles } from "./styles"
 
-import { SignInScreenProps } from "@Types/screens-types"
+import { SignInScreenProps } from "@Navigation/stack/types/screen-types"
 
 import { Container } from "@Components/core/primitives/Container"
 import { FormToggleButton } from "./components/FormToggleButton"
@@ -18,18 +18,9 @@ export function SignInScreen({ navigation }: SignInScreenProps) {
   return (
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
-      style={{
-        flex: 1,
-      }}
+      style={styles.scrollContainer}
     >
-      <Container.SafeArea
-        style={[
-          styles.innerContainer,
-          {
-            paddingBottom: 42,
-          },
-        ]}
-      >
+      <Container.SafeArea style={styles.innerContainer}>
         <Text style={styles.headingText}>Cadastro</Text>
 
         <View style={styles.formToggleContainer}>

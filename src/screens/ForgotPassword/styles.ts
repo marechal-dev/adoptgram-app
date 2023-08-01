@@ -1,3 +1,4 @@
+import { colors } from "@Theme/colors"
 import { StyleSheet } from "react-native"
 
 export const styles = StyleSheet.create({
@@ -19,11 +20,13 @@ export const styles = StyleSheet.create({
     fontFamily: "Poppins",
     fontWeight: "bold",
     fontSize: 16,
+    color: colors.text.mainText90,
     textAlign: "center",
   },
   instructionText: {
     fontFamily: "Poppins",
     textAlign: "center",
+    color: colors.text.mainText90,
     fontSize: 16,
   },
   interactionsContainer: {

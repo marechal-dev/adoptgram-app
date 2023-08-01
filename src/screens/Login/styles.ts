@@ -1,12 +1,13 @@
 import { StyleSheet } from "react-native"
-import { colors } from "../../theme/colors"
+
+import { colors } from "@Theme/colors"
 
 export const styles = StyleSheet.create({
   outerContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 42,
+    paddingHorizontal: 36,
   },
   loginImage: {
     minWidth: 280,

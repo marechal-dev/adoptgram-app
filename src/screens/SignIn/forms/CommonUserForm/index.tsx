@@ -125,7 +125,7 @@ export function CommonUserForm() {
                   /\d/,
                 ]}
                 placeholder="CPF"
-                keyboardType="numeric"
+                keyboardType="number-pad"
                 autoCapitalize="none"
                 returnKeyType="next"
               />

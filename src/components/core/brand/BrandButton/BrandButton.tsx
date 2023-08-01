@@ -1,28 +1,28 @@
-import { ReactNode } from "react";
+import { ReactNode } from "react"
 import {
   View,
   Pressable,
   Text,
   PressableAndroidRippleConfig,
-} from "react-native";
+} from "react-native"
 
-import { styles } from "./style";
+import { styles } from "./styles"
 
 interface BrandButtonProps {
-  onPressHandler: () => void;
-  children: ReactNode;
+  onPressHandler: () => void
+  children: ReactNode
   paddingOverride?: {
-    paddingVertical?: number;
-    paddingHorizontal?: number;
-  };
+    paddingVertical?: number
+    paddingHorizontal?: number
+  }
   fontSizeOverride?: {
-    fontSize: number;
-  };
+    fontSize: number
+  }
 }
 
 const ANDROID_RIPPLE_EFFECT_CONFIGS: PressableAndroidRippleConfig = {
   color: "#7A7264",
-};
+}
 
 export function BrandButton({
   onPressHandler,
@@ -50,5 +50,5 @@ export function BrandButton({
         </Text>
       </Pressable>
     </View>
-  );
+  )
 }

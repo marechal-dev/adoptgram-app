@@ -1,9 +1,14 @@
 import { StyleSheet } from "react-native"
-import { colors } from "../../theme/colors"
+
+import { colors } from "@Theme/colors"
 
 export const styles = StyleSheet.create({
+  scrollContainer: {
+    flex: 1,
+  },
   innerContainer: {
     paddingHorizontal: 36,
+    paddingBottom: 42,
   },
   headingText: {
     textAlign: "center",

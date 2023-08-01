@@ -1,9 +1,9 @@
 import { StyleSheet } from "react-native"
-import { colors } from "../../../../theme/colors"
+
+import { colors } from "@Theme/colors"
 
 export const styles = StyleSheet.create({
   inputRoot: {
-    height: 80,
     width: "100%",
     rowGap: 8,
   },

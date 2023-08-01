@@ -4,7 +4,7 @@ import { Image } from "expo-image"
 
 import HERO_IMAGE from "@Assets/images/cat.svg"
 
-import { styles } from "./style"
+import { styles } from "./styles"
 
 import { LoginForm } from "./forms/LoginForm"
 
