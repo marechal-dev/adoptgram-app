@@ -8,11 +8,11 @@ import {
 
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
-import { styles } from "./style"
+import { styles } from "./styles"
 
 import HERO_GIF from "@Assets/images/sammy-delivery.gif"
 
-import { OnboardingScreenProps } from "@Types/screens-types"
+import { OnboardingScreenProps } from "@Navigation/stack/types/screen-types"
 
 import { BrandButton } from "@Components/core/brand/BrandButton/BrandButton"
 import { Container } from "@Components/core/primitives/Container"

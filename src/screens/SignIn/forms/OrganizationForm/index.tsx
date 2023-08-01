@@ -60,8 +60,11 @@ export function OrgForm() {
         <Controller
           name="title"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.Input
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -77,8 +80,11 @@ export function OrgForm() {
         <Controller
           name="representativeName"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.Input
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -94,8 +100,11 @@ export function OrgForm() {
         <Controller
           name="whatsapp"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.InputWithMask
                 onChangeText={(masked) => onChange(masked)}
                 onBlur={onBlur}
@@ -128,8 +137,11 @@ export function OrgForm() {
         <Controller
           name="residentialPhone"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.InputWithMask
                 onChangeText={(masked) => onChange(masked)}
                 onBlur={onBlur}
@@ -161,8 +173,11 @@ export function OrgForm() {
         <Controller
           name="username"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.Input
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -178,8 +193,11 @@ export function OrgForm() {
         <Controller
           name="email"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.Input
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -195,8 +213,11 @@ export function OrgForm() {
         <Controller
           name="password"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.Input
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -213,8 +234,11 @@ export function OrgForm() {
         <Controller
           name="confirmPassword"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.Input
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -231,8 +255,11 @@ export function OrgForm() {
         <Controller
           name="pixKey"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.Input
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -253,8 +280,11 @@ export function OrgForm() {
         <Controller
           name="firstLine"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.Input
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -270,8 +300,11 @@ export function OrgForm() {
         <Controller
           name="secondLine"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.Input
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -287,8 +320,11 @@ export function OrgForm() {
         <Controller
           name="number"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.Input
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -304,8 +340,11 @@ export function OrgForm() {
         <Controller
           name="cep"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.InputWithMask
                 onChangeText={(masked) => onChange(masked)}
                 onBlur={onBlur}
@@ -322,8 +361,11 @@ export function OrgForm() {
         <Controller
           name="neighborhood"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.Input
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -339,8 +381,11 @@ export function OrgForm() {
         <Controller
           name="city"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.Input
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -356,8 +401,11 @@ export function OrgForm() {
         <Controller
           name="state"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.Input
                 onChangeText={onChange}
                 onBlur={onBlur}

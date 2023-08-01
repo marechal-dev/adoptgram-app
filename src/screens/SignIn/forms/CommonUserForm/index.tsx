@@ -59,8 +59,11 @@ export function CommonUserForm() {
         <Controller
           name="firstName"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.Input
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -76,8 +79,11 @@ export function CommonUserForm() {
         <Controller
           name="surname"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.Input
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -93,8 +99,11 @@ export function CommonUserForm() {
         <Controller
           name="cpf"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.InputWithMask
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -126,8 +135,11 @@ export function CommonUserForm() {
         <Controller
           name="username"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.Input
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -143,8 +155,11 @@ export function CommonUserForm() {
         <Controller
           name="email"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.Input
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -160,8 +175,11 @@ export function CommonUserForm() {
         <Controller
           name="password"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.Input
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -178,8 +196,11 @@ export function CommonUserForm() {
         <Controller
           name="confirmPassword"
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <BrandInput.Root>
+          render={({
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }) => (
+            <BrandInput.Root error={error?.message}>
               <BrandInput.Input
                 onChangeText={onChange}
                 onBlur={onBlur}

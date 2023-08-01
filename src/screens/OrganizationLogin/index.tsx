@@ -47,9 +47,9 @@ export function OrganizationLoginScreen({
           </PressableText>
         </View>
         <View style={styles.otherOptionsTextsContainer}>
-          <Text style={styles.otherOptionsText}>É uma ONG?</Text>
+          <Text style={styles.otherOptionsText}>Não é uma ONG?</Text>
           <PressableText
-            onPressHandler={() => navigation.navigate("OrganizationLogin")}
+            onPressHandler={() => navigation.pop()}
             pressableStyle={styles.otherOptionsPressable}
             textStyle={styles.otherOptionsPressableText}
           >

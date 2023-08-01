@@ -3,21 +3,43 @@ import { z } from "zod"
 export const registerOrganizationFormSchema = z
   .object({
     username: z
-      .string()
+      .string({
+        required_error: "Por favor, informe um nome de usuário.",
+      })
       .min(6, "Seu nome de usuário deve ter no mínimo 6 caracteres."),
-    email: z.string().email("E-mail informado tem formato inválido."),
+    email: z
+      .string({
+        required_error: "Por favor, informe um E-mail.",
+      })
+      .email("E-mail informado tem formato inválido."),
     password: z
-      .string()
+      .string({
+        required_error: "Por favor, informe uma senha.",
+      })
       .min(8, "A senha deve ter no mínimo 8 caracteres.")
       .max(64, "A senha deve ter no máximo 64 caracteres."),
     confirmPassword: z
-      .string()
+      .string({
+        required_error: "Por favor, confirme sua senha.",
+      })
       .min(8, "Sua senha deve ter no mínimo 8 dígitos")
       .max(64, "A senha deve ter no máximo 64 caracteres."),
-    title: z.string().min(4).max(120),
-    representativeName: z.string().min(2),
+    title: z
+      .string({
+        required_error: "Por favor, informe o Título/Razão Social da sua ONG.",
+      })
+      .min(4)
+      .max(120),
+    representativeName: z
+      .string({
+        required_error:
+          "Por favor, informe o nome do representante da sua ONG.",
+      })
+      .min(2),
     whatsapp: z
-      .string()
+      .string({
+        required_error: "Por favor, informe o número de WhatsApp da sua ONG.",
+      })
       .regex(
         /\([0-9]{2}\)\s{1}[\9]{1}[0-9]{4}[-]{1}[0-9]{4}/,
         "Formato do número de WhatsApp inválido",
@@ -29,13 +51,27 @@ export const registerOrganizationFormSchema = z
         "Formato do Telefone Residencial inválido",
       )
       .optional(),
-    firstLine: z.string(),
+    firstLine: z.string({
+      required_error: "Por favor, informe o endereço.",
+    }),
     secondLine: z.string().optional(),
-    number: z.string(),
-    cep: z.string().regex(/[0-9]{5}[-]{1}[0-9]{3}/, "CEP inválido"),
-    neighborhood: z.string(),
-    city: z.string(),
-    state: z.string(),
+    number: z.string({
+      required_error: "Por favor, informe o número do local.",
+    }),
+    cep: z
+      .string({
+        required_error: "Por favor, informe o CEP do local",
+      })
+      .regex(/[0-9]{5}[-]{1}[0-9]{3}/, "CEP inválido"),
+    neighborhood: z.string({
+      required_error: "Por favor, informe o bairro.",
+    }),
+    city: z.string({
+      required_error: "Por favor, informe a cidade.",
+    }),
+    state: z.string({
+      required_error: "Por favor, informe o estado.",
+    }),
     pixKey: z.string().optional(),
   })
   .refine(

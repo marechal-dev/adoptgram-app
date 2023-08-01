@@ -2,6 +2,11 @@ import { StyleSheet } from "react-native"
 import { colors } from "../../../../theme/colors"
 
 export const styles = StyleSheet.create({
+  inputRoot: {
+    height: 80,
+    width: "100%",
+    rowGap: 8,
+  },
   brandInputRoot: {
     flexDirection: "row",
     alignItems: "center",

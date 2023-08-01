@@ -1,8 +1,6 @@
-import { TextInput, TextInputProps } from "react-native"
+import MaskInput, { MaskInputProps } from "react-native-mask-input"
 
-import MaskInput, { Mask, MaskInputProps } from "react-native-mask-input"
-
-import { styles } from "./style"
+import { styles } from "./styles"
 import { colors } from "../../../../theme/colors"
 
 export type BrandInputInputWithMaskProps = Omit<

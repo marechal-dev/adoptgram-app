@@ -57,12 +57,14 @@ export function OrganizationLoginForm({
       <Controller
         name="email"
         control={control}
-        render={({ field: { onChange, value } }) => (
-          <BrandInput.Root>
+        render={({ field: { onChange, value }, fieldState: { error } }) => (
+          <BrandInput.Root error={error?.message}>
             <BrandInput.Icon
               iconName="at-sign"
               size={24}
-              color={colors.brand.blue300}
+              color={
+                error?.message ? colors.brand.red600 : colors.brand.blue300
+              }
             />
             <BrandInput.Input
               onChangeText={onChange}
@@ -78,12 +80,14 @@ export function OrganizationLoginForm({
       <Controller
         name="password"
         control={control}
-        render={({ field: { onChange, value } }) => (
-          <BrandInput.Root>
+        render={({ field: { onChange, value }, fieldState: { error } }) => (
+          <BrandInput.Root error={error?.message}>
             <BrandInput.Icon
               iconName="lock"
               size={24}
-              color={colors.brand.blue300}
+              color={
+                error?.message ? colors.brand.red600 : colors.brand.blue300
+              }
             />
             <BrandInput.Input
               onChangeText={onChange}

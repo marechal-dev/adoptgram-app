@@ -4,31 +4,48 @@ import { Image } from "expo-image"
 
 import SNIFFING_DOG from "@Assets/images/dog.svg"
 
+import { colors } from "@Theme/colors"
+import { ForgotPasswordScreenProps } from "@Navigation/stack/types/screen-types"
 import { Container } from "@Components/core/primitives/Container"
 import { BrandInput } from "@Components/core/brand/BrandInput"
-import { colors } from "@Theme/colors"
 import { BrandButton } from "@Components/core/brand/BrandButton/BrandButton"
-import { ForgotPasswordScreenProps } from "@Navigation/stack/types/screen-types"
-import { styles } from "./style"
+import { styles } from "./styles"
 
 export function ForgotPasswordScreen({
   navigation,
 }: ForgotPasswordScreenProps) {
+  const [emailInputError, setEmailInputError] = useState("")
   const [emailValue, setEmailValue] = useState("")
 
   function handleOnChangeEmailInputValue(text: string) {
-    if (!text) {
-      return
-    }
-
     setEmailValue(text)
   }
 
+  function isInputValid(value: string) {
+    if (!value) {
+      setEmailInputError("Por favor, informe o E-mail.")
+      return false
+    }
+
+    if (!value.includes("@")) {
+      setEmailInputError("Por favor, informe um E-mail válido.")
+      return false
+    }
+
+    return true
+  }
+
   function handleSendForgotPasswordEmail() {
+    if (!isInputValid(emailValue)) {
+      return
+    }
+
     Alert.alert(
       "Sucesso",
       `Caso ${emailValue} esteja na nossa base de dados, um email será enviado logo logo!`,
     )
+
+    navigation.pop()
   }
 
   return (
@@ -48,7 +65,7 @@ export function ForgotPasswordScreen({
         </View>
 
         <View style={styles.interactionsContainer}>
-          <BrandInput.Root>
+          <BrandInput.Root error={emailInputError}>
             <BrandInput.Icon
               iconName="at-sign"
               size={24}
