@@ -1,11 +1,12 @@
+import { useContext } from "react"
 import { Alert, View } from "react-native"
-
-import AsyncStorage from "@react-native-async-storage/async-storage"
 
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-
 import { AxiosError } from "axios"
+
+import { AuthContext } from "@Store/AuthContext"
+
 import { axiosSocialApiClient } from "@Lib/axios"
 
 import { colors } from "@Theme/colors"
@@ -25,6 +26,8 @@ type LoginFormProps = {
 export function OrganizationLoginForm({
   onForgotPasswordPressHandler,
 }: LoginFormProps) {
+  const { authenticate } = useContext(AuthContext)
+
   const { control, handleSubmit } = useForm<LoginFormData>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -37,7 +40,8 @@ export function OrganizationLoginForm({
       const response = await axiosSocialApiClient.post("/auth/sessions", data)
 
       if (response.status === 200) {
-        await AsyncStorage.setItem("token", response.data.token)
+        authenticate(response.data.token)
+
         Alert.alert(
           "Login bem-sucedido",
           `${JSON.stringify(response.data.token)}`,

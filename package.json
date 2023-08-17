@@ -7,12 +7,12 @@
     "email": "pietro.developer@gmail.com"
   },
   "scripts": {
+    "expo:fix-deps": "expo install --fix",
     "start": "expo start --tunnel --go",
     "start:android": "expo start --android --tunnel --go",
+    "start:android:clear-cache": "expo start --android --tunnel --go -c",
     "start:ios": "expo start --ios",
-    "start:web": "expo start --web",
-    "android": "expo run:android",
-    "ios": "expo run:ios"
+    "start:web": "expo start --web"
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
@@ -44,7 +44,10 @@
     "expo-constants": "~14.4.2",
     "expo-device": "~5.4.0",
     "expo-updates": "~0.18.11",
-    "@sentry/react-native": "5.5.0"
+    "@sentry/react-native": "5.5.0",
+    "expo-image-picker": "~14.3.2",
+    "expo-location": "~16.1.0",
+    "react-native-maps": "1.7.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

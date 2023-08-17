@@ -1,11 +1,10 @@
+import { useContext } from "react"
 import { Alert, View } from "react-native"
-
-import AsyncStorage from "@react-native-async-storage/async-storage"
 
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-import Sentry from "@sentry/react-native"
+import * as Sentry from "@sentry/react-native"
 
 import { AxiosError } from "axios"
 import { axiosSocialApiClient } from "@Lib/axios"
@@ -19,12 +18,15 @@ import { LoginPayload } from "../payloads/login-payload"
 import { BrandButton } from "@Components/core/brand/BrandButton/BrandButton"
 import { BrandInput } from "@Components/core/brand/BrandInput"
 import { PressableText } from "@Components/core/primitives/PressableText/PressableText"
+import { AuthContext } from "@Store/AuthContext"
 
 type LoginFormProps = {
   onForgotPasswordPressHandler: () => void
 }
 
 export function LoginForm({ onForgotPasswordPressHandler }: LoginFormProps) {
+  const { authenticate } = useContext(AuthContext)
+
   const { control, handleSubmit } = useForm<LoginFormData>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -43,7 +45,8 @@ export function LoginForm({ onForgotPasswordPressHandler }: LoginFormProps) {
       const response = await axiosSocialApiClient.post("/auth/sessions", data)
 
       if (response.status === 200) {
-        await AsyncStorage.setItem("token", response.data.token)
+        authenticate(response.data.token)
+
         Alert.alert(
           "Login bem-sucedido",
           `${JSON.stringify(response.data.token)}`,

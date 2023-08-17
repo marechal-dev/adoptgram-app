@@ -1,13 +1,12 @@
-import { View, ViewProps } from "react-native"
+import { ReactNode } from "react"
+import { View } from "react-native"
 
 import { styles } from "./styles"
 
-type AppShellProps = ViewProps
+type AppShellProps = {
+  children: ReactNode
+}
 
-export function AppShell({ onLayout, children }: AppShellProps) {
-  return (
-    <View style={styles.shell} onLayout={onLayout}>
-      {children}
-    </View>
-  )
+export function AppShell({ children }: AppShellProps) {
+  return <View style={styles.shell}>{children}</View>
 }

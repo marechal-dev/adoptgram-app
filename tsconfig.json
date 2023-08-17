@@ -24,6 +24,12 @@
       "@Screens/*": [
         "./src/screens/*"
       ],
+      "@Store/*": [
+        "./src/store/*"
+      ],
+      "@Contexts/*": [
+        "./src/contexts/*"
+      ],
       "@Theme/*": [
         "./src/theme/*"
       ],

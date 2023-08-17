@@ -1,7 +1,9 @@
 import axios from "axios"
 
-import { socialApiBaseUrl } from "../constants"
+import { env } from "@Constants/env"
 
 export const axiosSocialApiClient = axios.create({
-  baseURL: socialApiBaseUrl,
+  baseURL: env.EXPO_PUBLIC_SOCIAL_API_URL,
 })
+
+export const axiosFilesApiClient = axios.create()

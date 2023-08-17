@@ -15,17 +15,19 @@ import * as SentryNative from "@sentry/react-native"
 
 import { appTheme } from "@Theme/app-theme"
 
-import { sentryDsn } from "@Constants/index"
+import { env } from "@Constants/env"
 import { AppShell } from "@Components/core/primitives/AppShell"
-import { StackNavigator } from "@Navigation/stack"
+import { StackRoutes } from "@Navigation/stack"
+
+import { AuthContextProvider } from "@Store/AuthContext"
+
+SplashScreen.preventAutoHideAsync()
 
 Sentry.init({
-  dsn: sentryDsn,
+  dsn: env.EXPO_PUBLIC_SENTRY_DSN,
   enableInExpoDevelopment: true,
   debug: true,
 })
-
-SplashScreen.preventAutoHideAsync()
 
 type IsFirstTime = "true" | "false"
 type DefaultRoute = "Onboarding" | "Login"
@@ -77,13 +79,15 @@ export default function App() {
   return (
     <>
       <StatusBar translucent style="dark" />
-      <SafeAreaProvider>
-        <AppShell onLayout={onLayoutRootView}>
-          <NavigationContainer theme={appTheme}>
-            <StackNavigator defaultRoute={defaultRoute} />
-          </NavigationContainer>
-        </AppShell>
-      </SafeAreaProvider>
+      <AuthContextProvider>
+        <SafeAreaProvider>
+          <AppShell>
+            <NavigationContainer onReady={onLayoutRootView} theme={appTheme}>
+              <StackRoutes defaultRoute={defaultRoute} />
+            </NavigationContainer>
+          </AppShell>
+        </SafeAreaProvider>
+      </AuthContextProvider>
     </>
   )
 }

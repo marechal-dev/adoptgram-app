@@ -11,11 +11,11 @@ import { headerDefaults } from "@Theme/app-theme"
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
-type StackNavigatorProps = {
+type StackRoutesProps = {
   defaultRoute: keyof RootStackParamList
 }
 
-export function StackNavigator({ defaultRoute }: StackNavigatorProps) {
+export function StackRoutes({ defaultRoute }: StackRoutesProps) {
   return (
     <Stack.Navigator initialRouteName={defaultRoute}>
       <Stack.Screen
@@ -25,6 +25,7 @@ export function StackNavigator({ defaultRoute }: StackNavigatorProps) {
           headerShown: false,
         }}
       />
+
       <Stack.Screen
         name="Login"
         component={LoginScreen}
@@ -33,6 +34,7 @@ export function StackNavigator({ defaultRoute }: StackNavigatorProps) {
           headerBackButtonMenuEnabled: false,
         }}
       />
+
       <Stack.Screen
         name="ForgotPassword"
         component={ForgotPasswordScreen}
@@ -44,6 +46,7 @@ export function StackNavigator({ defaultRoute }: StackNavigatorProps) {
           },
         }}
       />
+
       <Stack.Screen
         name="SignIn"
         component={SignInScreen}
@@ -56,6 +59,7 @@ export function StackNavigator({ defaultRoute }: StackNavigatorProps) {
           },
         }}
       />
+
       <Stack.Screen
         name="OrganizationLogin"
         component={OrganizationLoginScreen}
