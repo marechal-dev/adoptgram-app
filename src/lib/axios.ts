@@ -6,4 +6,6 @@ export const axiosSocialApiClient = axios.create({
   baseURL: env.EXPO_PUBLIC_SOCIAL_API_URL,
 })
 
-export const axiosFilesApiClient = axios.create()
+export const axiosFilesApiClient = axios.create({
+  baseURL: env.EXPO_PUBLIC_FILES_API_URL,
+})

@@ -18,6 +18,9 @@
       "@Lib/*": [
         "./src/lib/*"
       ],
+      "@Models/*": [
+        "./src/models/*"
+      ],
       "@Navigation/*": [
         "./src/navigation/*"
       ],

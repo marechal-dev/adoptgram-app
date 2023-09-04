@@ -5,6 +5,10 @@ const envSchema = z.object({
     .string()
     .url()
     .default("http://10.0.2.2:3000/api"),
+  EXPO_PUBLIC_FILES_API_URL: z
+    .string()
+    .url()
+    .default("http://10.0.2.2:3001/api"),
   EXPO_PUBLIC_SENTRY_DSN: z.string().url(),
 })
 
