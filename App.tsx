@@ -1,79 +1,74 @@
-import "react-native-gesture-handler"
+import 'react-native-gesture-handler';
 
-import { useCallback, useEffect, useState } from "react"
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NavigationContainer } from '@react-navigation/native';
+import { loadAsync } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
+import { useCallback, useEffect, useState } from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import * as Sentry from 'sentry-expo';
 
-import { StatusBar } from "expo-status-bar"
-import * as SplashScreen from "expo-splash-screen"
-import { loadAsync } from "expo-font"
+import { AppShell } from '@Components/core/primitives/AppShell';
+import { env } from '@Constants/env';
+import { AuthContextProvider } from '@Contexts/AuthContext';
+import { StackRoutes } from '@Navigation/stack';
+import { appTheme } from '@Theme/app-theme';
+import { SentryService } from 'src/services/sentry-service';
 
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import { SafeAreaProvider } from "react-native-safe-area-context"
-import { NavigationContainer } from "@react-navigation/native"
-
-import * as Sentry from "sentry-expo"
-import * as SentryNative from "@sentry/react-native"
-
-import { appTheme } from "@Theme/app-theme"
-
-import { env } from "@Constants/env"
-import { AppShell } from "@Components/core/primitives/AppShell"
-import { StackRoutes } from "@Navigation/stack"
-
-import { AuthContextProvider } from "@Store/AuthContext"
-
-SplashScreen.preventAutoHideAsync()
+SplashScreen.preventAutoHideAsync();
 
 Sentry.init({
   dsn: env.EXPO_PUBLIC_SENTRY_DSN,
   enableInExpoDevelopment: true,
   debug: true,
-})
+});
 
-type IsFirstTime = "true" | "false"
-type DefaultRoute = "Onboarding" | "Login"
+type IsFirstTime = 'true' | 'false';
+type DefaultRoute = 'Onboarding' | 'Login';
 
 export default function App() {
-  const [defaultRoute, setDefaultRoute] = useState<DefaultRoute>("Onboarding")
-  const [appIsReady, setAppIsReady] = useState<boolean>(false)
+  const [defaultRoute, setDefaultRoute] = useState<DefaultRoute>('Onboarding');
+  const [appIsReady, setAppIsReady] = useState<boolean>(false);
 
   useEffect(() => {
     const loadFonts = async () => {
       try {
         await loadAsync({
-          Poppins: require("@Assets/fonts/Poppins.ttf"),
-        })
+          Poppins: require('@Assets/fonts/Poppins.ttf'),
+        });
       } catch (error) {
-        SentryNative.captureException(error)
+        SentryService.captureException(error);
       } finally {
-        setAppIsReady(true)
+        setAppIsReady(true);
       }
-    }
+    };
 
-    loadFonts()
-  }, [])
+    loadFonts();
+  }, []);
 
   useEffect(() => {
     const getDefaultRoute = async () => {
       const isFirstTime = (await AsyncStorage.getItem(
-        "isFirstTime",
-      )) as IsFirstTime
+        'isFirstTime',
+      )) as IsFirstTime;
 
       setDefaultRoute(
-        !isFirstTime || isFirstTime === "true" ? "Onboarding" : "Login",
-      )
-    }
+        !isFirstTime || isFirstTime === 'true' ? 'Onboarding' : 'Login',
+      );
+    };
 
-    getDefaultRoute()
-  }, [])
+    getDefaultRoute();
+  }, []);
 
   const onLayoutRootView = useCallback(async () => {
     if (appIsReady) {
-      await SplashScreen.hideAsync()
+      await SplashScreen.hideAsync();
     }
-  }, [appIsReady])
+  }, [appIsReady]);
 
   if (!appIsReady) {
-    return null
+    return null;
   }
 
   return (
@@ -89,7 +84,5 @@ export default function App() {
         </SafeAreaProvider>
       </AuthContextProvider>
     </>
-  )
+  );
 }
-
-9

@@ -1,57 +1,53 @@
-import { useContext } from "react"
-import { Alert, View } from "react-native"
+import { zodResolver } from '@hookform/resolvers/zod';
+import { AxiosError } from 'axios';
+import { useContext } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { Alert, View } from 'react-native';
 
-import { useForm, Controller } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { AxiosError } from "axios"
+import { BrandButton } from '@Components/core/brand/BrandButton/BrandButton';
+import { BrandInput } from '@Components/core/brand/BrandInput';
+import { PressableText } from '@Components/core/primitives/PressableText/PressableText';
+import { AuthContext } from '@Contexts/AuthContext';
+import { axiosSocialApiClient } from '@Lib/axios';
+import { colors } from '@Theme/colors';
 
-import { AuthContext } from "@Store/AuthContext"
-
-import { axiosSocialApiClient } from "@Lib/axios"
-
-import { colors } from "@Theme/colors"
-import { styles } from "../styles"
-
-import { loginFormSchema, LoginFormData } from "../schemas/login-schema"
-import { LoginPayload } from "../payloads/login-payload"
-
-import { BrandButton } from "@Components/core/brand/BrandButton/BrandButton"
-import { BrandInput } from "@Components/core/brand/BrandInput"
-import { PressableText } from "@Components/core/primitives/PressableText/PressableText"
+import { LoginPayload } from '../payloads/login-payload';
+import { LoginFormData, loginFormSchema } from '../schemas/login-schema';
+import { styles } from '../styles';
 
 type LoginFormProps = {
-  onForgotPasswordPressHandler: () => void
-}
+  onForgotPasswordPressHandler: () => void;
+};
 
 export function OrganizationLoginForm({
   onForgotPasswordPressHandler,
 }: LoginFormProps) {
-  const { authenticate } = useContext(AuthContext)
+  const { authenticate } = useContext(AuthContext);
 
   const { control, handleSubmit } = useForm<LoginFormData>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      kind: "CommonUser",
+      kind: 'CommonUser',
     },
-  })
+  });
 
   async function handleLoginFormSubmit(data: LoginPayload) {
     try {
-      const response = await axiosSocialApiClient.post("/auth/sessions", data)
+      const response = await axiosSocialApiClient.post('/auth/sessions', data);
 
       if (response.status === 200) {
-        authenticate(response.data.token)
+        authenticate(response.data.token);
 
         Alert.alert(
-          "Login bem-sucedido",
+          'Login bem-sucedido',
           `${JSON.stringify(response.data.token)}`,
-        )
+        );
       }
     } catch (error) {
       if (error instanceof AxiosError) {
-        Alert.alert("Erro", `${error.response?.data?.message}`)
+        Alert.alert('Erro', `${error.response?.data?.message}`);
       } else {
-        Alert.alert("Erro", "Erro desconhecido")
+        Alert.alert('Erro', 'Erro desconhecido');
       }
     }
   }
@@ -66,9 +62,7 @@ export function OrganizationLoginForm({
             <BrandInput.Icon
               iconName="at-sign"
               size={24}
-              color={
-                error?.message ? colors.brand.red600 : colors.brand.blue300
-              }
+              color={error?.message ? colors.brand.error : colors.brand.blue300}
             />
             <BrandInput.Input
               onChangeText={onChange}
@@ -89,9 +83,7 @@ export function OrganizationLoginForm({
             <BrandInput.Icon
               iconName="lock"
               size={24}
-              color={
-                error?.message ? colors.brand.red600 : colors.brand.blue300
-              }
+              color={error?.message ? colors.brand.error : colors.brand.blue300}
             />
             <BrandInput.Input
               onChangeText={onChange}
@@ -124,5 +116,5 @@ export function OrganizationLoginForm({
         Entrar
       </BrandButton>
     </View>
-  )
+  );
 }

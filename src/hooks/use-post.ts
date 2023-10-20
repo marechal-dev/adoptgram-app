@@ -1,7 +1,7 @@
-import { useContext } from "react";
+import { useContext } from 'react';
 
-import { PostContext } from "@Store/PostContext"
+import { PostContext } from '@Contexts/PostContext';
 
 export function usePost() {
-  return useContext(PostContext)
+  return useContext(PostContext);
 }

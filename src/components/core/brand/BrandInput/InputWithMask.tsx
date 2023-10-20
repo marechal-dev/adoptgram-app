@@ -1,20 +1,21 @@
-import MaskInput, { MaskInputProps } from "react-native-mask-input"
+import MaskInput, { MaskInputProps } from 'react-native-mask-input';
 
-import { styles } from "./styles"
-import { colors } from "../../../../theme/colors"
+import { colors } from '../../../../theme/colors';
+
+import { styles } from './styles';
 
 export type BrandInputInputWithMaskProps = Omit<
   MaskInputProps,
-  "style" | "cursorColor" | "placeholderTextColor"
->
+  'style' | 'cursorColor' | 'placeholderTextColor'
+>;
 
 export function InputWithMask(props: BrandInputInputWithMaskProps) {
   return (
     <MaskInput
       style={styles.input}
-      cursorColor={colors.text.mainText90}
-      placeholderTextColor={colors.text.mainText90}
+      cursorColor={colors.text.main}
+      placeholderTextColor={colors.text.main}
       {...props}
     />
-  )
+  );
 }

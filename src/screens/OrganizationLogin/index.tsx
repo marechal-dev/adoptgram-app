@@ -1,18 +1,14 @@
-import { View, Text } from "react-native"
+import { Image } from 'expo-image';
+import { Text, View } from 'react-native';
 
-import { Image } from "expo-image"
+import HERO_IMAGE from '@Assets/images/dog-standing.svg';
+import { Container } from '@Components/core/primitives/Container';
+import { PressableText } from '@Components/core/primitives/PressableText/PressableText';
+import { HorizontalDivider } from '@Components/ui/HorizontalDivider';
+import { OrganizationLoginScreenProps } from '@Navigation/stack/types/screen-types';
 
-import HERO_IMAGE from "@Assets/images/dog-standing.svg"
-
-import { styles } from "./styles"
-
-import { OrganizationLoginForm } from "./forms/OrganizationLoginForm"
-
-import { OrganizationLoginScreenProps } from "@Navigation/stack/types/screen-types"
-
-import { Container } from "@Components/core/primitives/Container"
-import { PressableText } from "@Components/core/primitives/PressableText/PressableText"
-import { HorizontalDivider } from "@Components/ui/HorizontalDivider"
+import { OrganizationLoginForm } from './forms/OrganizationLoginForm';
+import { styles } from './styles';
 
 export function OrganizationLoginScreen({
   navigation,
@@ -29,7 +25,7 @@ export function OrganizationLoginScreen({
 
       <OrganizationLoginForm
         onForgotPasswordPressHandler={() =>
-          navigation.navigate("ForgotPassword")
+          navigation.navigate('ForgotPassword')
         }
       />
 
@@ -39,7 +35,7 @@ export function OrganizationLoginScreen({
         <View style={styles.otherOptionsTextsContainer}>
           <Text style={styles.otherOptionsText}>Não tem uma conta?</Text>
           <PressableText
-            onPressHandler={() => navigation.navigate("SignIn")}
+            onPressHandler={() => navigation.navigate('SignIn')}
             pressableStyle={styles.otherOptionsPressable}
             textStyle={styles.otherOptionsPressableText}
           >
@@ -58,5 +54,5 @@ export function OrganizationLoginScreen({
         </View>
       </View>
     </Container.SafeArea>
-  )
+  );
 }

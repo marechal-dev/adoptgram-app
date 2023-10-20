@@ -4,6 +4,7 @@
     "strict": true,
     "strictNullChecks": true,
     "allowSyntheticDefaultImports": true,
+    "strictPropertyInitialization": false,
     "baseUrl": ".",
     "paths": {
       "@Assets/*": [
@@ -26,9 +27,6 @@
       ],
       "@Screens/*": [
         "./src/screens/*"
-      ],
-      "@Store/*": [
-        "./src/store/*"
       ],
       "@Contexts/*": [
         "./src/contexts/*"
