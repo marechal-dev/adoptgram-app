@@ -8,7 +8,7 @@ import {
 
 import { styles } from './styles';
 
-interface BrandButtonProps {
+interface IBrandButtonProps {
   onPressHandler: () => void;
   children: ReactNode;
   paddingOverride?: {
@@ -29,7 +29,7 @@ export function BrandButton({
   children,
   paddingOverride,
   fontSizeOverride,
-}: BrandButtonProps) {
+}: IBrandButtonProps) {
   return (
     <View style={styles.buttonOuterContainer}>
       <Pressable

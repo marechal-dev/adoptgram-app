@@ -21,6 +21,7 @@ SplashScreen.preventAutoHideAsync();
 Sentry.init({
   dsn: env.EXPO_PUBLIC_SENTRY_DSN,
   enableInExpoDevelopment: true,
+  tracesSampleRate: 1.0,
   debug: true,
 });
 

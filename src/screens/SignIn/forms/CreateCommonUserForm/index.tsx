@@ -1,38 +1,37 @@
-import { View, Text, Alert } from "react-native"
-import { useForm, Controller } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useNavigation } from "@react-navigation/native"
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useNavigation } from '@react-navigation/native';
+import { Controller, useForm } from 'react-hook-form';
+import { Alert, Text, View } from 'react-native';
 
-import { styles } from "../styles"
+import { BrandButton } from '@Components/core/brand/BrandButton/BrandButton';
+import { BrandInput } from '@Components/core/brand/BrandInput';
+import { axiosSocialApiClient } from '@Lib/axios';
 
-import { axiosSocialApiClient } from "@Lib/axios"
-import { BrandButton } from "@Components/core/brand/BrandButton/BrandButton"
-import { BrandInput } from "@Components/core/brand/BrandInput"
-
+import { CreateCommonUserPayload } from '../../payloads/create-common-user-payload';
 import {
-  registerCommonUserFormSchema,
   RegisterCommonUserFormData,
-} from "../../schemas/register-common-user-schema"
-import { CreateCommonUserPayload } from "../../payloads/create-common-user-payload"
+  registerCommonUserFormSchema,
+} from '../../schemas/register-common-user-schema';
+import { styles } from '../styles';
 
-export function CommonUserForm() {
-  const navigation = useNavigation()
+export function CreateCommonUserForm() {
+  const navigation = useNavigation();
 
   const { control, handleSubmit } = useForm<RegisterCommonUserFormData>({
     resolver: zodResolver(registerCommonUserFormSchema),
-  })
+  });
 
   async function handleCommonUserRegister(data: CreateCommonUserPayload) {
-    const response = await axiosSocialApiClient.post("/common-users", data)
+    const response = await axiosSocialApiClient.post('/common-users', data);
 
     if (response.status === 201) {
       Alert.alert(
-        "Cadastro concluído",
-        "O cadastro foi bem-sucedido!",
+        'Cadastro concluído',
+        'O cadastro foi bem-sucedido!',
         [
           {
-            text: "Voltar para Login",
-            style: "default",
+            text: 'Voltar para Login',
+            style: 'default',
             onPress: () => navigation.goBack(),
           },
         ],
@@ -40,14 +39,14 @@ export function CommonUserForm() {
           cancelable: false,
           onDismiss: () => navigation.goBack(),
         },
-      )
+      );
     } else {
       Alert.alert(
-        "Erro",
+        'Erro',
         `Houve um erro no cadastro! Erro: ${
-          response.data?.message ?? "Erro desconhecido"
+          response.data?.message ?? 'Erro desconhecido'
         }`,
-      )
+      );
     }
   }
 
@@ -112,15 +111,15 @@ export function CommonUserForm() {
                   /\d/,
                   /\d/,
                   /\d/,
-                  ".",
+                  '.',
                   /\d/,
                   /\d/,
                   /\d/,
-                  ".",
+                  '.',
                   /\d/,
                   /\d/,
                   /\d/,
-                  "-",
+                  '-',
                   /\d/,
                   /\d/,
                 ]}
@@ -217,20 +216,10 @@ export function CommonUserForm() {
       </View>
 
       <BrandButton
-        onPressHandler={handleSubmit(
-          async ({ firstName, surname, username, email, password, cpf }) =>
-            await handleCommonUserRegister({
-              firstName,
-              surname,
-              username,
-              email,
-              password,
-              cpf,
-            }),
-        )}
+        onPressHandler={handleSubmit((data) => handleCommonUserRegister(data))}
       >
         Enviar
       </BrandButton>
     </View>
-  )
+  );
 }

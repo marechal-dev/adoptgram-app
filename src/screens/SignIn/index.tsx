@@ -1,19 +1,17 @@
-import { useState } from "react"
-import { View, ScrollView, Text } from "react-native"
+import React, { useState } from 'react';
+import { ScrollView, Text, View } from 'react-native';
 
-import { styles } from "./styles"
+import { Container } from '@Components/core/primitives/Container';
 
-import { SignInScreenProps } from "@Navigation/stack/types/screen-types"
+import { FormToggleButton } from './components/FormToggleButton';
+import { CreateCommonUserForm } from './forms/CreateCommonUserForm';
+import { CreateOrganizationForm } from './forms/CreateOrganizationForm';
+import { styles } from './styles';
 
-import { Container } from "@Components/core/primitives/Container"
-import { FormToggleButton } from "./components/FormToggleButton"
-import { CommonUserForm } from "./forms/CommonUserForm"
-import { OrgForm } from "./forms/OrganizationForm"
+type CurrentForm = 'CommonUser' | 'ORG';
 
-type CurrentForm = "CommonUser" | "ORG"
-
-export function SignInScreen({ navigation }: SignInScreenProps) {
-  const [currentForm, setCurrentForm] = useState<CurrentForm>("CommonUser")
+export function SignInScreen() {
+  const [currentForm, setCurrentForm] = useState<CurrentForm>('CommonUser');
 
   return (
     <ScrollView
@@ -27,19 +25,23 @@ export function SignInScreen({ navigation }: SignInScreenProps) {
           <FormToggleButton
             icon="user"
             text="Não sou ONG"
-            isSelected={currentForm === "CommonUser" ? true : false}
-            onPressHandler={() => setCurrentForm("CommonUser")}
+            isSelected={currentForm === 'CommonUser'}
+            onPressHandler={() => setCurrentForm('CommonUser')}
           />
           <FormToggleButton
             icon="heart"
             text="Sou ONG"
-            isSelected={currentForm === "ORG" ? true : false}
-            onPressHandler={() => setCurrentForm("ORG")}
+            isSelected={currentForm === 'ORG'}
+            onPressHandler={() => setCurrentForm('ORG')}
           />
         </View>
 
-        {currentForm === "CommonUser" ? <CommonUserForm /> : <OrgForm />}
+        {currentForm === 'CommonUser' ? (
+          <CreateCommonUserForm />
+        ) : (
+          <CreateOrganizationForm />
+        )}
       </Container.SafeArea>
     </ScrollView>
-  )
+  );
 }

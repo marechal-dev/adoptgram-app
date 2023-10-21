@@ -1,3 +1,4 @@
+import React from 'react';
 import { Text, View } from 'react-native';
 import MaskInput, { MaskInputProps } from 'react-native-mask-input';
 
@@ -6,6 +7,7 @@ import { colors } from '@Theme/colors';
 
 type MaskedInputProps = {
   error?: string;
+  inputRef?: React.LegacyRef<typeof MaskInput>;
 } & Omit<MaskInputProps, 'style' | 'cursorColor' | 'placeholderTextColor'>;
 
 export function MaskedInput({ error, ...rest }: MaskedInputProps) {
@@ -15,7 +17,6 @@ export function MaskedInput({ error, ...rest }: MaskedInputProps) {
         <MaskInput
           style={styles.input}
           cursorColor={colors.text.main}
-          placeholderTextColor={colors.text.main}
           {...rest}
         />
       </View>

@@ -4,7 +4,7 @@ import { Text, View } from 'react-native';
 import HERO_IMAGE from '@Assets/images/dog-standing.svg';
 import { Container } from '@Components/core/primitives/Container';
 import { PressableText } from '@Components/core/primitives/PressableText/PressableText';
-import { HorizontalDivider } from '@Components/ui/HorizontalDivider';
+import { HorizontalTextDivider } from '@Components/ui/HorizontalTextDivider';
 import { OrganizationLoginScreenProps } from '@Navigation/stack/types/screen-types';
 
 import { OrganizationLoginForm } from './forms/OrganizationLoginForm';
@@ -29,7 +29,7 @@ export function OrganizationLoginScreen({
         }
       />
 
-      <HorizontalDivider>ou</HorizontalDivider>
+      <HorizontalTextDivider>ou</HorizontalTextDivider>
 
       <View style={styles.otherOptionsContainer}>
         <View style={styles.otherOptionsTextsContainer}>

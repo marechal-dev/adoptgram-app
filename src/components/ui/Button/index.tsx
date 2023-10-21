@@ -28,7 +28,7 @@ export function BrandButton({
   const outerContainerSize: StyleProp<ViewStyle> =
     size === 'slim'
       ? {
-          height: 42,
+          height: 48,
         }
       : {
           height: 58,

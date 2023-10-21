@@ -14,9 +14,9 @@ interface IAuthenticateClientResponse {
 export class AuthService {
   private readonly axios: AxiosInstance;
 
-  private readonly COMMON_USERS_ENDPOINT = '/sessions/common-users';
+  public readonly COMMON_USERS_ENDPOINT = '/sessions/common-users';
 
-  private readonly ORGANIZATIONS_ENDPOINT = '/sessions/organizations';
+  public readonly ORGANIZATIONS_ENDPOINT = '/sessions/organizations';
 
   public constructor() {
     this.axios = axios.create({

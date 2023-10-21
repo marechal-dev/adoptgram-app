@@ -34,6 +34,12 @@
       "@Theme/*": [
         "./src/theme/*"
       ],
+      "@Services/*": [
+        "./src/services/*"
+      ],
+      "@Utils/*": [
+        "./src/utils/*"
+      ]
     }
   }
 }

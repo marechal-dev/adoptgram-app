@@ -34,7 +34,6 @@ export function MaskedIconInput({
         <MaskInput
           style={styles.input}
           cursorColor={colors.text.main}
-          placeholderTextColor={colors.text.main}
           {...rest}
         />
       </View>

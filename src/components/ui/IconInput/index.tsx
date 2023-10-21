@@ -1,7 +1,10 @@
 import Feather from '@expo/vector-icons/Feather';
+import React from 'react';
 import { Text, TextInput, TextInputProps, View } from 'react-native';
 
-import { styles } from '@Components/core/brand/input-base-style';
+import { colors } from '@Theme/colors';
+
+import { styles } from './styles';
 
 type InputProps = {
   iconProps: {
@@ -10,25 +13,27 @@ type InputProps = {
     color: string;
   };
   error?: string;
+  inputRef?: React.LegacyRef<TextInput>;
 } & TextInputProps;
 
-export function IconInput({ error, iconProps, ...rest }: InputProps) {
-  const errorMessage = error ? (
-    <Text style={styles.errorMessage}>{error}</Text>
-  ) : null;
-
+export function IconInput({ error, iconProps, inputRef, ...rest }: InputProps) {
   return (
     <View style={styles.inputRoot}>
-      <View style={styles.brandInputRoot}>
+      <View style={styles.iconInputContainer}>
         <Feather
           name={iconProps.iconName}
           size={iconProps.size}
           color={iconProps.color}
         />
-        <TextInput style={styles.input} {...rest} />
+        <TextInput
+          style={styles.input}
+          cursorColor={colors.text.main}
+          ref={inputRef}
+          {...rest}
+        />
       </View>
 
-      {errorMessage}
+      {error ? <Text style={styles.errorMessage}>{error}</Text> : null}
     </View>
   );
 }

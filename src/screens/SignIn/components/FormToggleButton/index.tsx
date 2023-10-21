@@ -1,14 +1,15 @@
-import { View, Text, Pressable } from "react-native"
-import Feather from "@expo/vector-icons/Feather"
+import Feather from '@expo/vector-icons/Feather';
+import { Pressable, Text, View } from 'react-native';
 
-import { styles } from "./style"
-import { colors } from "@Theme/colors"
+import { colors } from '@Theme/colors';
 
-interface FormToggleButtonProps {
-  icon: keyof typeof Feather.glyphMap
-  text: string
-  isSelected: boolean
-  onPressHandler: () => void
+import { styles } from './style';
+
+interface IFormToggleButtonProps {
+  icon: keyof typeof Feather.glyphMap;
+  text: string;
+  isSelected: boolean;
+  onPressHandler: () => void;
 }
 
 export function FormToggleButton({
@@ -16,7 +17,7 @@ export function FormToggleButton({
   text,
   isSelected,
   onPressHandler,
-}: FormToggleButtonProps) {
+}: IFormToggleButtonProps) {
   return (
     <Pressable style={styles.pressableContainer} onPress={onPressHandler}>
       <View
@@ -38,5 +39,5 @@ export function FormToggleButton({
       </View>
       <Text style={styles.buttonText}>{text}</Text>
     </Pressable>
-  )
+  );
 }

@@ -1,31 +1,31 @@
-import { StyleSheet } from "react-native"
+import { StyleSheet } from 'react-native';
 
-import { colors } from "@Theme/colors"
+import { colors } from '@Theme/colors';
 
 export const styles = StyleSheet.create({
   buttonOuterContainer: {
-    width: "100%",
+    width: '100%',
     minHeight: 42,
     maxHeight: 58,
     borderRadius: 16,
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "hidden",
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
     elevation: 4,
   },
   buttonPressableContainer: {
-    width: "100%",
+    width: '100%',
     backgroundColor: colors.brand.orange500,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 16,
     paddingVertical: 16,
     paddingHorizontal: 60,
   },
   buttonText: {
-    fontFamily: "Poppins",
+    fontFamily: 'Poppins',
     fontSize: 18,
-    color: colors.text.mainText90,
-    textAlign: "center",
+    color: colors.text.main,
+    textAlign: 'center',
   },
-})
+});

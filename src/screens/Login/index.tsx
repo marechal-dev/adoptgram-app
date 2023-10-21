@@ -4,7 +4,7 @@ import { Text, View } from 'react-native';
 import HERO_IMAGE from '@Assets/images/cat.svg';
 import { Container } from '@Components/core/primitives/Container';
 import { PressableText } from '@Components/core/primitives/PressableText/PressableText';
-import { HorizontalDivider } from '@Components/ui/HorizontalDivider';
+import { HorizontalTextDivider } from '@Components/ui/HorizontalTextDivider';
 import { LoginScreenProps } from '@Navigation/stack/types/screen-types';
 
 import { LoginForm } from './forms/LoginForm';
@@ -28,7 +28,7 @@ export function LoginScreen({ navigation }: LoginScreenProps) {
         }
       />
 
-      <HorizontalDivider>ou</HorizontalDivider>
+      <HorizontalTextDivider>ou</HorizontalTextDivider>
 
       <View style={styles.otherOptionsContainer}>
         <View style={styles.otherOptionsTextsContainer}>

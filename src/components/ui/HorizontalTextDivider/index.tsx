@@ -5,11 +5,13 @@ import { HorizontalLine } from './HorizontalLine';
 import { MiddleText } from './MiddleText';
 import { styles } from './styles';
 
-export type HorizontalDividerProps = {
+export type HorizontalTextDividerProps = {
   children: ReactNode;
 };
 
-export function HorizontalDivider({ children }: HorizontalDividerProps) {
+export function HorizontalTextDivider({
+  children,
+}: HorizontalTextDividerProps) {
   return (
     <View style={styles.container}>
       <HorizontalLine />
