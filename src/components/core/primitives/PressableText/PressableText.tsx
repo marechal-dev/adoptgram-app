@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { Pressable, StyleProp, Text, TextStyle, ViewStyle } from "react-native";
+import { ReactNode } from 'react';
+import { Pressable, StyleProp, Text, TextStyle, ViewStyle } from 'react-native';
 
 type PressableTextProps = {
   onPressHandler: () => void;
