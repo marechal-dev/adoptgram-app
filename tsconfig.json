@@ -34,9 +34,6 @@
       "@Theme/*": [
         "./src/theme/*"
       ],
-      "@Types/*": [
-        "./src/types/*"
-      ],
     }
   }
 }
