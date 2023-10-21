@@ -18,28 +18,25 @@ type AuthContextProviderProps = {
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [authToken, setAuthToken] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   function authenticate(token: string) {
     AsyncStorage.setItem('adoptgram:authToken', token);
     setAuthToken(token);
-    setIsAuthenticated(true);
   }
 
   function logout() {
     AsyncStorage.removeItem('adoptgram:authToken');
     setAuthToken('');
-    setIsAuthenticated(false);
   }
 
   const providerValue = useMemo(
     () => ({
       authToken,
-      isAuthenticated,
+      isAuthenticated: !!authToken,
       authenticate,
       logout,
     }),
-    [authToken, isAuthenticated],
+    [authToken],
   );
 
   return (

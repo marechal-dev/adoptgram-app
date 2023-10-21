@@ -1,10 +1,11 @@
-import { colors } from "@Theme/colors"
-import { StyleSheet } from "react-native"
+import { StyleSheet } from 'react-native';
+
+import { colors } from '@Theme/colors';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+    alignItems: 'center',
     paddingHorizontal: 40,
   },
   forgotPasswordImage: {
@@ -14,24 +15,24 @@ export const styles = StyleSheet.create({
   },
   instructionsContainer: {
     rowGap: 8,
-    width: "100%",
+    width: '100%',
   },
   instructionTitle: {
-    fontFamily: "Poppins",
-    fontWeight: "bold",
+    fontFamily: 'Poppins',
+    fontWeight: 'bold',
     fontSize: 16,
-    color: colors.text.mainText90,
-    textAlign: "center",
+    color: colors.text.main,
+    textAlign: 'center',
   },
   instructionText: {
-    fontFamily: "Poppins",
-    textAlign: "center",
-    color: colors.text.mainText90,
+    fontFamily: 'Poppins',
+    textAlign: 'center',
+    color: colors.text.main,
     fontSize: 16,
   },
   interactionsContainer: {
     rowGap: 64,
-    width: "100%",
+    width: '100%',
     marginTop: 16,
   },
-})
+});

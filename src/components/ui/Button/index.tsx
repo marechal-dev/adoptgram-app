@@ -2,22 +2,18 @@ import { ReactNode } from 'react';
 import {
   Pressable,
   PressableAndroidRippleConfig,
+  StyleProp,
   Text,
   View,
+  ViewStyle,
 } from 'react-native';
 
 import { styles } from './styles';
 
-interface BrandButtonProps {
+interface IButtonProps {
   onPressHandler: () => void;
   children: ReactNode;
-  paddingOverride?: {
-    paddingVertical?: number;
-    paddingHorizontal?: number;
-  };
-  fontSizeOverride?: {
-    fontSize: number;
-  };
+  size?: 'slim' | 'default';
 }
 
 const ANDROID_RIPPLE_EFFECT_CONFIGS: PressableAndroidRippleConfig = {
@@ -27,19 +23,25 @@ const ANDROID_RIPPLE_EFFECT_CONFIGS: PressableAndroidRippleConfig = {
 export function BrandButton({
   onPressHandler,
   children,
-  paddingOverride,
-  fontSizeOverride,
-}: BrandButtonProps) {
+  size = 'default',
+}: IButtonProps) {
+  const outerContainerSize: StyleProp<ViewStyle> =
+    size === 'slim'
+      ? {
+          height: 42,
+        }
+      : {
+          height: 58,
+        };
+
   return (
-    <View style={styles.buttonOuterContainer}>
+    <View style={[styles.buttonOuterContainer, outerContainerSize]}>
       <Pressable
         onPress={onPressHandler}
         android_ripple={ANDROID_RIPPLE_EFFECT_CONFIGS}
-        style={[styles.buttonPressableContainer, paddingOverride || null]}
+        style={styles.buttonPressableContainer}
       >
-        <Text style={[styles.buttonText, fontSizeOverride || null]}>
-          {children}
-        </Text>
+        <Text style={styles.buttonText}>{children}</Text>
       </Pressable>
     </View>
   );

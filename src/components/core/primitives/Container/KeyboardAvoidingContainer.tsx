@@ -1,16 +1,16 @@
-import { ReactNode } from "react"
+import { ReactNode } from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
-} from "react-native"
+} from 'react-native';
 
-import { styles } from "./styles"
+import { styles } from './styles';
 
 export type KeyboardAvoidingContainerProps = {
-  behavior?: "position" | "height" | "padding"
-  children: ReactNode
-}
+  behavior?: 'position' | 'height' | 'padding';
+  children: ReactNode;
+};
 
 export function KeyboardAvoidingContainer({
   behavior,
@@ -27,5 +27,5 @@ export function KeyboardAvoidingContainer({
         {children}
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
-  )
+  );
 }

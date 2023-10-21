@@ -1,19 +1,20 @@
-import { StyleSheet } from "react-native";
-import { colors } from "../../theme/colors";
+import { StyleSheet } from 'react-native';
+
+import { colors } from '../../theme/colors';
 
 export const styles = StyleSheet.create({
   outerContainer: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    alignItems: "center",
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     paddingTop: 82,
     paddingHorizontal: 36,
   },
   innerOnboardingInformationContainer: {
-    minWidth: "100%",
-    flexDirection: "column",
-    alignItems: "center",
+    minWidth: '100%',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   onboardingImage: {
     minWidth: 244,
@@ -23,16 +24,16 @@ export const styles = StyleSheet.create({
     marginBottom: 12,
   },
   onboardingText: {
-    fontFamily: "Poppins",
+    fontFamily: 'Poppins',
     fontSize: 22,
     lineHeight: 30,
     textAlign: 'center',
-    color: colors.text.mainText90,
+    color: colors.text.main,
   },
   onboardingTextSpan: {
-    fontFamily: "Poppins",
-    fontWeight: "bold",
-    fontStyle: "italic",
-    color: colors.text.mainText90,
+    fontFamily: 'Poppins',
+    fontWeight: 'bold',
+    fontStyle: 'italic',
+    color: colors.text.main,
   },
-})
+});

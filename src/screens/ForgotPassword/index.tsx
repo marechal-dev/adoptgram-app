@@ -1,51 +1,51 @@
-import { useState } from "react"
-import { View, Text, Alert } from "react-native"
-import { Image } from "expo-image"
+import { Image } from 'expo-image';
+import { useState } from 'react';
+import { Alert, Text, View } from 'react-native';
 
-import SNIFFING_DOG from "@Assets/images/dog.svg"
+import SNIFFING_DOG from '@Assets/images/dog.svg';
+import { BrandButton } from '@Components/core/brand/BrandButton/BrandButton';
+import { BrandInput } from '@Components/core/brand/BrandInput';
+import { Container } from '@Components/core/primitives/Container';
+import { ForgotPasswordScreenProps } from '@Navigation/stack/types/screen-types';
+import { colors } from '@Theme/colors';
 
-import { colors } from "@Theme/colors"
-import { ForgotPasswordScreenProps } from "@Navigation/stack/types/screen-types"
-import { Container } from "@Components/core/primitives/Container"
-import { BrandInput } from "@Components/core/brand/BrandInput"
-import { BrandButton } from "@Components/core/brand/BrandButton/BrandButton"
-import { styles } from "./styles"
+import { styles } from './styles';
 
 export function ForgotPasswordScreen({
   navigation,
 }: ForgotPasswordScreenProps) {
-  const [emailInputError, setEmailInputError] = useState("")
-  const [emailValue, setEmailValue] = useState("")
+  const [emailInputError, setEmailInputError] = useState('');
+  const [emailValue, setEmailValue] = useState('');
 
   function handleOnChangeEmailInputValue(text: string) {
-    setEmailValue(text)
+    setEmailValue(text);
   }
 
   function isInputValid(value: string) {
     if (!value) {
-      setEmailInputError("Por favor, informe o E-mail.")
-      return false
+      setEmailInputError('Por favor, informe o E-mail.');
+      return false;
     }
 
-    if (!value.includes("@")) {
-      setEmailInputError("Por favor, informe um E-mail válido.")
-      return false
+    if (!value.includes('@')) {
+      setEmailInputError('Por favor, informe um E-mail válido.');
+      return false;
     }
 
-    return true
+    return true;
   }
 
   function handleSendForgotPasswordEmail() {
     if (!isInputValid(emailValue)) {
-      return
+      return;
     }
 
     Alert.alert(
-      "Sucesso",
+      'Sucesso',
       `Caso ${emailValue} esteja na nossa base de dados, um email será enviado logo logo!`,
-    )
+    );
 
-    navigation.pop()
+    navigation.pop();
   }
 
   return (
@@ -60,7 +60,7 @@ export function ForgotPasswordScreen({
           <Text style={styles.instructionText}>
             Insira o endereço de e-mail associado a sua conta e, caso ele seja
             encontrado na nossa base de dados, enviaremos uma mensagem com
-            instruções para recuperá-la {"\u{1F601}"}
+            instruções para recuperá-la {'\u{1F601}'}
           </Text>
         </View>
 
@@ -69,7 +69,7 @@ export function ForgotPasswordScreen({
             <BrandInput.Icon
               iconName="at-sign"
               size={24}
-              color={colors.text.mainText90}
+              color={colors.text.main}
             />
             <BrandInput.Input
               onChangeText={handleOnChangeEmailInputValue}
@@ -87,5 +87,5 @@ export function ForgotPasswordScreen({
         </View>
       </Container.SafeArea>
     </Container.AvoidKeyboard>
-  )
+  );
 }

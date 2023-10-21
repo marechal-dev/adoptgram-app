@@ -1,44 +1,41 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
-  View,
   Image,
-  Text,
   StyleSheet,
+  Text,
+  View,
   useWindowDimensions,
-} from "react-native"
+} from 'react-native';
 
-import AsyncStorage from "@react-native-async-storage/async-storage"
+import HERO_GIF from '@Assets/images/sammy-delivery.gif';
+import { BrandButton } from '@Components/core/brand/BrandButton/BrandButton';
+import { Container } from '@Components/core/primitives/Container';
+import { OnboardingScreenProps } from '@Navigation/stack/types/screen-types';
 
-import { styles } from "./styles"
-
-import HERO_GIF from "@Assets/images/sammy-delivery.gif"
-
-import { OnboardingScreenProps } from "@Navigation/stack/types/screen-types"
-
-import { BrandButton } from "@Components/core/brand/BrandButton/BrandButton"
-import { Container } from "@Components/core/primitives/Container"
+import { styles } from './styles';
 
 export function OnboardingScreen({ navigation }: OnboardingScreenProps) {
-  const { width, height } = useWindowDimensions()
+  const { width, height } = useWindowDimensions();
 
-  let paddingTopValue = 82
-  let paddingHorizontalValue = 36
-  let marginBetweenOnboardingInformationAndButton = 144
-  let onboardingTextBoxSize = 160
+  let paddingTopValue = 82;
+  let paddingHorizontalValue = 36;
+  let marginBetweenOnboardingInformationAndButton = 144;
+  let onboardingTextBoxSize = 160;
 
   if (height > 800) {
-    paddingTopValue = 62
+    paddingTopValue = 62;
   }
 
   if (height > 600 && height < 800) {
-    marginBetweenOnboardingInformationAndButton = 124
+    marginBetweenOnboardingInformationAndButton = 124;
   }
 
   if (width < 400) {
-    paddingHorizontalValue = 26
+    paddingHorizontalValue = 26;
   }
 
   if (width > 400) {
-    onboardingTextBoxSize = 180
+    onboardingTextBoxSize = 180;
   }
 
   const responsiveOuterContainerPadding = StyleSheet.create({
@@ -46,24 +43,24 @@ export function OnboardingScreen({ navigation }: OnboardingScreenProps) {
       paddingTop: paddingTopValue,
       paddingHorizontal: paddingHorizontalValue,
     },
-  })
+  });
 
   const responsiveMarginBetweenOnboardingInformationAndButton =
     StyleSheet.create({
       responsiveMargin: {
         marginBottom: marginBetweenOnboardingInformationAndButton,
       },
-    })
+    });
 
   const responsiveOnboardingTextBoxWidth = StyleSheet.create({
     responsiveWidth: {
       maxWidth: onboardingTextBoxSize,
     },
-  })
+  });
 
   async function handleSeeMoreButtonTouch() {
-    await AsyncStorage.setItem("isFirstTime", "false")
-    navigation.navigate("Login")
+    await AsyncStorage.setItem('isFirstTime', 'false');
+    navigation.navigate('Login');
   }
 
   return (
@@ -86,7 +83,7 @@ export function OnboardingScreen({ navigation }: OnboardingScreenProps) {
             responsiveOnboardingTextBoxWidth.responsiveWidth,
           ]}
         >
-          Encontre seu novo melhor amigo no{" "}
+          Encontre seu novo melhor amigo no{' '}
           <Text style={styles.onboardingTextSpan}>AdoptGram!</Text>
         </Text>
       </View>
@@ -95,5 +92,5 @@ export function OnboardingScreen({ navigation }: OnboardingScreenProps) {
         Quero saber mais!
       </BrandButton>
     </Container.SafeArea>
-  )
+  );
 }

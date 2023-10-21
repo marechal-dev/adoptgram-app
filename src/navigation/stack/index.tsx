@@ -1,19 +1,19 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { RootStackParamList } from "./types/stack-navigator-types"
+import { ForgotPasswordScreen } from '@Screens/ForgotPassword';
+import { LoginScreen } from '@Screens/Login';
+import { OnboardingScreen } from '@Screens/Onboarding';
+import { OrganizationLoginScreen } from '@Screens/OrganizationLogin';
+import { SignInScreen } from '@Screens/SignIn';
+import { headerDefaults } from '@Theme/app-theme';
 
-import { ForgotPasswordScreen } from "@Screens/ForgotPassword"
-import { LoginScreen } from "@Screens/Login"
-import { OnboardingScreen } from "@Screens/Onboarding"
-import { OrganizationLoginScreen } from "@Screens/OrganizationLogin"
-import { SignInScreen } from "@Screens/SignIn"
-import { headerDefaults } from "@Theme/app-theme"
+import { RootStackParamList } from './types/stack-navigator-types';
 
-const Stack = createNativeStackNavigator<RootStackParamList>()
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 type StackRoutesProps = {
-  defaultRoute: keyof RootStackParamList
-}
+  defaultRoute: keyof RootStackParamList;
+};
 
 export function StackRoutes({ defaultRoute }: StackRoutesProps) {
   return (
@@ -39,10 +39,10 @@ export function StackRoutes({ defaultRoute }: StackRoutesProps) {
         name="ForgotPassword"
         component={ForgotPasswordScreen}
         options={{
-          title: "Esqueci minha senha",
+          title: 'Esqueci minha senha',
           ...headerDefaults,
           headerStyle: {
-            backgroundColor: "transparent",
+            backgroundColor: 'transparent',
           },
         }}
       />
@@ -52,10 +52,10 @@ export function StackRoutes({ defaultRoute }: StackRoutesProps) {
         component={SignInScreen}
         options={{
           ...headerDefaults,
-          title: "",
+          title: '',
           headerBackVisible: true,
           headerStyle: {
-            backgroundColor: "transparent",
+            backgroundColor: 'transparent',
           },
         }}
       />
@@ -65,10 +65,10 @@ export function StackRoutes({ defaultRoute }: StackRoutesProps) {
         component={OrganizationLoginScreen}
         options={{
           ...headerDefaults,
-          title: "",
+          title: '',
           headerTransparent: true,
         }}
       />
     </Stack.Navigator>
-  )
+  );
 }

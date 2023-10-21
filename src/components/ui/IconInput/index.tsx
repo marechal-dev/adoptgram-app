@@ -13,6 +13,10 @@ type InputProps = {
 } & TextInputProps;
 
 export function IconInput({ error, iconProps, ...rest }: InputProps) {
+  const errorMessage = error ? (
+    <Text style={styles.errorMessage}>{error}</Text>
+  ) : null;
+
   return (
     <View style={styles.inputRoot}>
       <View style={styles.brandInputRoot}>
@@ -24,7 +28,7 @@ export function IconInput({ error, iconProps, ...rest }: InputProps) {
         <TextInput style={styles.input} {...rest} />
       </View>
 
-      {error ? <Text style={styles.errorMessage}>{error}</Text> : null}
+      {errorMessage}
     </View>
   );
 }

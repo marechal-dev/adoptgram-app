@@ -1,7 +1,7 @@
-import { createDrawerNavigator } from "@react-navigation/drawer"
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-const Drawer = createDrawerNavigator()
+const Drawer = createDrawerNavigator();
 
 export function DrawerNavigator() {
-  return <Drawer.Navigator>{/* Routes */}</Drawer.Navigator>
+  return <Drawer.Navigator>{/* Routes */}</Drawer.Navigator>;
 }

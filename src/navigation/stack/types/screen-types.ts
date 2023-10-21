@@ -1,23 +1,24 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import { RootStackParamList } from "./stack-navigator-types"
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+
+import { RootStackParamList } from './stack-navigator-types';
 
 export type OnboardingScreenProps = NativeStackScreenProps<
   RootStackParamList,
-  "Onboarding"
->
+  'Onboarding'
+>;
 export type LoginScreenProps = NativeStackScreenProps<
   RootStackParamList,
-  "Login"
->
+  'Login'
+>;
 export type OrganizationLoginScreenProps = NativeStackScreenProps<
   RootStackParamList,
-  "OrganizationLogin"
->
+  'OrganizationLogin'
+>;
 export type ForgotPasswordScreenProps = NativeStackScreenProps<
   RootStackParamList,
-  "ForgotPassword"
->
+  'ForgotPassword'
+>;
 export type SignInScreenProps = NativeStackScreenProps<
   RootStackParamList,
-  "SignIn"
->
+  'SignIn'
+>;
