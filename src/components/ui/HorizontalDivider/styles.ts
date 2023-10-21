@@ -1,14 +1,14 @@
-import { StyleSheet } from "react-native"
+import { StyleSheet } from 'react-native';
 
-import { colors } from "@Theme/colors"
+import { colors } from '@Theme/colors';
 
 export const styles = StyleSheet.create({
   container: {
     marginTop: 22,
     marginBottom: 12,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     columnGap: 6,
   },
   horizontalLine: {
@@ -19,8 +19,8 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.brand.blue300,
   },
   textBetweenLines: {
-    fontFamily: "Poppins",
+    fontFamily: 'Poppins',
     fontSize: 10,
     color: colors.brand.blue300,
   },
-})
+});

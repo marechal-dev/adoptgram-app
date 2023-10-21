@@ -1,13 +1,13 @@
-import { ReactNode } from "react"
-import { View } from "react-native"
+import { ReactNode } from 'react';
+import { View } from 'react-native';
 
-import { HorizontalLine } from "./HorizontalLine"
-import { MiddleText } from "./MiddleText"
-import { styles } from "./styles"
+import { HorizontalLine } from './HorizontalLine';
+import { MiddleText } from './MiddleText';
+import { styles } from './styles';
 
 export type HorizontalDividerProps = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
 export function HorizontalDivider({ children }: HorizontalDividerProps) {
   return (
@@ -16,5 +16,5 @@ export function HorizontalDivider({ children }: HorizontalDividerProps) {
       <MiddleText>{children}</MiddleText>
       <HorizontalLine />
     </View>
-  )
+  );
 }
