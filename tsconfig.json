@@ -39,6 +39,9 @@
       ],
       "@Utils/*": [
         "./src/utils/*"
+      ],
+      "@Hooks/*": [
+        "./src/hooks/*"
       ]
     }
   }

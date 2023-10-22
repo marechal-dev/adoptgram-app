@@ -11,20 +11,18 @@ export interface IStartProcedureParams {
 
 export interface IStartHttpProcedureParams {
   name: `adoptgram:mobile:request:${string}`;
-  payload: any;
-  description: string | undefined;
+  payload: NonNullable<any>;
+  description?: string;
   route: string;
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 }
 
 export class SentryService {
-  public static setupSentry() {
+  public static setup() {
     Sentry.init({
       enabled: true,
       dsn: env.EXPO_PUBLIC_SENTRY_DSN,
       enableInExpoDevelopment: true,
-      enableNative: true,
-      enableNativeCrashHandling: true,
       tracesSampleRate: 1.0,
       debug: true,
     });
@@ -44,7 +42,6 @@ export class SentryService {
       description,
       data: {
         ...data,
-        platform: Platform.OS,
       },
     });
 
@@ -68,7 +65,6 @@ export class SentryService {
       description,
       data: {
         ...payload,
-        platform: Platform.OS,
       },
     });
 

@@ -24,6 +24,7 @@
   "rules": {
     "prettier/prettier": "error",
     "global-require": "off",
+    "class-methods-use-this": "off",
     "import/no-extraneous-dependencies": "off",
     "import/extensions": [
       "error",
@@ -71,6 +72,8 @@
     "react/jsx-props-no-spreading": "off",
     "react/jsx-no-bind": "off",
     "react/require-default-props": "off",
+    "react/no-unstable-nested-components": "off",
+    "react/destructuring-assignment": "off",
     "@typescript-eslint/naming-convention": [
       "error",
       {

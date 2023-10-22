@@ -5,7 +5,6 @@ import { LoginScreen } from '@Screens/Login';
 import { OnboardingScreen } from '@Screens/Onboarding';
 import { OrganizationLoginScreen } from '@Screens/OrganizationLogin';
 import { SignInScreen } from '@Screens/SignIn';
-import { headerDefaults } from '@Theme/app-theme';
 
 import { RootStackParamList } from './types/stack-navigator-types';
 
@@ -40,7 +39,8 @@ export function StackRoutes({ defaultRoute }: StackRoutesProps) {
         component={ForgotPasswordScreen}
         options={{
           title: 'Esqueci minha senha',
-          ...headerDefaults,
+          headerShadowVisible: false,
+          headerBackTitle: 'Voltar',
           headerStyle: {
             backgroundColor: 'transparent',
           },
@@ -51,7 +51,8 @@ export function StackRoutes({ defaultRoute }: StackRoutesProps) {
         name="SignIn"
         component={SignInScreen}
         options={{
-          ...headerDefaults,
+          headerShadowVisible: false,
+          headerBackTitle: 'Voltar',
           title: '',
           headerBackVisible: true,
           headerStyle: {
@@ -64,7 +65,8 @@ export function StackRoutes({ defaultRoute }: StackRoutesProps) {
         name="OrganizationLogin"
         component={OrganizationLoginScreen}
         options={{
-          ...headerDefaults,
+          headerShadowVisible: false,
+          headerBackTitle: 'Voltar',
           title: '',
           headerTransparent: true,
         }}

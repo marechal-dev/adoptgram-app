@@ -18,7 +18,15 @@ export class OrganizationService {
   }
 
   public createOrganization(data: RegisterOrganizationFormData) {
-    const payload: CreateOrganizationPayload = {
+    const payload = this.mapRegisterOrganizationDataToHttpPayload(data);
+
+    return this.axios.post(this.CREATE_ENDPOINT, payload);
+  }
+
+  private mapRegisterOrganizationDataToHttpPayload(
+    data: RegisterOrganizationFormData,
+  ): CreateOrganizationPayload {
+    return {
       username: data.username,
       email: data.email,
       password: data.password,
@@ -37,8 +45,6 @@ export class OrganizationService {
       pixKey: data.pixKey,
       residentialPhone: data.residentialPhone,
     };
-
-    return this.axios.post(this.CREATE_ENDPOINT, payload);
   }
 
   public fetchOneById(id: string) {

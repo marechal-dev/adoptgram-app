@@ -1,12 +1,6 @@
 import { Theme } from '@react-navigation/native';
-import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
 
 import { colors } from './colors';
-
-export const headerDefaults: NativeStackNavigationOptions = {
-  headerShadowVisible: false,
-  headerBackTitle: 'Voltar',
-};
 
 export const appTheme: Theme = {
   colors: {

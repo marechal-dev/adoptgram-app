@@ -1,13 +1,9 @@
 import { Text, View } from 'react-native';
 
-type TimelineProps = {
-  city: string;
-};
-
-export function Timeline({ city }: TimelineProps) {
+export function TimelineScreen() {
   return (
     <View>
-      <Text>Hello Timeline! {city}</Text>
+      <Text>Hello Timeline!</Text>
     </View>
   );
 }
