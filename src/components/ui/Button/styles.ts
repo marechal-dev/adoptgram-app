@@ -4,7 +4,6 @@ import { colors } from '@Theme/colors';
 
 export const styles = StyleSheet.create({
   buttonOuterContainer: {
-    width: '100%',
     borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
@@ -17,8 +16,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 16,
-    paddingVertical: 16,
-    paddingHorizontal: 60,
   },
   buttonText: {
     fontFamily: 'Poppins',

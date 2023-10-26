@@ -3,11 +3,18 @@ import { StyleSheet } from 'react-native';
 import { colors } from '@Theme/colors';
 
 export const styles = StyleSheet.create({
-  outerContainer: {
+  safeAreaContainer: {
     flex: 1,
+    paddingHorizontal: 36,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 36,
+  },
+  headingContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: 60,
+    width: '100%',
+    marginBottom: 30,
   },
   loginImage: {
     minWidth: 280,
@@ -15,12 +22,6 @@ export const styles = StyleSheet.create({
     maxWidth: 300,
     maxHeight: 128,
     marginBottom: 36,
-  },
-  headingContainer: {
-    minWidth: 190,
-    minHeight: 60,
-    maxWidth: 200,
-    marginBottom: 30,
   },
   loginHeading: {
     textAlign: 'center',
@@ -35,7 +36,8 @@ export const styles = StyleSheet.create({
   },
   inputsContainer: {
     width: '100%',
-    rowGap: 12,
+    alignItems: 'center',
+    rowGap: 6,
     marginBottom: 20,
   },
   forgotPasswordWrapper: {
@@ -53,6 +55,7 @@ export const styles = StyleSheet.create({
     rowGap: 12,
   },
   otherOptionsTextsContainer: {
+    width: '100%',
     justifyContent: 'flex-start',
     alignItems: 'center',
     gap: 0,

@@ -8,7 +8,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { AppShell } from '@Components/core/primitives/AppShell';
 import { AuthContextProvider } from '@Contexts/AuthContext';
-import { AppNavigation } from '@Navigation/AppNavigation';
+import { AppNavigators } from '@Navigation/AppNavigators';
 import { SentryService } from '@Services/sentry-service';
 
 SplashScreen.preventAutoHideAsync();
@@ -50,7 +50,7 @@ export default function App() {
       <AuthContextProvider>
         <SafeAreaProvider>
           <AppShell>
-            <AppNavigation onReady={onLayoutRootView} />
+            <AppNavigators onReady={onLayoutRootView} />
           </AppShell>
         </SafeAreaProvider>
       </AuthContextProvider>

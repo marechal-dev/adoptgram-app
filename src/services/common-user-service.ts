@@ -2,6 +2,7 @@ import axios, { AxiosInstance } from 'axios';
 
 import { env } from '@Constants/env';
 import { CreateCommonUserPayload } from '@Screens/SignIn/payloads/create-common-user-payload';
+import { RegisterCommonUserFormData } from '@Screens/SignIn/schemas/register-common-user-schema';
 
 export class CommonUserService {
   private readonly axios: AxiosInstance;
@@ -16,8 +17,22 @@ export class CommonUserService {
     });
   }
 
-  public createOrganization(payload: CreateCommonUserPayload) {
+  public create(data: RegisterCommonUserFormData) {
+    const payload = this.mapCreateDataToCreatePayload(data);
+
     return this.axios.post(this.CREATE_ENDPOINT, payload);
+  }
+
+  private mapCreateDataToCreatePayload(
+    data: RegisterCommonUserFormData,
+  ): CreateCommonUserPayload {
+    return {
+      username: data.username,
+      email: data.email,
+      password: data.password,
+      name: data.name,
+      cpf: data.cpf,
+    };
   }
 
   public fetchOneById(id: string) {

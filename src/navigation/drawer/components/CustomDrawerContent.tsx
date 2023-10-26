@@ -14,7 +14,7 @@ import { colors } from '@Theme/colors';
 export function CustomDrawerContent(props: DrawerContentComponentProps) {
   const { logout } = useAuth();
 
-  const handleLogoutButtonPress = () => {
+  const onLogout = () => {
     Alert.alert(
       'Sair',
       'Deseja sair? Você precisará realizar login novamente.',
@@ -47,7 +47,7 @@ export function CustomDrawerContent(props: DrawerContentComponentProps) {
         icon={({ color, size }) => (
           <Feather name="log-out" color={color} size={size} />
         )}
-        onPress={handleLogoutButtonPress}
+        onPress={onLogout}
       />
     </DrawerContentScrollView>
   );

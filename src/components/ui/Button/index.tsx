@@ -20,7 +20,7 @@ const ANDROID_RIPPLE_EFFECT_CONFIGS: PressableAndroidRippleConfig = {
   color: '#7A7264',
 };
 
-export function BrandButton({
+export function Button({
   onPressHandler,
   children,
   size = 'default',
@@ -28,10 +28,21 @@ export function BrandButton({
   const outerContainerSize: StyleProp<ViewStyle> =
     size === 'slim'
       ? {
-          height: 48,
+          width: '80%',
         }
       : {
-          height: 58,
+          width: '100%',
+        };
+
+  const pressableContainerSize: StyleProp<ViewStyle> =
+    size === 'slim'
+      ? {
+          paddingVertical: 8,
+          paddingHorizontal: 30,
+        }
+      : {
+          paddingVertical: 16,
+          paddingHorizontal: 60,
         };
 
   return (
@@ -39,7 +50,7 @@ export function BrandButton({
       <Pressable
         onPress={onPressHandler}
         android_ripple={ANDROID_RIPPLE_EFFECT_CONFIGS}
-        style={styles.buttonPressableContainer}
+        style={[styles.buttonPressableContainer, pressableContainerSize]}
       >
         <Text style={styles.buttonText}>{children}</Text>
       </Pressable>

@@ -5,7 +5,7 @@ import { colors } from '@Theme/colors';
 export const styles = StyleSheet.create({
   inputRoot: {
     width: '100%',
-    rowGap: 8,
+    rowGap: 6,
   },
   iconInputContainer: {
     flexDirection: 'row',

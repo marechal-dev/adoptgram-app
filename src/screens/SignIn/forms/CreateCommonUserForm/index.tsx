@@ -1,13 +1,17 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import { useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Alert, Text, View } from 'react-native';
 
 import { BrandButton } from '@Components/core/brand/BrandButton/BrandButton';
-import { BrandInput } from '@Components/core/brand/BrandInput';
-import { axiosSocialApiClient } from '@Lib/axios';
+import { Input } from '@Components/ui/Input';
+import { MaskedInput } from '@Components/ui/MaskedInput';
+import { CommonUserService } from '@Services/common-user-service';
+import { SentryService } from '@Services/sentry-service';
+import { cpfMask } from '@Utils/masks';
 
-import { CreateCommonUserPayload } from '../../payloads/create-common-user-payload';
 import {
   RegisterCommonUserFormData,
   registerCommonUserFormSchema,
@@ -17,37 +21,70 @@ import { styles } from '../styles';
 export function CreateCommonUserForm() {
   const navigation = useNavigation();
 
-  const { control, handleSubmit } = useForm<RegisterCommonUserFormData>({
-    resolver: zodResolver(registerCommonUserFormSchema),
-  });
+  const { control, handleSubmit, setFocus } =
+    useForm<RegisterCommonUserFormData>({
+      resolver: zodResolver(registerCommonUserFormSchema),
+    });
 
-  async function handleCommonUserRegister(data: CreateCommonUserPayload) {
-    const response = await axiosSocialApiClient.post('/common-users', data);
+  const focusOnNext = useMemo(
+    () => ({
+      cpf: () => setFocus('cpf'),
+      username: () => setFocus('username'),
+      email: () => setFocus('email'),
+      password: () => setFocus('password'),
+      confirmPassword: () => setFocus('confirmPassword'),
+    }),
+    [setFocus],
+  );
 
-    if (response.status === 201) {
-      Alert.alert(
-        'Cadastro concluído',
-        'O cadastro foi bem-sucedido!',
-        [
+  async function handleCommonUserRegister(data: RegisterCommonUserFormData) {
+    const commonUserService = new CommonUserService();
+
+    const createCommonUserTransaction = SentryService.startHttpTransaction({
+      name: 'adoptgram:mobile:request:common-user:create',
+      payload: {
+        username: data.username,
+        emaiL: data.email,
+      },
+      route: commonUserService.CREATE_ENDPOINT,
+      method: 'POST',
+      description: 'Transaction for Common User creation',
+    });
+
+    try {
+      const response = await commonUserService.create(data);
+
+      if (response.status === 201) {
+        Alert.alert(
+          'Cadastro concluído',
+          'O cadastro foi bem-sucedido!',
+          [
+            {
+              text: 'Voltar para Login',
+              style: 'default',
+              onPress: () => navigation.goBack(),
+            },
+          ],
           {
-            text: 'Voltar para Login',
-            style: 'default',
-            onPress: () => navigation.goBack(),
+            cancelable: false,
+            onDismiss: () => navigation.goBack(),
           },
-        ],
-        {
-          cancelable: false,
-          onDismiss: () => navigation.goBack(),
-        },
-      );
-    } else {
-      Alert.alert(
-        'Erro',
-        `Houve um erro no cadastro! Erro: ${
-          response.data?.message ?? 'Erro desconhecido'
-        }`,
-      );
+        );
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        Alert.alert(
+          'Erro',
+          `Houve um erro no cadastro! Erro: ${
+            error.response?.data?.message ?? 'Erro desconhecido'
+          }`,
+        );
+      }
+
+      SentryService.captureException(error);
     }
+
+    createCommonUserTransaction.finish();
   }
 
   return (
@@ -56,168 +93,136 @@ export function CreateCommonUserForm() {
 
       <View style={styles.inputsContainer}>
         <Controller
-          name="firstName"
+          name="name"
           control={control}
           render={({
-            field: { onChange, onBlur, value },
+            field: { onChange, onBlur, value, ref },
             fieldState: { error },
           }) => (
-            <BrandInput.Root error={error?.message}>
-              <BrandInput.Input
-                onChangeText={onChange}
-                onBlur={onBlur}
-                value={value}
-                placeholder="Nome"
-                keyboardType="default"
-                autoCapitalize="sentences"
-                returnKeyType="next"
-              />
-            </BrandInput.Root>
-          )}
-        />
-        <Controller
-          name="surname"
-          control={control}
-          render={({
-            field: { onChange, onBlur, value },
-            fieldState: { error },
-          }) => (
-            <BrandInput.Root error={error?.message}>
-              <BrandInput.Input
-                onChangeText={onChange}
-                onBlur={onBlur}
-                value={value}
-                placeholder="Sobrenome"
-                keyboardType="default"
-                autoCapitalize="sentences"
-                returnKeyType="next"
-              />
-            </BrandInput.Root>
+            <Input
+              inputRef={ref}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+              error={error?.message}
+              onSubmitEditing={focusOnNext.cpf}
+              placeholder="Nome Completo"
+              keyboardType="default"
+              autoCapitalize="words"
+              returnKeyType="next"
+            />
           )}
         />
         <Controller
           name="cpf"
           control={control}
           render={({
-            field: { onChange, onBlur, value },
+            field: { onChange, onBlur, value, ref },
             fieldState: { error },
           }) => (
-            <BrandInput.Root error={error?.message}>
-              <BrandInput.InputWithMask
-                onChangeText={onChange}
-                onBlur={onBlur}
-                value={value}
-                mask={[
-                  /\d/,
-                  /\d/,
-                  /\d/,
-                  '.',
-                  /\d/,
-                  /\d/,
-                  /\d/,
-                  '.',
-                  /\d/,
-                  /\d/,
-                  /\d/,
-                  '-',
-                  /\d/,
-                  /\d/,
-                ]}
-                placeholder="CPF"
-                keyboardType="number-pad"
-                autoCapitalize="none"
-                returnKeyType="next"
-              />
-            </BrandInput.Root>
+            <MaskedInput
+              inputRef={ref}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+              mask={cpfMask}
+              error={error?.message}
+              onSubmitEditing={focusOnNext.username}
+              placeholder="CPF"
+              keyboardType="number-pad"
+              autoCapitalize="none"
+              returnKeyType="next"
+            />
           )}
         />
         <Controller
           name="username"
           control={control}
           render={({
-            field: { onChange, onBlur, value },
+            field: { onChange, onBlur, value, ref },
             fieldState: { error },
           }) => (
-            <BrandInput.Root error={error?.message}>
-              <BrandInput.Input
-                onChangeText={onChange}
-                onBlur={onBlur}
-                value={value}
-                placeholder="Nome de Usuário"
-                keyboardType="default"
-                autoCapitalize="none"
-                returnKeyType="next"
-              />
-            </BrandInput.Root>
+            <Input
+              inputRef={ref}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+              error={error?.message}
+              onSubmitEditing={focusOnNext.email}
+              placeholder="Nome de Usuário"
+              keyboardType="default"
+              autoCapitalize="none"
+              returnKeyType="next"
+            />
           )}
         />
         <Controller
           name="email"
           control={control}
           render={({
-            field: { onChange, onBlur, value },
+            field: { onChange, onBlur, value, ref },
             fieldState: { error },
           }) => (
-            <BrandInput.Root error={error?.message}>
-              <BrandInput.Input
-                onChangeText={onChange}
-                onBlur={onBlur}
-                value={value}
-                placeholder="Email"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                returnKeyType="next"
-              />
-            </BrandInput.Root>
+            <Input
+              inputRef={ref}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+              error={error?.message}
+              onSubmitEditing={focusOnNext.password}
+              placeholder="Email"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              returnKeyType="next"
+            />
           )}
         />
         <Controller
           name="password"
           control={control}
           render={({
-            field: { onChange, onBlur, value },
+            field: { onChange, onBlur, value, ref },
             fieldState: { error },
           }) => (
-            <BrandInput.Root error={error?.message}>
-              <BrandInput.Input
-                onChangeText={onChange}
-                onBlur={onBlur}
-                value={value}
-                placeholder="Senha"
-                keyboardType="default"
-                autoCapitalize="none"
-                returnKeyType="next"
-                secureTextEntry
-              />
-            </BrandInput.Root>
+            <Input
+              inputRef={ref}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+              error={error?.message}
+              onSubmitEditing={focusOnNext.confirmPassword}
+              placeholder="Senha"
+              keyboardType="default"
+              autoCapitalize="none"
+              returnKeyType="next"
+              secureTextEntry
+            />
           )}
         />
         <Controller
           name="confirmPassword"
           control={control}
           render={({
-            field: { onChange, onBlur, value },
+            field: { onChange, onBlur, value, ref },
             fieldState: { error },
           }) => (
-            <BrandInput.Root error={error?.message}>
-              <BrandInput.Input
-                onChangeText={onChange}
-                onBlur={onBlur}
-                value={value}
-                placeholder="Confirmar Senha"
-                keyboardType="default"
-                autoCapitalize="none"
-                returnKeyType="done"
-                secureTextEntry
-              />
-            </BrandInput.Root>
+            <Input
+              inputRef={ref}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+              error={error?.message}
+              placeholder="Confirmar Senha"
+              keyboardType="default"
+              autoCapitalize="none"
+              returnKeyType="done"
+              secureTextEntry
+            />
           )}
         />
       </View>
 
-      <BrandButton
-        onPressHandler={handleSubmit((data) => handleCommonUserRegister(data))}
-      >
+      <BrandButton onPressHandler={handleSubmit(handleCommonUserRegister)}>
         Enviar
       </BrandButton>
     </View>

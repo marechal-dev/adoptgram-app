@@ -12,10 +12,10 @@ import { styles } from './styles';
 
 export function LoginScreen({ navigation }: LoginScreenProps) {
   return (
-    <Container.SafeArea style={styles.outerContainer}>
-      <Image style={styles.loginImage} source={HERO_IMAGE} />
-
+    <Container.SafeArea style={styles.safeAreaContainer}>
       <View style={styles.headingContainer}>
+        <Image style={styles.loginImage} source={HERO_IMAGE} />
+
         <Text style={styles.loginHeading}>
           Olá! Bem-vindo ao{' '}
           <Text style={styles.emphasizedHeadingSpan}>AdoptGram</Text>!
@@ -28,9 +28,9 @@ export function LoginScreen({ navigation }: LoginScreenProps) {
         }
       />
 
-      <HorizontalTextDivider>ou</HorizontalTextDivider>
-
       <View style={styles.otherOptionsContainer}>
+        <HorizontalTextDivider>ou</HorizontalTextDivider>
+
         <View style={styles.otherOptionsTextsContainer}>
           <Text style={styles.otherOptionsText}>Não tem uma conta?</Text>
           <PressableText
@@ -41,6 +41,7 @@ export function LoginScreen({ navigation }: LoginScreenProps) {
             Cadastre-se agora
           </PressableText>
         </View>
+
         <View style={styles.otherOptionsTextsContainer}>
           <Text style={styles.otherOptionsText}>É uma ONG?</Text>
           <PressableText

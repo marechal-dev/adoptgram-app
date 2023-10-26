@@ -1,11 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Alert, View } from 'react-native';
 
-import { BrandButton } from '@Components/core/brand/BrandButton/BrandButton';
 import { PressableText } from '@Components/core/primitives/PressableText/PressableText';
+import { Button } from '@Components/ui/Button';
 import { IconInput } from '@Components/ui/IconInput';
 import { AuthContext } from '@Contexts/AuthContext';
 import { colors } from '@Theme/colors';
@@ -27,13 +27,13 @@ export function LoginForm({ onForgotPasswordPressHandler }: LoginFormProps) {
     resolver: zodResolver(loginFormSchema),
   });
 
-  const focusOnNextInput = () => setFocus('password');
+  const focusOnNextInput = useCallback(() => setFocus('password'), [setFocus]);
 
   const handleLoginFormSubmit = async (data: LoginPayload) => {
     const authService = new AuthService();
 
     const loginTransaction = SentryService.startHttpTransaction({
-      name: 'adoptgram:mobile:request:authenticate-common-user',
+      name: 'adoptgram:mobile:request:common-user:authenticate',
       payload: {
         email: data.email,
       },
@@ -43,23 +43,22 @@ export function LoginForm({ onForgotPasswordPressHandler }: LoginFormProps) {
     });
 
     try {
-      const response = await authService.authenticateOrganization(data);
+      const response = await authService.authenticateCommonUser(data);
 
       if (response.status === 200) {
-        authenticate(response.data.accessToken);
-
-        Alert.alert(
-          'Login bem-sucedido',
-          `${JSON.stringify(response.data.accessToken)}`,
-        );
+        authenticate({
+          token: response.data.accessToken,
+          userID: response.data.userID,
+        });
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         Alert.alert('Erro', `${error.response?.data?.message}`);
       } else {
-        SentryService.captureException(error);
         Alert.alert('Erro', 'Erro desconhecido');
       }
+
+      SentryService.captureException(error);
     }
 
     loginTransaction.finish();
@@ -85,6 +84,7 @@ export function LoginForm({ onForgotPasswordPressHandler }: LoginFormProps) {
             onBlur={onBlur}
             onSubmitEditing={focusOnNextInput}
             value={value}
+            error={error?.message}
             placeholder="Digite seu E-mail"
             keyboardType="email-address"
             autoCapitalize="none"
@@ -109,6 +109,7 @@ export function LoginForm({ onForgotPasswordPressHandler }: LoginFormProps) {
             onChangeText={onChange}
             onBlur={onBlur}
             value={value}
+            error={error?.message}
             placeholder="Digite sua Senha"
             autoCapitalize="none"
             returnKeyType="done"
@@ -125,16 +126,9 @@ export function LoginForm({ onForgotPasswordPressHandler }: LoginFormProps) {
         Esqueci minha senha
       </PressableText>
 
-      <BrandButton
-        paddingOverride={{
-          paddingHorizontal: 10,
-        }}
-        onPressHandler={handleSubmit(async (data) =>
-          handleLoginFormSubmit(data),
-        )}
-      >
+      <Button onPressHandler={handleSubmit(handleLoginFormSubmit)}>
         Entrar
-      </BrandButton>
+      </Button>
     </View>
   );
 }

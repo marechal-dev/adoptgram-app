@@ -8,9 +8,9 @@
   },
   "scripts": {
     "expo:fix-deps": "expo install --fix",
-    "start": "expo start --tunnel --go",
-    "start:android": "expo start --android --tunnel --go",
-    "start:android:clear-cache": "expo start --android --tunnel --go -c",
+    "start": "expo start --go",
+    "start:android": "expo start --android --go",
+    "start:android:clear-cache": "expo start --android --go -c",
     "start:ios": "expo start --ios",
     "start:web": "expo start --web"
   },
@@ -36,7 +36,7 @@
     "expo-location": "~16.1.0",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
-    "expo-updates": "~0.18.16",
+    "expo-updates": "~0.18.17",
     "phosphor-react-native": "1.1.2",
     "react": "18.2.0",
     "react-hook-form": "7.45.1",

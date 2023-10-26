@@ -8,6 +8,7 @@ interface IAuthenticateClientRequest {
 }
 
 interface IAuthenticateClientResponse {
+  userID: string;
   accessToken: string;
 }
 

@@ -15,12 +15,6 @@ export function TabRoutes() {
       screenOptions={{
         headerTransparent: true,
         headerShadowVisible: false,
-        tabBarStyle: {
-          height: 72,
-        },
-        tabBarLabelStyle: {
-          fontSize: 16,
-        },
         tabBarActiveTintColor: colors.brand.orange500,
         tabBarInactiveTintColor: colors.brand.orange100,
       }}

@@ -1,5 +1,6 @@
 import Feather from '@expo/vector-icons/Feather';
-import { Text, View } from 'react-native';
+import React from 'react';
+import { Text, TextInput, View } from 'react-native';
 import MaskInput, { MaskInputProps } from 'react-native-mask-input';
 
 import { styles } from '@Components/core/brand/input-base-style';
@@ -12,11 +13,13 @@ type MaskedInputProps = {
     color: string;
   };
   error?: string;
+  inputRef?: React.Ref<TextInput>;
 } & Omit<MaskInputProps, 'style' | 'cursorColor' | 'placeholderTextColor'>;
 
 export function MaskedIconInput({
   error,
   iconProps,
+  inputRef,
   ...rest
 }: MaskedInputProps) {
   const errorMessage = error ? (
@@ -34,6 +37,7 @@ export function MaskedIconInput({
         <MaskInput
           style={styles.input}
           cursorColor={colors.text.main}
+          ref={inputRef}
           {...rest}
         />
       </View>

@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import { useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Alert, Text, View } from 'react-native';
 
@@ -24,9 +25,31 @@ import { styles } from '../styles';
 export function CreateOrganizationForm() {
   const navigation = useNavigation();
 
-  const { control, handleSubmit } = useForm<RegisterOrganizationFormData>({
-    resolver: zodResolver(registerOrganizationFormSchema),
-  });
+  const { control, handleSubmit, setFocus } =
+    useForm<RegisterOrganizationFormData>({
+      resolver: zodResolver(registerOrganizationFormSchema),
+    });
+
+  const focusOnNext = useMemo(
+    () => ({
+      representativeName: () => setFocus('representativeName'),
+      whatsapp: () => setFocus('whatsapp'),
+      residentialPhone: () => setFocus('residentialPhone'),
+      username: () => setFocus('username'),
+      email: () => setFocus('email'),
+      password: () => setFocus('password'),
+      confirmPassword: () => setFocus('confirmPassword'),
+      pixKey: () => setFocus('pixKey'),
+      firstLine: () => setFocus('firstLine'),
+      secondLine: () => setFocus('secondLine'),
+      number: () => setFocus('number'),
+      cep: () => setFocus('cep'),
+      neighborhood: () => setFocus('neighborhood'),
+      city: () => setFocus('city'),
+      state: () => setFocus('state'),
+    }),
+    [setFocus],
+  );
 
   async function handleOrganizationRegister(
     data: RegisterOrganizationFormData,
@@ -94,6 +117,7 @@ export function CreateOrganizationForm() {
               value={value}
               error={error?.message}
               inputRef={ref}
+              onSubmitEditing={focusOnNext.representativeName}
               placeholder="Título/Razão Social"
               keyboardType="default"
               autoCapitalize="words"
@@ -114,6 +138,7 @@ export function CreateOrganizationForm() {
               value={value}
               error={error?.message}
               inputRef={ref}
+              onSubmitEditing={focusOnNext.whatsapp}
               placeholder="Nome do Representante"
               keyboardType="default"
               autoCapitalize="words"
@@ -135,6 +160,7 @@ export function CreateOrganizationForm() {
               mask={cellphoneNumberMask}
               error={error?.message}
               inputRef={ref}
+              onSubmitEditing={focusOnNext.residentialPhone}
               placeholder="WhatsApp"
               keyboardType="phone-pad"
               autoCapitalize="none"
@@ -155,6 +181,7 @@ export function CreateOrganizationForm() {
               value={value}
               mask={residentialPhoneNumberMask}
               inputRef={ref}
+              onSubmitEditing={focusOnNext.username}
               error={error?.message}
               placeholder="Telefone Residencial (Opcional)"
               keyboardType="phone-pad"
@@ -176,6 +203,7 @@ export function CreateOrganizationForm() {
               value={value}
               error={error?.message}
               inputRef={ref}
+              onSubmitEditing={focusOnNext.email}
               placeholder="Nome de Usuário"
               keyboardType="default"
               autoCapitalize="none"
@@ -195,6 +223,7 @@ export function CreateOrganizationForm() {
               onBlur={onBlur}
               value={value}
               inputRef={ref}
+              onSubmitEditing={focusOnNext.password}
               error={error?.message}
               placeholder="Email"
               keyboardType="email-address"
@@ -220,6 +249,7 @@ export function CreateOrganizationForm() {
               returnKeyType="next"
               secureTextEntry
               inputRef={ref}
+              onSubmitEditing={focusOnNext.confirmPassword}
               error={error?.message}
             />
           )}
@@ -241,6 +271,7 @@ export function CreateOrganizationForm() {
               returnKeyType="done"
               secureTextEntry
               inputRef={ref}
+              onSubmitEditing={focusOnNext.pixKey}
               error={error?.message}
             />
           )}
@@ -261,6 +292,7 @@ export function CreateOrganizationForm() {
               autoCapitalize="none"
               returnKeyType="next"
               inputRef={ref}
+              onSubmitEditing={focusOnNext.firstLine}
               error={error?.message}
             />
           )}
@@ -287,6 +319,7 @@ export function CreateOrganizationForm() {
               returnKeyType="next"
               error={error?.message}
               inputRef={ref}
+              onSubmitEditing={focusOnNext.secondLine}
             />
           )}
         />
@@ -306,6 +339,7 @@ export function CreateOrganizationForm() {
               autoCapitalize="words"
               returnKeyType="next"
               inputRef={ref}
+              onSubmitEditing={focusOnNext.number}
               error={error?.message}
             />
           )}
@@ -326,6 +360,7 @@ export function CreateOrganizationForm() {
               autoCapitalize="none"
               returnKeyType="next"
               inputRef={ref}
+              onSubmitEditing={focusOnNext.cep}
               error={error?.message}
             />
           )}
@@ -344,6 +379,7 @@ export function CreateOrganizationForm() {
               error={error?.message}
               mask={cepMask}
               inputRef={ref}
+              onSubmitEditing={focusOnNext.neighborhood}
               placeholder="CEP"
               keyboardType="number-pad"
               autoCapitalize="none"
@@ -367,6 +403,7 @@ export function CreateOrganizationForm() {
               autoCapitalize="words"
               returnKeyType="next"
               inputRef={ref}
+              onSubmitEditing={focusOnNext.city}
               error={error?.message}
             />
           )}
@@ -387,6 +424,7 @@ export function CreateOrganizationForm() {
               autoCapitalize="words"
               returnKeyType="next"
               inputRef={ref}
+              onSubmitEditing={focusOnNext.state}
               error={error?.message}
             />
           )}
