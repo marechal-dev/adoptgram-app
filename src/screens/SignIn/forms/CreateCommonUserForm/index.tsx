@@ -41,14 +41,12 @@ export function CreateCommonUserForm() {
     const commonUserService = new CommonUserService();
 
     const createCommonUserTransaction = SentryService.startHttpTransaction({
-      name: 'adoptgram:mobile:request:common-user:create',
-      payload: {
-        username: data.username,
-        emaiL: data.email,
-      },
-      route: commonUserService.CREATE_ENDPOINT,
-      method: 'POST',
+      context: 'common-user:create',
       description: 'Transaction for Common User creation',
+      payload: data,
+      microservice: 'social',
+      endpoint: commonUserService.CREATE_ENDPOINT,
+      method: 'POST',
     });
 
     try {

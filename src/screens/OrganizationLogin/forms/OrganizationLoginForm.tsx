@@ -35,13 +35,12 @@ export function OrganizationLoginForm({
     const authService = new AuthService();
 
     const loginTransaction = SentryService.startHttpTransaction({
-      name: 'adoptgram:mobile:request:organization:authenticate',
-      payload: {
-        email: data.email,
-      },
-      method: 'POST',
-      route: authService.ORGANIZATIONS_ENDPOINT,
+      context: 'organization:login',
       description: 'Request for Organizations authentication',
+      payload: data,
+      microservice: 'social',
+      endpoint: authService.ORGANIZATIONS_ENDPOINT,
+      method: 'POST',
     });
 
     try {

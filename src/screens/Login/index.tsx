@@ -1,4 +1,5 @@
 import { Image } from 'expo-image';
+import { useMemo } from 'react';
 import { Text, View } from 'react-native';
 
 import HERO_IMAGE from '@Assets/images/cat.svg';
@@ -11,6 +12,15 @@ import { LoginForm } from './forms/LoginForm';
 import { styles } from './styles';
 
 export function LoginScreen({ navigation }: LoginScreenProps) {
+  const navigateTo = useMemo(
+    () => ({
+      forgotPassword: () => navigation.navigate('ForgotPassword'),
+      signIn: () => navigation.navigate('SignIn'),
+      organizationLogin: () => navigation.navigate('OrganizationLogin'),
+    }),
+    [navigation],
+  );
+
   return (
     <Container.SafeArea style={styles.safeAreaContainer}>
       <View style={styles.headingContainer}>
@@ -22,11 +32,7 @@ export function LoginScreen({ navigation }: LoginScreenProps) {
         </Text>
       </View>
 
-      <LoginForm
-        onForgotPasswordPressHandler={() =>
-          navigation.navigate('ForgotPassword')
-        }
-      />
+      <LoginForm onForgotPasswordPressHandler={navigateTo.forgotPassword} />
 
       <View style={styles.otherOptionsContainer}>
         <HorizontalTextDivider>ou</HorizontalTextDivider>
@@ -34,7 +40,7 @@ export function LoginScreen({ navigation }: LoginScreenProps) {
         <View style={styles.otherOptionsTextsContainer}>
           <Text style={styles.otherOptionsText}>Não tem uma conta?</Text>
           <PressableText
-            onPressHandler={() => navigation.navigate('SignIn')}
+            onPressHandler={navigateTo.signIn}
             pressableStyle={styles.otherOptionsPressable}
             textStyle={styles.otherOptionsPressableText}
           >
@@ -45,7 +51,7 @@ export function LoginScreen({ navigation }: LoginScreenProps) {
         <View style={styles.otherOptionsTextsContainer}>
           <Text style={styles.otherOptionsText}>É uma ONG?</Text>
           <PressableText
-            onPressHandler={() => navigation.navigate('OrganizationLogin')}
+            onPressHandler={navigateTo.organizationLogin}
             pressableStyle={styles.otherOptionsPressable}
             textStyle={styles.otherOptionsPressableText}
           >

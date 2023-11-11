@@ -56,11 +56,12 @@ export function CreateOrganizationForm() {
   ) {
     const organizationService = new OrganizationService();
     const registerOrganizationTransaction = SentryService.startHttpTransaction({
-      name: 'adoptgram:mobile:request:create:organization',
+      context: 'organization:create',
       description: 'Request for creating a new Organization',
-      route: organizationService.CREATE_ENDPOINT,
+      microservice: 'social',
+      endpoint: organizationService.CREATE_ENDPOINT,
       method: 'POST',
-      payload: {},
+      payload: data,
     });
 
     try {

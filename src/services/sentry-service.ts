@@ -4,16 +4,19 @@ import * as Sentry from 'sentry-expo';
 import { env } from '@Constants/env';
 
 export interface IStartProcedureParams {
-  name: `adoptgram:mobile:${string}`;
-  data: any;
+  context: string;
+  data: NonNullable<any>;
   description: string | undefined;
 }
 
+type MicroserviceTag = 'social' | 'files';
+
 export interface IStartHttpProcedureParams {
-  name: `adoptgram:mobile:request:${string}`;
+  context: string;
   payload: NonNullable<any>;
   description?: string;
-  route: string;
+  microservice: MicroserviceTag;
+  endpoint: string;
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 }
 
@@ -22,9 +25,14 @@ export class SentryService {
     Sentry.init({
       enabled: true,
       dsn: env.EXPO_PUBLIC_SENTRY_DSN,
+      environment: env.EXPO_PUBLIC_APP_ENV,
       enableInExpoDevelopment: true,
-      tracesSampleRate: 1.0,
-      debug: true,
+      debug: env.EXPO_PUBLIC_APP_ENV === 'development',
+      tracesSampleRate: env.EXPO_PUBLIC_APP_ENV === 'development' ? 1.0 : 0.8,
+      _experiments: {
+        profilesSampleRate:
+          env.EXPO_PUBLIC_APP_ENV === 'development' ? 1.0 : 0.8,
+      },
     });
   }
 
@@ -33,12 +41,12 @@ export class SentryService {
   }
 
   public static startTransaction({
-    name,
+    context,
     description,
     data,
   }: IStartProcedureParams) {
     const transaction = Sentry.Native.startTransaction({
-      name,
+      name: `adoptgram:mobile:${context}`,
       description,
       data: {
         ...data,
@@ -46,38 +54,57 @@ export class SentryService {
     });
 
     transaction.setContext('platform', {
-      os: Platform.OS,
-      version: Platform.Version,
+      reactNativeVersion: Platform.constants.reactNativeVersion,
+      sdkLevel: Platform.Version,
     });
 
     return transaction;
   }
 
   public static startHttpTransaction({
-    name,
+    context,
     description,
     payload,
-    route,
+    microservice,
+    endpoint,
     method,
   }: IStartHttpProcedureParams) {
+    const parsedPayload = this.omitSensitiveEntries(payload);
+
     const transaction = Sentry.Native.startTransaction({
-      name,
+      name: `adoptgram:mobile:request:${context}`,
       description,
       data: {
-        ...payload,
+        ...parsedPayload,
+      },
+      tags: {
+        mobile: true,
+        request: true,
+        microservice,
       },
     });
 
     transaction.setContext('platform', {
-      os: Platform.OS,
-      version: Platform.Version,
+      reactNativeVersion: Platform.constants.reactNativeVersion,
+      sdkLevel: Platform.Version,
     });
 
     transaction.setContext('request', {
-      route,
+      microservice,
+      endpoint,
       method,
     });
 
     return transaction;
+  }
+
+  private static omitSensitiveEntries(data: any) {
+    const redactedPayload = data;
+
+    if ('password' in redactedPayload) {
+      redactedPayload.password = '<REDACTED>';
+    }
+
+    return redactedPayload;
   }
 }

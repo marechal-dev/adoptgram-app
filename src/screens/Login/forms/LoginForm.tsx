@@ -33,12 +33,11 @@ export function LoginForm({ onForgotPasswordPressHandler }: LoginFormProps) {
     const authService = new AuthService();
 
     const loginTransaction = SentryService.startHttpTransaction({
-      name: 'adoptgram:mobile:request:common-user:authenticate',
-      payload: {
-        email: data.email,
-      },
+      context: 'common-user:login',
+      payload: data,
       description: 'Login Request for a Common User',
-      route: authService.COMMON_USERS_ENDPOINT,
+      microservice: 'social',
+      endpoint: authService.COMMON_USERS_ENDPOINT,
       method: 'POST',
     });
 
