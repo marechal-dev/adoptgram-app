@@ -100,20 +100,19 @@ export class SentryService {
 
   private static omitSensitiveEntries(data: any) {
     const redactedEntryText = '<REDACTED>';
-    const redactedPayload = data;
 
-    if ('password' in redactedPayload) {
-      redactedPayload.password = redactedEntryText;
+    if ('password' in data) {
+      data.password = redactedEntryText;
     }
 
-    if ('cpf' in redactedPayload) {
-      redactedPayload.cpf = redactedEntryText;
+    if ('cpf' in data) {
+      data.cpf = redactedEntryText;
     }
 
-    if ('cnpj' in redactedPayload) {
-      redactedPayload.cnpj = redactedEntryText;
+    if ('cnpj' in data) {
+      data.cnpj = redactedEntryText;
     }
 
-    return redactedPayload;
+    return data;
   }
 }
