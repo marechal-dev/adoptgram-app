@@ -1,29 +1,19 @@
-import axios, { AxiosInstance } from 'axios';
-
-import { env } from '@Constants/env';
+import { axiosSocialApiClient } from '@Lib/axios';
 import { CreateOrganizationPayload } from '@Screens/SignIn/payloads/create-organization-payload';
 import { RegisterOrganizationFormData } from '@Screens/SignIn/schemas/register-organization-schema';
 
 export class OrganizationService {
-  private readonly axios: AxiosInstance;
+  public static CREATE_ENDPOINT = '/organizations';
 
-  public readonly CREATE_ENDPOINT = '/organizations';
+  public static FIND_BY_ID_ENDPOINT = '/organizations/:id';
 
-  public readonly FIND_BY_ID_ENDPOINT = '/organizations/:id';
+  public static createOrganization(data: RegisterOrganizationFormData) {
+    const payload = this.mapDataToHttpPayload(data);
 
-  public constructor() {
-    this.axios = axios.create({
-      baseURL: env.EXPO_PUBLIC_SOCIAL_API_URL,
-    });
+    return axiosSocialApiClient.post(this.CREATE_ENDPOINT, payload);
   }
 
-  public createOrganization(data: RegisterOrganizationFormData) {
-    const payload = this.mapRegisterOrganizationDataToHttpPayload(data);
-
-    return this.axios.post(this.CREATE_ENDPOINT, payload);
-  }
-
-  private mapRegisterOrganizationDataToHttpPayload(
+  private static mapDataToHttpPayload(
     data: RegisterOrganizationFormData,
   ): CreateOrganizationPayload {
     return {
@@ -47,7 +37,9 @@ export class OrganizationService {
     };
   }
 
-  public fetchOneById(id: string) {
-    return this.axios.get(this.FIND_BY_ID_ENDPOINT.replace(':id', id));
+  public static fetchOneById(id: string) {
+    return axiosSocialApiClient.get(
+      this.FIND_BY_ID_ENDPOINT.replace(':id', id),
+    );
   }
 }

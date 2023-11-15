@@ -54,18 +54,17 @@ export function CreateOrganizationForm() {
   async function handleOrganizationRegister(
     data: RegisterOrganizationFormData,
   ) {
-    const organizationService = new OrganizationService();
     const registerOrganizationTransaction = SentryService.startHttpTransaction({
       context: 'organization:create',
       description: 'Request for creating a new Organization',
       microservice: 'social',
-      endpoint: organizationService.CREATE_ENDPOINT,
+      endpoint: OrganizationService.CREATE_ENDPOINT,
       method: 'POST',
       payload: data,
     });
 
     try {
-      const response = await organizationService.createOrganization(data);
+      const response = await OrganizationService.createOrganization(data);
 
       if (response.status === 201) {
         Alert.alert(

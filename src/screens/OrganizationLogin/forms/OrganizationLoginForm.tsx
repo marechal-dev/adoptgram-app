@@ -32,19 +32,17 @@ export function OrganizationLoginForm({
   const focusOnNextInput = useCallback(() => setFocus('password'), [setFocus]);
 
   async function handleLoginFormSubmit(data: LoginPayload) {
-    const authService = new AuthService();
-
     const loginTransaction = SentryService.startHttpTransaction({
       context: 'organization:login',
       description: 'Request for Organizations authentication',
       payload: data,
       microservice: 'social',
-      endpoint: authService.ORGANIZATIONS_ENDPOINT,
+      endpoint: AuthService.ORGANIZATIONS_ENDPOINT,
       method: 'POST',
     });
 
     try {
-      const response = await authService.authenticateOrganization(data);
+      const response = await AuthService.authenticateOrganization(data);
 
       if (response.status === 200) {
         authenticate({

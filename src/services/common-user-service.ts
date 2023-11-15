@@ -1,29 +1,19 @@
-import axios, { AxiosInstance } from 'axios';
-
-import { env } from '@Constants/env';
+import { axiosSocialApiClient } from '@Lib/axios';
 import { CreateCommonUserPayload } from '@Screens/SignIn/payloads/create-common-user-payload';
 import { RegisterCommonUserFormData } from '@Screens/SignIn/schemas/register-common-user-schema';
 
 export class CommonUserService {
-  private readonly axios: AxiosInstance;
+  public static CREATE_ENDPOINT = '/common-users';
 
-  public readonly CREATE_ENDPOINT = '/common-users';
+  public static FIND_BY_ID_ENDPOINT = '/common-users/:id';
 
-  public readonly FIND_BY_ID_ENDPOINT = '/common-users/:id';
-
-  public constructor() {
-    this.axios = axios.create({
-      baseURL: env.EXPO_PUBLIC_SOCIAL_API_URL,
-    });
-  }
-
-  public create(data: RegisterCommonUserFormData) {
+  public static create(data: RegisterCommonUserFormData) {
     const payload = this.mapCreateDataToCreatePayload(data);
 
-    return this.axios.post(this.CREATE_ENDPOINT, payload);
+    return axiosSocialApiClient.post(this.CREATE_ENDPOINT, payload);
   }
 
-  private mapCreateDataToCreatePayload(
+  private static mapCreateDataToCreatePayload(
     data: RegisterCommonUserFormData,
   ): CreateCommonUserPayload {
     return {
@@ -35,7 +25,9 @@ export class CommonUserService {
     };
   }
 
-  public fetchOneById(id: string) {
-    return this.axios.get(this.FIND_BY_ID_ENDPOINT.replace(':id', id));
+  public static fetchOneById(id: string) {
+    return axiosSocialApiClient.get(
+      this.FIND_BY_ID_ENDPOINT.replace(':id', id),
+    );
   }
 }

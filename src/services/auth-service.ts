@@ -1,6 +1,6 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 
-import { env } from '@Constants/env';
+import { axiosSocialApiClient } from '@Lib/axios';
 
 interface IAuthenticateClientRequest {
   email: string;
@@ -13,28 +13,24 @@ interface IAuthenticateClientResponse {
 }
 
 export class AuthService {
-  private readonly axios: AxiosInstance;
+  public static COMMON_USERS_ENDPOINT = '/sessions/common-users';
 
-  public readonly COMMON_USERS_ENDPOINT = '/sessions/common-users';
+  public static ORGANIZATIONS_ENDPOINT = '/sessions/organizations';
 
-  public readonly ORGANIZATIONS_ENDPOINT = '/sessions/organizations';
-
-  public constructor() {
-    this.axios = axios.create({
-      baseURL: env.EXPO_PUBLIC_SOCIAL_API_URL,
-    });
-  }
-
-  public authenticateCommonUser(requestPayload: IAuthenticateClientRequest) {
-    return this.axios.post<
+  public static authenticateCommonUser(
+    requestPayload: IAuthenticateClientRequest,
+  ) {
+    return axiosSocialApiClient.post<
       IAuthenticateClientResponse,
       AxiosResponse<IAuthenticateClientResponse>,
       IAuthenticateClientRequest
     >(this.COMMON_USERS_ENDPOINT, requestPayload);
   }
 
-  public authenticateOrganization(requestPayload: IAuthenticateClientRequest) {
-    return this.axios.post<
+  public static authenticateOrganization(
+    requestPayload: IAuthenticateClientRequest,
+  ) {
+    return axiosSocialApiClient.post<
       IAuthenticateClientResponse,
       AxiosResponse<IAuthenticateClientResponse>,
       IAuthenticateClientRequest

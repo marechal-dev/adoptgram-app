@@ -38,19 +38,17 @@ export function CreateCommonUserForm() {
   );
 
   async function handleCommonUserRegister(data: RegisterCommonUserFormData) {
-    const commonUserService = new CommonUserService();
-
     const createCommonUserTransaction = SentryService.startHttpTransaction({
       context: 'common-user:create',
-      description: 'Transaction for Common User creation',
+      description: 'Request for creating a new Common User',
       payload: data,
       microservice: 'social',
-      endpoint: commonUserService.CREATE_ENDPOINT,
+      endpoint: CommonUserService.CREATE_ENDPOINT,
       method: 'POST',
     });
 
     try {
-      const response = await commonUserService.create(data);
+      const response = await CommonUserService.create(data);
 
       if (response.status === 201) {
         Alert.alert(

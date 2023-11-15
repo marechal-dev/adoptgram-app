@@ -30,19 +30,17 @@ export function LoginForm({ onForgotPasswordPressHandler }: LoginFormProps) {
   const focusOnNextInput = useCallback(() => setFocus('password'), [setFocus]);
 
   const handleLoginFormSubmit = async (data: LoginPayload) => {
-    const authService = new AuthService();
-
     const loginTransaction = SentryService.startHttpTransaction({
       context: 'common-user:login',
       payload: data,
       description: 'Login Request for a Common User',
       microservice: 'social',
-      endpoint: authService.COMMON_USERS_ENDPOINT,
+      endpoint: AuthService.COMMON_USERS_ENDPOINT,
       method: 'POST',
     });
 
     try {
-      const response = await authService.authenticateCommonUser(data);
+      const response = await AuthService.authenticateCommonUser(data);
 
       if (response.status === 200) {
         authenticate({

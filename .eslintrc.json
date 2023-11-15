@@ -23,6 +23,7 @@
   },
   "rules": {
     "prettier/prettier": "error",
+    "no-param-reassign": "off",
     "global-require": "off",
     "class-methods-use-this": "off",
     "import/no-extraneous-dependencies": "off",
