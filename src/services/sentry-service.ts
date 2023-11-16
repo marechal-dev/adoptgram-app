@@ -6,7 +6,7 @@ import { env } from '@Constants/env';
 export interface IStartProcedureParams {
   context: string;
   data: NonNullable<any>;
-  description: string | undefined;
+  description?: string;
 }
 
 type MicroserviceTag = 'social' | 'files';
@@ -14,10 +14,10 @@ type MicroserviceTag = 'social' | 'files';
 export interface IStartHttpProcedureParams {
   context: string;
   payload: NonNullable<any>;
-  description?: string;
   microservice: MicroserviceTag;
   endpoint: string;
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+  description?: string;
 }
 
 export class SentryService {
@@ -99,20 +99,25 @@ export class SentryService {
   }
 
   private static omitSensitiveEntries(data: any) {
+    const payload = JSON.parse(JSON.stringify(data));
     const redactedEntryText = '<REDACTED>';
 
-    if ('password' in data) {
-      data.password = redactedEntryText;
+    if ('password' in payload) {
+      payload.password = redactedEntryText;
     }
 
-    if ('cpf' in data) {
-      data.cpf = redactedEntryText;
+    if ('confirmPassword' in payload) {
+      payload.confirmPassword = redactedEntryText;
     }
 
-    if ('cnpj' in data) {
-      data.cnpj = redactedEntryText;
+    if ('cpf' in payload) {
+      payload.cpf = redactedEntryText;
     }
 
-    return data;
+    if ('cnpj' in payload) {
+      payload.cnpj = redactedEntryText;
+    }
+
+    return payload;
   }
 }

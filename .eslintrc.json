@@ -42,6 +42,7 @@
       }
     ],
     "import/prefer-default-export": "off",
+    "import/no-duplicates": "off",
     "import/order": [
       "error",
       {

@@ -46,6 +46,7 @@ export function LoginForm({ onForgotPasswordPressHandler }: LoginFormProps) {
         authenticate({
           token: response.data.accessToken,
           userID: response.data.userID,
+          userRole: 'CommonUser',
         });
       }
     } catch (error) {

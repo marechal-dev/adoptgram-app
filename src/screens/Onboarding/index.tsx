@@ -10,11 +10,10 @@ import {
 import HERO_GIF from '@Assets/images/sammy-delivery.gif';
 import { BrandButton } from '@Components/core/brand/BrandButton/BrandButton';
 import { Container } from '@Components/core/primitives/Container';
-import { OnboardingScreenProps } from '@Navigation/stack/types/screen-types';
 
 import { styles } from './styles';
 
-export function OnboardingScreen({ navigation }: OnboardingScreenProps) {
+export function OnboardingScreen() {
   const { width, height } = useWindowDimensions();
 
   let paddingTopValue = 82;
@@ -60,7 +59,6 @@ export function OnboardingScreen({ navigation }: OnboardingScreenProps) {
 
   async function handleSeeMoreButtonTouch() {
     await AsyncStorage.setItem('isFirstTime', 'false');
-    navigation.navigate('Login');
   }
 
   return (

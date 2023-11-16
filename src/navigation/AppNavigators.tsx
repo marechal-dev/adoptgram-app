@@ -15,7 +15,7 @@ export function AppNavigators({ onReady }: IAppNavigationProps) {
 
   return (
     <NavigationContainer onReady={onReady} theme={appTheme}>
-      {!isAuthenticated ? <PublicRoutes /> : <ProtectedRoutes />}
+      {isAuthenticated ? <PublicRoutes /> : <ProtectedRoutes />}
     </NavigationContainer>
   );
 }

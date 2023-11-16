@@ -2,7 +2,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { ForgotPasswordScreen } from '@Screens/ForgotPassword';
 import { LoginScreen } from '@Screens/Login';
-import { OnboardingScreen } from '@Screens/Onboarding';
 import { OrganizationLoginScreen } from '@Screens/OrganizationLogin';
 import { SignInScreen } from '@Screens/SignIn';
 
@@ -10,21 +9,9 @@ import { RootStackParamList } from './types/stack-navigator-types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-type StackRoutesProps = {
-  defaultRoute: keyof RootStackParamList;
-};
-
-export function StackRoutes({ defaultRoute }: StackRoutesProps) {
+export function StackRoutes() {
   return (
-    <Stack.Navigator initialRouteName={defaultRoute}>
-      <Stack.Screen
-        name="Onboarding"
-        component={OnboardingScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-
+    <Stack.Navigator>
       <Stack.Screen
         name="Login"
         component={LoginScreen}

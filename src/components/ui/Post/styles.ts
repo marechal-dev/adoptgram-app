@@ -1,38 +1,73 @@
-import { StyleSheet } from "react-native"
+import { StyleSheet } from 'react-native';
+
+import { colors } from '@Theme/colors';
 
 export const styles = StyleSheet.create({
-  root: {
-    flexBasis: 520,
+  outerContainer: {
     width: '100%',
+    backgroundColor: colors.brand.blue300,
+    padding: 14,
+    borderRadius: 15,
   },
-  header: {
+  headerContainer: {
     flexDirection: 'row',
-    width: '100%',
-    columnGap: 8,
+    columnGap: 10,
+    marginBottom: 8,
+    paddingBottom: 8,
+    borderBottomColor: colors.brand.orange500,
+    borderBottomWidth: 2,
   },
-  headerImage: {},
-  headerUsername: {},
-  body: {
-    width: '100%',
+  headerProfilePicture: {
+    height: 40,
+    width: 40,
+    borderRadius: 150,
   },
-  mediaCarrouselContainer: {
-    width: '100%',
+  headerUsername: {
+    textAlign: 'left',
   },
-  mediaCarrouselIndex: {},
-  mediaCarrouselArrow: {},
-  actionBar: {
+  headerPublishedAt: {
+    fontSize: 10,
+  },
+  mediasCarrouselContainer: {
     width: '100%',
+    alignItems: 'center',
+  },
+  mediaImage: {
+    height: 340,
+    width: 340,
+    borderRadius: 12,
+  },
+  textBase: {
+    fontFamily: 'Poppins',
+    color: colors.brand.orange100,
+  },
+  textContentContainer: {
+    marginTop: 8,
+  },
+  textContent: {
+    textAlign: 'justify',
+  },
+  actionBarContainer: {
+    borderBottomWidth: 2,
+    borderBottomColor: colors.brand.orange500,
+    paddingVertical: 8,
+    marginTop: 2,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 8,
+    justifyContent: 'space-around',
+    columnGap: 12,
   },
-  leftSideActions: {},
-  rightSideActions: {},
-  actionIcon: {},
-  actionTitle: {},
-  descriptionContainer: {
-    width: '100%',
+  actionContainer: {
+    flexDirection: 'row',
+    columnGap: 6,
+    alignItems: 'center',
   },
-  descriptionUsername: {},
-  descriptionText: {},
+  actionText: {
+    color: colors.brand.orange500,
+  },
+  separator: {
+    height: 8,
+  },
+  imageSeparator: {
+    width: 8,
+  },
 });

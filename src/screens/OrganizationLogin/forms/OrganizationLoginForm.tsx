@@ -48,6 +48,7 @@ export function OrganizationLoginForm({
         authenticate({
           token: response.data.accessToken,
           userID: response.data.userID,
+          userRole: 'Organization',
         });
       }
     } catch (error) {
