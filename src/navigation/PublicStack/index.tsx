@@ -5,11 +5,11 @@ import { LoginScreen } from '@Screens/Login';
 import { OrganizationLoginScreen } from '@Screens/OrganizationLogin';
 import { SignInScreen } from '@Screens/SignIn';
 
-import { RootStackParamList } from './types/stack-navigator-types';
+import { PublicStackParamList } from './types';
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<PublicStackParamList>();
 
-export function StackRoutes() {
+export function PublicStackRoutes() {
   return (
     <Stack.Navigator>
       <Stack.Screen

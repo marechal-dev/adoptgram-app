@@ -1,11 +1,13 @@
 import { Text, View } from 'react-native';
 
+import { MyProfileScreenProps } from '@Navigation/BottomTabs/types';
+
 import { styles } from './styles';
 
-export function MyProfileScreen() {
+export function MyProfileScreen({ route }: MyProfileScreenProps) {
   return (
     <View style={styles.screenContainer}>
-      <Text>My Profile Screen!</Text>
+      <Text>{route.params.id}</Text>
     </View>
   );
 }

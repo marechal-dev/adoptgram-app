@@ -10,12 +10,14 @@ export const styles = StyleSheet.create({
     borderRadius: 15,
   },
   headerContainer: {
-    flexDirection: 'row',
-    columnGap: 10,
     marginBottom: 8,
     paddingBottom: 8,
     borderBottomColor: colors.brand.orange500,
     borderBottomWidth: 2,
+  },
+  pressableHeaderContainer: {
+    flexDirection: 'row',
+    columnGap: 10,
   },
   headerProfilePicture: {
     height: 40,

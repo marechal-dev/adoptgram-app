@@ -1,13 +1,14 @@
 import Feather from '@expo/vector-icons/Feather';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import { TabRoutes } from '@Navigation/bottom-tabs';
+import { TabRoutes } from '@Navigation/BottomTabs';
 import { OptionsScreen } from '@Screens/Options';
 import { colors } from '@Theme/colors';
 
 import { CustomDrawerContent } from './components/CustomDrawerContent';
+import { DrawerParamList } from './types';
 
-const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator<DrawerParamList>();
 
 export function DrawerRoutes() {
   return (

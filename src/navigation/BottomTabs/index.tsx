@@ -9,12 +9,12 @@ import { SearchOrganizationsScreen } from '@Screens/SearchOrganizations';
 import { TimelineScreen } from '@Screens/Timeline';
 import { colors } from '@Theme/colors';
 
-import { BottomTabsParamList } from './types/bottom-tabs-navigator-types';
+import { BottomTabsParamList } from './types';
 
 const Tab = createBottomTabNavigator<BottomTabsParamList>();
 
 export function TabRoutes() {
-  const { role } = useAuth();
+  const { role, currentUserID } = useAuth();
 
   return (
     <Tab.Navigator
@@ -89,6 +89,9 @@ export function TabRoutes() {
             <Feather name="user" color={color} size={size} />
           ),
           tabBarLabel: 'Meu Perfil',
+        }}
+        initialParams={{
+          id: currentUserID,
         }}
       />
     </Tab.Navigator>

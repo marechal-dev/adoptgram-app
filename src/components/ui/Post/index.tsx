@@ -1,6 +1,8 @@
+import { useNavigation } from '@react-navigation/native';
 import { Image } from 'expo-image';
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
+import { DrawerRoutesProps } from '@Navigation/PrivateStack/types';
 import { DateFormatService } from '@Services/date-format-service';
 
 import { ActionBar } from './ActionBar';
@@ -17,21 +19,46 @@ export function Post({
   textContent,
   createdAt,
 }: IPostProps) {
+  const navigation = useNavigation<DrawerRoutesProps['navigation']>();
+
+  function handleOnUsernamePress() {
+    navigation.navigate('DetailsStack', {
+      screen: 'OrganizationProfile',
+      params: {
+        username: creatorUserName,
+      },
+    });
+  }
+
+  // function handleOnPostPress() {
+  //   return navigation.navigate('DetailsStack', {
+  //     screen: 'PostDetails',
+  //     params: {
+  //       id,
+  //     },
+  //   });
+  // }
+
   return (
     <View style={styles.outerContainer}>
       <View style={styles.headerContainer}>
-        <Image
-          style={styles.headerProfilePicture}
-          source={creatorProfilePictureURL}
-        />
-        <View>
-          <Text style={[styles.textBase, styles.headerUsername]}>
-            {creatorUserName}
-          </Text>
-          <Text style={[styles.textBase, styles.headerPublishedAt]}>
-            {DateFormatService.formatToRelativeDateTimeString(createdAt)}
-          </Text>
-        </View>
+        <Pressable
+          style={styles.pressableHeaderContainer}
+          onPress={handleOnUsernamePress}
+        >
+          <Image
+            style={styles.headerProfilePicture}
+            source={creatorProfilePictureURL}
+          />
+          <View>
+            <Text style={[styles.textBase, styles.headerUsername]}>
+              {creatorUserName}
+            </Text>
+            <Text style={[styles.textBase, styles.headerPublishedAt]}>
+              {DateFormatService.formatToRelativeDateTimeString(createdAt)}
+            </Text>
+          </View>
+        </Pressable>
       </View>
 
       <MediaCarousel medias={medias} />
