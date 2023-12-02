@@ -7,6 +7,8 @@ export class OrganizationService {
 
   public static FIND_BY_ID_ENDPOINT = '/organizations/:id';
 
+  public static SEARCH_MANY_ENDPOINT = '/organizations';
+
   public static createOrganization(data: RegisterOrganizationFormData) {
     const payload = this.mapDataToHttpPayload(data);
 
@@ -40,6 +42,12 @@ export class OrganizationService {
   public static fetchOneById(id: string) {
     return axiosSocialApiClient.get(
       this.FIND_BY_ID_ENDPOINT.replace(':id', id),
+    );
+  }
+
+  public static searchMany(searchTerm: string) {
+    return axiosSocialApiClient.get(
+      `${this.SEARCH_MANY_ENDPOINT}?query=${searchTerm}`,
     );
   }
 }

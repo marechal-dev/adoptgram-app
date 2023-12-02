@@ -38,7 +38,7 @@ export function TabRoutes() {
         }}
       />
 
-      {role === 'CommonUser' ? (
+      {role !== 'CommonUser' ? (
         <Tab.Screen
           name="SearchOrganizations"
           component={SearchOrganizationsScreen}

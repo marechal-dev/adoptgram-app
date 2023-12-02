@@ -30,7 +30,7 @@ export function Post({
     });
   }
 
-  // function handleOnPostPress() {
+  // function handleOnCommentButtonPress() {
   //   return navigation.navigate('DetailsStack', {
   //     screen: 'PostDetails',
   //     params: {
