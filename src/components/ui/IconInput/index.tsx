@@ -33,7 +33,11 @@ export function IconInput({ error, iconProps, inputRef, ...rest }: InputProps) {
         />
       </View>
 
-      {error ? <Text style={styles.errorMessage}>{error}</Text> : null}
+      {error ? (
+        <Text style={styles.errorMessage}>{error}</Text>
+      ) : (
+        <Text style={styles.errorMessage} />
+      )}
     </View>
   );
 }

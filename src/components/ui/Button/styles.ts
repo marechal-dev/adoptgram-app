@@ -5,13 +5,10 @@ import { colors } from '@Theme/colors';
 export const styles = StyleSheet.create({
   buttonOuterContainer: {
     borderRadius: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
     overflow: 'hidden',
-    elevation: 4,
+    elevation: 2,
   },
   buttonPressableContainer: {
-    width: '100%',
     backgroundColor: colors.brand.orange500,
     justifyContent: 'center',
     alignItems: 'center',

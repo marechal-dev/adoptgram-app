@@ -1,19 +1,17 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  scrollContainer: {
-    paddingHorizontal: 20,
-    paddingTop: 0,
-  },
-  heading: {
-    fontFamily: 'Poppins',
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
+  root: {
+    marginTop: 24,
     marginBottom: 18,
   },
+  placeholderText: {
+    fontFamily: 'Poppins',
+    fontSize: 16,
+    textAlign: 'center',
+  },
   actionContainer: {
+    marginTop: 12,
     alignItems: 'center',
-    rowGap: 40,
   },
 });

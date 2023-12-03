@@ -1,5 +1,70 @@
-import { Text } from 'react-native';
+import React, { useState } from 'react';
+import { Alert, ScrollView, Text, View } from 'react-native';
+
+import { Button } from '@Components/ui/Button';
+import { TextArea } from '@Components/ui/TextArea';
+
+import { PostImagePicker } from './components/PostImagePicker';
+import { styles } from './styles';
 
 export function CreatePostScreen() {
-  return <Text>Create Post!</Text>;
+  const [textContent, setTextContent] = useState('');
+  const [medias, setMedias] = useState<string[]>([]);
+
+  function onChangeTextContent(text: string) {
+    setTextContent(text);
+  }
+
+  function onChangeMedias(uris: string[]) {
+    setMedias((oldState) => [...uris, ...oldState]);
+  }
+
+  function onClearMedias() {
+    setMedias([]);
+  }
+
+  function onCreatePost() {
+    const textContentIsInvalid = !textContent;
+
+    if (textContentIsInvalid) {
+      Alert.alert('Aviso', 'O texto da postagem não pode estar vazio.');
+
+      return;
+    }
+
+    const nothingSelected = medias.length === 0;
+
+    if (nothingSelected) {
+      Alert.alert('Aviso', 'Selecione ao menos uma imagem.');
+    }
+
+    console.log(textContent, medias);
+  }
+
+  return (
+    <ScrollView style={styles.scrollContainer}>
+      <Text style={styles.heading}>Criar Postagem</Text>
+
+      <TextArea
+        placeholder="Nos conte algo sobre sua nova postagem :)"
+        onChangeText={onChangeTextContent}
+        value={textContent}
+      />
+
+      <PostImagePicker
+        onPickImagesHandler={onChangeMedias}
+        onClearMedias={onClearMedias}
+      />
+
+      <View style={styles.actionContainer}>
+        <Button onPressHandler={onCreatePost} size="slim">
+          Criar
+        </Button>
+
+        <Button onPressHandler={() => console.log('yay')} size="slim">
+          Criar
+        </Button>
+      </View>
+    </ScrollView>
+  );
 }

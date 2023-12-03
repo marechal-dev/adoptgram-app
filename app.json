@@ -47,7 +47,13 @@
     },
     "owner": "marechal-dev",
     "plugins": [
-      "sentry-expo"
+      "sentry-expo",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "O AdoptGram precisa de acesso a sua galeria para que possa postar fotos dos amigos peludos."
+        }
+      ]
     ]
   }
 }

@@ -13,7 +13,7 @@ import { styles } from './styles';
 interface IButtonProps {
   onPressHandler: () => void;
   children: ReactNode;
-  size?: 'slim' | 'default';
+  size?: 'default' | 'slim';
 }
 
 const ANDROID_RIPPLE_EFFECT_CONFIGS: PressableAndroidRippleConfig = {
@@ -38,7 +38,6 @@ export function Button({
     size === 'slim'
       ? {
           paddingVertical: 8,
-          paddingHorizontal: 30,
         }
       : {
           paddingVertical: 16,

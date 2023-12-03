@@ -6,7 +6,7 @@ import HERO_IMAGE from '@Assets/images/cat.svg';
 import { Container } from '@Components/core/primitives/Container';
 import { PressableText } from '@Components/core/primitives/PressableText/PressableText';
 import { HorizontalTextDivider } from '@Components/ui/HorizontalTextDivider';
-import { LoginScreenProps } from '@Navigation/stack/types/screen-types';
+import { LoginScreenProps } from '@Navigation/PublicStack/types';
 
 import { LoginForm } from './forms/LoginForm';
 import { styles } from './styles';
