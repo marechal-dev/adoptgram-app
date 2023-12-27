@@ -4,7 +4,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useAuth } from '@Hooks/use-auth';
 import { CreatePetScreen } from '@Screens/CreatePet';
 import { CreatePostScreen } from '@Screens/CreatePost';
-import { MyProfileScreen } from '@Screens/MyProfile';
 import { SearchOrganizationsScreen } from '@Screens/SearchOrganizations';
 import { TimelineScreen } from '@Screens/Timeline';
 import { colors } from '@Theme/colors';
@@ -14,7 +13,7 @@ import { BottomTabsParamList } from './types';
 const Tab = createBottomTabNavigator<BottomTabsParamList>();
 
 export function TabRoutes() {
-  const { role, currentUserID } = useAuth();
+  const { role } = useAuth();
 
   return (
     <Tab.Navigator
@@ -80,7 +79,7 @@ export function TabRoutes() {
         />
       ) : null}
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="MyProfile"
         component={MyProfileScreen}
         options={{
@@ -93,7 +92,7 @@ export function TabRoutes() {
         initialParams={{
           id: currentUserID,
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }

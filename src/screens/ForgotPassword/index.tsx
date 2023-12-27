@@ -6,7 +6,7 @@ import SNIFFING_DOG from '@Assets/images/dog.svg';
 import { BrandButton } from '@Components/core/brand/BrandButton/BrandButton';
 import { BrandInput } from '@Components/core/brand/BrandInput';
 import { Container } from '@Components/core/primitives/Container';
-import { ForgotPasswordScreenProps } from '@Navigation/stack/types/screen-types';
+import { ForgotPasswordScreenProps } from '@Navigation/PublicStack/types';
 import { colors } from '@Theme/colors';
 
 import { styles } from './styles';

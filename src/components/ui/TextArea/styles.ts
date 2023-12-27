@@ -14,15 +14,14 @@ export const styles = StyleSheet.create({
     minHeight: 100,
     maxHeight: 200,
     backgroundColor: 'white',
+    elevation: 8,
   },
   input: {
     flex: 1,
-    alignItems: 'center',
-    height: '100%',
     fontFamily: 'Poppins',
     fontSize: 16,
     color: colors.text.main,
-    textAlign: 'left',
+    textAlign: 'justify',
   },
   focusedInputBorder: {
     borderWidth: 2,

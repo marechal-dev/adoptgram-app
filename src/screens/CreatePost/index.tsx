@@ -24,17 +24,17 @@ export function CreatePostScreen() {
   }
 
   function onCreatePost() {
-    const textContentIsInvalid = !textContent;
+    const textContentIsValid = textContent.length > 0;
 
-    if (textContentIsInvalid) {
+    if (!textContentIsValid) {
       Alert.alert('Aviso', 'O texto da postagem não pode estar vazio.');
 
       return;
     }
 
-    const nothingSelected = medias.length === 0;
+    const haveSelectedMedias = medias.length > 0;
 
-    if (nothingSelected) {
+    if (!haveSelectedMedias) {
       Alert.alert('Aviso', 'Selecione ao menos uma imagem.');
     }
 
@@ -42,7 +42,10 @@ export function CreatePostScreen() {
   }
 
   return (
-    <ScrollView style={styles.scrollContainer}>
+    <ScrollView
+      style={styles.scrollContainer}
+      contentContainerStyle={styles.scrollContentContainer}
+    >
       <Text style={styles.heading}>Criar Postagem</Text>
 
       <TextArea
@@ -58,10 +61,6 @@ export function CreatePostScreen() {
 
       <View style={styles.actionContainer}>
         <Button onPressHandler={onCreatePost} size="slim">
-          Criar
-        </Button>
-
-        <Button onPressHandler={() => console.log('yay')} size="slim">
           Criar
         </Button>
       </View>
