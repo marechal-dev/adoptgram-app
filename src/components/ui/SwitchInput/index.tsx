@@ -1,14 +1,19 @@
-import { Switch, Text, View } from 'react-native';
+import { Switch, SwitchProps, Text, View } from 'react-native';
 
 import { colors } from '@Theme/colors';
 
 import { styles } from './styles';
 
-type SwitchInputProps = {
+type SwitchInputPropsInput = {
   label: string;
   isEnabled: boolean;
   onValueChange: (value: boolean) => void;
 };
+
+type SwitchInputProps = Omit<
+  SwitchInputPropsInput & SwitchProps,
+  'value' | 'thumbColor' | 'trackColor'
+>;
 
 export function SwitchInput({
   label,

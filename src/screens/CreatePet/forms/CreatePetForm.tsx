@@ -1,23 +1,38 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
-import { View } from 'react-native';
+import { Controller, useForm } from 'react-hook-form';
+import { Alert, View } from 'react-native';
 import PickerSelectInput from 'react-native-picker-select';
 import { z } from 'zod';
 
 import { Input } from '@Components/ui/Input';
+import { ProfilePictureImagePicker } from '@Components/ui/ProfilePictureImagePicker';
 import { SwitchInput } from '@Components/ui/SwitchInput';
 import { TextArea } from '@Components/ui/TextArea';
+import { UploadService } from '@Services/upload-service';
 
 import { styles } from '../styles';
 
 const createPetSchema = z.object({
   name: z.string().min(2, 'O nome do pet deve ter no mínimo 2 caracteres'),
   bio: z.string().min(15, 'Por favor, fale mais um pouco sobre o pet :)'),
-  age: z.coerce
-    .number({
-      invalid_type_error: 'Por favor, digite um número válido',
-      required_error: 'A idade é obrigatória',
-    })
-    .min(0, 'A idade do pet não pode ser negativa'),
+  age: z
+    .string()
+    .transform((value) => Number(value))
+    .pipe(
+      z
+        .number({
+          required_error: 'A idade é obrigatória',
+          invalid_type_error: 'Por favor, digite um número válido',
+        })
+        .int({
+          message: 'Não insira números quebrados',
+        })
+        .positive({
+          message: 'A idade do Pet tem que ser positiva',
+        })
+        .min(0, 'A idade tem que ser no mínimo zero'),
+    ),
   isCastrated: z.boolean(),
   requireMedicalAttention: z.boolean(),
   isVaccinated: z.boolean(),
@@ -30,6 +45,9 @@ const createPetSchema = z.object({
     'VeryHigh',
   ] as const),
 });
+
+type CreatePetFormInputData = z.input<typeof createPetSchema>;
+type CreatePetFormOutputData = z.output<typeof createPetSchema>;
 
 const sizeSelectItems = [
   {
@@ -69,73 +87,163 @@ const energySelectItems = [
   },
 ];
 
-type SizeOption = 'Small' | 'Medium' | 'High';
-type EnergyLevelOption = 'VeryLow' | 'Low' | 'Medium' | 'High' | 'VeryHigh';
-
 export function CreatePetForm() {
-  const [isCastrated, setIsCastrated] = useState(false);
-  const [requireMedicalAttention, setRequireMedicalAttention] = useState(false);
-  const [isVaccinated, setIsVaccinated] = useState(false);
-  const [size, setSize] = useState<SizeOption>('Small');
-  const [energyLevel, setEnergyLevel] = useState<EnergyLevelOption>('VeryLow');
+  const [profilePictureURI, setProfilePictureURI] = useState('');
+  const [uploadedProfilePictureURL, setUploadedProfilePictureURL] =
+    useState('');
 
-  function onChangeIsCastratedValue(value: boolean) {
-    setIsCastrated(value);
+  const { control, handleSubmit } = useForm<CreatePetFormInputData>({
+    resolver: zodResolver(createPetSchema),
+  });
+
+  async function submitPetProfilePicture() {
+    try {
+      const formData = new FormData();
+
+      const uploadResponse = await UploadService.uploadSingleFile(formData);
+
+      if (uploadResponse.status === 200) {
+        setUploadedProfilePictureURL(uploadResponse.data.imageURL);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        Alert.alert('Erro ao enviar a imagem de perfil do Pet', error.message);
+      }
+    }
   }
 
-  function onChangeRequireMedicalAttentionValue(value: boolean) {
-    setRequireMedicalAttention(value);
-  }
+  async function createPetProfile() {}
 
-  function onChangeIsVaccinated(value: boolean) {
-    setIsVaccinated(value);
-  }
-
-  function onChangeSizeValue(value: SizeOption) {
-    setSize(value);
-  }
-
-  function onChangeEnergyLevelValue(value: EnergyLevelOption) {
-    setEnergyLevel(value);
+  function onChangeProfilePictureURI(uri: string) {
+    setProfilePictureURI(uri);
   }
 
   return (
     <View style={styles.formContainer}>
-      <Input placeholder="Nome do Pet" />
+      <ProfilePictureImagePicker
+        buttonLabel="Seleciona a imagem de perfil do Pet :)"
+        onChangeImageURI={onChangeProfilePictureURI}
+      />
 
-      <TextArea placeholder="Bio do Pet: Conte um pouco sobre ele!" />
+      <Controller
+        name="name"
+        control={control}
+        render={({
+          field: { onChange, onBlur, value, ref },
+          fieldState: { error },
+        }) => (
+          <Input
+            placeholder="Nome do Pet"
+            inputRef={ref}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            value={value}
+            error={error?.message}
+            keyboardType="default"
+            autoCapitalize="words"
+            returnKeyType="next"
+          />
+        )}
+      />
 
-      <Input placeholder="Idade do Pet" />
+      <Controller
+        name="bio"
+        control={control}
+        render={({
+          field: { onChange, onBlur, value, ref },
+          fieldState: { error },
+        }) => (
+          <TextArea
+            placeholder="Bio do Pet: Conte um pouco sobre ele!"
+            inputRef={ref}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            value={value}
+            error={error?.message}
+            keyboardType="default"
+            autoCapitalize="sentences"
+          />
+        )}
+      />
+
+      <Controller
+        name="age"
+        control={control}
+        render={({
+          field: { onChange, onBlur, value, ref },
+          fieldState: { error },
+        }) => (
+          <Input
+            placeholder="Idade do Pet"
+            inputRef={ref}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            value={value}
+            error={error?.message}
+          />
+        )}
+      />
 
       <View style={styles.switchsContainer}>
-        <SwitchInput
-          label="É castrado?"
-          isEnabled={isCastrated}
-          onValueChange={onChangeIsCastratedValue}
+        <Controller
+          name="isCastrated"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <SwitchInput
+              label="É castrado?"
+              isEnabled={value}
+              onValueChange={onChange}
+            />
+          )}
         />
-        <SwitchInput
-          label="É vacinado?"
-          isEnabled={isVaccinated}
-          onValueChange={onChangeIsVaccinated}
+        <Controller
+          name="isVaccinated"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <SwitchInput
+              label="É vacinado?"
+              isEnabled={value}
+              onValueChange={onChange}
+            />
+          )}
         />
       </View>
       <View style={styles.singleSwitchContainer}>
-        <SwitchInput
-          label="Precisa de atenção médica?"
-          isEnabled={requireMedicalAttention}
-          onValueChange={onChangeRequireMedicalAttentionValue}
+        <Controller
+          name="requireMedicalAttention"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <SwitchInput
+              label="Precisa de atenção médica?"
+              isEnabled={value}
+              onValueChange={onChange}
+            />
+          )}
         />
       </View>
 
-      <PickerSelectInput
-        onValueChange={onChangeSizeValue}
-        value={size}
-        items={sizeSelectItems}
+      <Controller
+        name="size"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <PickerSelectInput
+            onValueChange={onChange}
+            value={value}
+            items={sizeSelectItems}
+          />
+        )}
       />
-      <PickerSelectInput
-        onValueChange={onChangeEnergyLevelValue}
-        value={energyLevel}
-        items={energySelectItems}
+
+      <Controller
+        name="energyLevel"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <PickerSelectInput
+            onValueChange={onChange}
+            value={value}
+            items={energySelectItems}
+          />
+        )}
       />
     </View>
   );
