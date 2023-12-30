@@ -23,6 +23,7 @@
   },
   "rules": {
     "prettier/prettier": "error",
+    "lines-between-class-members": "off",
     "no-param-reassign": "off",
     "global-require": "off",
     "class-methods-use-this": "off",

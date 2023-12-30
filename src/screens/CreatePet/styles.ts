@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
   },
   innerViewContainer: {
     paddingHorizontal: 20,
+    paddingBottom: 20,
   },
   heading: {
     fontFamily: 'Poppins',

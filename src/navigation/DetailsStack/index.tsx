@@ -17,6 +17,9 @@ export function DetailsStackRoutes() {
           headerShadowVisible: false,
           headerBackTitle: 'Voltar',
           headerBackButtonMenuEnabled: false,
+          headerTitleStyle: {
+            color: 'white',
+          },
         }}
       />
 

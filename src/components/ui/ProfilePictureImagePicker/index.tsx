@@ -1,5 +1,6 @@
 import { Image } from 'expo-image';
 import {
+  ImagePickerAsset,
   ImagePickerOptions,
   MediaTypeOptions,
   PermissionStatus,
@@ -11,9 +12,11 @@ import { Alert, Text, View } from 'react-native';
 
 import { Button } from '../Button';
 
+import { styles } from './styles';
+
 type ProfilePictureImagePickerProps = {
   buttonLabel: string;
-  onChangeImageURI: (uri: string) => void;
+  onChangeImage: (asset: ImagePickerAsset | null) => void;
 };
 
 const IMAGE_PICKER_OPTIONS: ImagePickerOptions = {
@@ -26,9 +29,9 @@ const IMAGE_PICKER_OPTIONS: ImagePickerOptions = {
 
 export function ProfilePictureImagePicker({
   buttonLabel,
-  onChangeImageURI,
+  onChangeImage,
 }: ProfilePictureImagePickerProps) {
-  const [pickedImageURI, setPickedImageURI] = useState('');
+  const [pickedImage, setPickedImage] = useState<ImagePickerAsset | null>(null);
 
   const [mediaLibraryPermissionStatus, requestPermission] =
     useMediaLibraryPermissions();
@@ -69,29 +72,29 @@ export function ProfilePictureImagePicker({
       return;
     }
 
-    const pickedImage = assets[0].uri;
+    const asset = assets[0];
 
-    setPickedImageURI(pickedImage);
-    onChangeImageURI(pickedImage);
+    setPickedImage(asset);
+    onChangeImage(asset);
   }
 
   function onClearImage() {
-    setPickedImageURI('');
-    onChangeImageURI('');
+    setPickedImage(null);
+    onChangeImage(null);
   }
 
-  const hasPickedImage = pickedImageURI !== '';
+  const hasPickedImage = pickedImage !== null;
 
   return (
-    <View>
-      <View>
+    <View style={styles.container}>
+      <View style={styles.imageContainer}>
         {hasPickedImage ? (
-          <Image source={pickedImageURI} />
+          <Image source={pickedImage.uri} style={styles.image} />
         ) : (
-          <Text>{buttonLabel}</Text>
+          <Text style={styles.label}>{buttonLabel}</Text>
         )}
       </View>
-      <View>
+      <View style={styles.buttonContainer}>
         <Button onPressHandler={hasPickedImage ? onClearImage : onPickImage}>
           {hasPickedImage ? 'Limpar' : 'Selecionar Imagem de Perfil'}
         </Button>

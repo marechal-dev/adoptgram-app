@@ -1,9 +1,8 @@
 import { axiosFilesApiClient } from '@Lib/axios';
 
 export class UploadService {
+  public static SINGLE_FILE_UPLOAD_ENDPOINT = '/media/upload';
   public static BULK_UPLOAD_ENDPOINT = '/medias/bulk-upload';
-
-  public static SINGLE_FILE_UPLOAD_ENDPOINT = '/medias/upload';
 
   public static uploadSingleFile(formData: FormData) {
     return axiosFilesApiClient.postForm(

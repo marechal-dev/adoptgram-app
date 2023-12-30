@@ -1,12 +1,12 @@
 import { axiosSocialApiClient } from '@Lib/axios';
+import { IOrganizationProfile } from '@Models/organization-profile';
 import { CreateOrganizationPayload } from '@Screens/SignIn/payloads/create-organization-payload';
 import { RegisterOrganizationFormData } from '@Screens/SignIn/schemas/register-organization-schema';
 
 export class OrganizationService {
   public static CREATE_ENDPOINT = '/organizations';
-
   public static FIND_BY_ID_ENDPOINT = '/organizations/:id';
-
+  public static FIND_PROFILE_BY_USERNAME = '/organizations/:username/profile';
   public static SEARCH_MANY_ENDPOINT = '/organizations';
 
   public static createOrganization(data: RegisterOrganizationFormData) {
@@ -42,6 +42,12 @@ export class OrganizationService {
   public static fetchOneById(id: string) {
     return axiosSocialApiClient.get(
       this.FIND_BY_ID_ENDPOINT.replace(':id', id),
+    );
+  }
+
+  public static fetchProfileByUsername(username: string) {
+    return axiosSocialApiClient.get<IOrganizationProfile>(
+      this.FIND_PROFILE_BY_USERNAME.replace(':username', username),
     );
   }
 

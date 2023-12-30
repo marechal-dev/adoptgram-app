@@ -1,38 +1,31 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
+import { ImagePickerAsset } from 'expo-image-picker';
+import { useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Alert, View } from 'react-native';
-import PickerSelectInput from 'react-native-picker-select';
 import { z } from 'zod';
 
+import { Button } from '@Components/ui/Button';
 import { Input } from '@Components/ui/Input';
 import { ProfilePictureImagePicker } from '@Components/ui/ProfilePictureImagePicker';
+import { SelectInput } from '@Components/ui/SelectInput';
 import { SwitchInput } from '@Components/ui/SwitchInput';
 import { TextArea } from '@Components/ui/TextArea';
+import { PetService } from '@Services/pet-service';
 import { UploadService } from '@Services/upload-service';
 
+import { NoPetProfilePictureSelected } from '../errors/no-pet-profile-picture-selected';
 import { styles } from '../styles';
+
+const NONNEGATIVE_INTEGER_REGEX = /[0-9]+/;
 
 const createPetSchema = z.object({
   name: z.string().min(2, 'O nome do pet deve ter no mínimo 2 caracteres'),
   bio: z.string().min(15, 'Por favor, fale mais um pouco sobre o pet :)'),
-  age: z
-    .string()
-    .transform((value) => Number(value))
-    .pipe(
-      z
-        .number({
-          required_error: 'A idade é obrigatória',
-          invalid_type_error: 'Por favor, digite um número válido',
-        })
-        .int({
-          message: 'Não insira números quebrados',
-        })
-        .positive({
-          message: 'A idade do Pet tem que ser positiva',
-        })
-        .min(0, 'A idade tem que ser no mínimo zero'),
-    ),
+  age: z.string().regex(NONNEGATIVE_INTEGER_REGEX, {
+    message:
+      'A idade precisa ser um número inteiro, positivo, maior ou igual a zero',
+  }),
   isCastrated: z.boolean(),
   requireMedicalAttention: z.boolean(),
   isVaccinated: z.boolean(),
@@ -46,10 +39,30 @@ const createPetSchema = z.object({
   ] as const),
 });
 
-type CreatePetFormInputData = z.input<typeof createPetSchema>;
-type CreatePetFormOutputData = z.output<typeof createPetSchema>;
+const petAgeSchema = z.number().int().nonnegative();
 
-const sizeSelectItems = [
+type CreatePetFormInputData = z.input<typeof createPetSchema>;
+export type CreatePetFormData = Omit<
+  z.output<typeof createPetSchema>,
+  'age'
+> & {
+  profilePictureURL: string;
+  age: number;
+};
+
+type SizeOption = 'Small' | 'Medium' | 'Big';
+type SizeSelectItem = {
+  label: string;
+  value: SizeOption;
+};
+
+type EnergyLevelOption = 'VeryLow' | 'Low' | 'Medium' | 'High' | 'VeryHigh';
+type EnergyLevelSelectItem = {
+  label: string;
+  value: EnergyLevelOption;
+};
+
+const sizeSelectItems: SizeSelectItem[] = [
   {
     label: 'Pequeno Porte',
     value: 'Small',
@@ -64,7 +77,7 @@ const sizeSelectItems = [
   },
 ];
 
-const energySelectItems = [
+const energySelectItems: EnergyLevelSelectItem[] = [
   {
     label: 'Muito Quieto',
     value: 'VeryLow',
@@ -88,41 +101,117 @@ const energySelectItems = [
 ];
 
 export function CreatePetForm() {
-  const [profilePictureURI, setProfilePictureURI] = useState('');
+  const [profilePicture, setProfilePicture] = useState<ImagePickerAsset | null>(
+    null,
+  );
   const [uploadedProfilePictureURL, setUploadedProfilePictureURL] =
     useState('');
 
-  const { control, handleSubmit } = useForm<CreatePetFormInputData>({
+  const { control, handleSubmit, setFocus } = useForm<CreatePetFormInputData>({
     resolver: zodResolver(createPetSchema),
+    defaultValues: {
+      isCastrated: false,
+      isVaccinated: false,
+      requireMedicalAttention: false,
+      size: 'Small',
+      energyLevel: 'VeryLow',
+    },
   });
 
-  async function submitPetProfilePicture() {
+  const focusNextOn = useMemo(
+    () => ({
+      bio: () => setFocus('bio'),
+      age: () => setFocus('age'),
+    }),
+    [setFocus],
+  );
+
+  async function uploadPetProfilePicture() {
+    if (!profilePicture) {
+      throw new NoPetProfilePictureSelected();
+    }
+
+    const formData = new FormData();
+
+    const file = {
+      uri: profilePicture.uri,
+      type: 'image/jpeg',
+      name: profilePicture.fileName,
+    };
+
+    // See: https://github.com/facebook/react-native/blob/90faf0f254fef89eface8d30b72402359991c67b/Libraries/Network/FormData.js#L31-L50
+    formData.append('image', file as any);
+
+    const uploadResponse = await UploadService.uploadSingleFile(formData);
+
+    if (uploadResponse.status === 200) {
+      setUploadedProfilePictureURL(uploadResponse.data.imageURL);
+    }
+  }
+
+  async function createPetProfile({
+    name,
+    age,
+    bio,
+    energyLevel,
+    size,
+    requireMedicalAttention,
+    isCastrated,
+    isVaccinated,
+  }: CreatePetFormInputData) {
     try {
-      const formData = new FormData();
+      await uploadPetProfilePicture();
 
-      const uploadResponse = await UploadService.uploadSingleFile(formData);
+      const petAge = petAgeSchema.parse(age);
 
-      if (uploadResponse.status === 200) {
-        setUploadedProfilePictureURL(uploadResponse.data.imageURL);
+      const payload: CreatePetFormData = {
+        name,
+        bio,
+        energyLevel,
+        size,
+        requireMedicalAttention,
+        isCastrated,
+        isVaccinated,
+        age: petAge,
+        profilePictureURL: uploadedProfilePictureURL,
+      };
+
+      const response = await PetService.create(payload);
+
+      if (response.status === 201) {
+        Alert.alert('Sucesso!', 'Pet cadastrado com sucesso!');
       }
     } catch (error) {
+      if (error instanceof NoPetProfilePictureSelected) {
+        Alert.alert(
+          'Erro ao realizar upload da foto de perfil do Pet',
+          error.message,
+        );
+        return;
+      }
+
       if (error instanceof Error) {
-        Alert.alert('Erro ao enviar a imagem de perfil do Pet', error.message);
+        Alert.alert('Erro ao cadastrar Pet', error.message);
       }
     }
   }
 
-  async function createPetProfile() {}
+  function onFormSubmitError() {
+    Alert.alert(
+      'Erro',
+      'Por favor, revise os campos do formulário e tente novamente',
+    );
+  }
 
-  function onChangeProfilePictureURI(uri: string) {
-    setProfilePictureURI(uri);
+  function onChangeProfilePicture(asset: ImagePickerAsset | null) {
+    setProfilePicture(asset);
   }
 
   return (
     <View style={styles.formContainer}>
       <ProfilePictureImagePicker
-        buttonLabel="Seleciona a imagem de perfil do Pet :)"
-        onChangeImageURI={onChangeProfilePictureURI}
+        buttonLabel="Selecione a imagem de perfil do Pet :)"
+        onChangeImage={onChangeProfilePicture}
       />
 
       <Controller
@@ -137,10 +226,32 @@ export function CreatePetForm() {
             inputRef={ref}
             onChangeText={onChange}
             onBlur={onBlur}
+            onSubmitEditing={focusNextOn.age}
             value={value}
             error={error?.message}
             keyboardType="default"
             autoCapitalize="words"
+            returnKeyType="next"
+          />
+        )}
+      />
+
+      <Controller
+        name="age"
+        control={control}
+        render={({
+          field: { onChange, onBlur, value, ref },
+          fieldState: { error },
+        }) => (
+          <Input
+            placeholder="Idade do Pet (em anos)"
+            inputRef={ref}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            onSubmitEditing={focusNextOn.bio}
+            value={value}
+            error={error?.message}
+            keyboardType="number-pad"
             returnKeyType="next"
           />
         )}
@@ -162,24 +273,7 @@ export function CreatePetForm() {
             error={error?.message}
             keyboardType="default"
             autoCapitalize="sentences"
-          />
-        )}
-      />
-
-      <Controller
-        name="age"
-        control={control}
-        render={({
-          field: { onChange, onBlur, value, ref },
-          fieldState: { error },
-        }) => (
-          <Input
-            placeholder="Idade do Pet"
-            inputRef={ref}
-            onChangeText={onChange}
-            onBlur={onBlur}
-            value={value}
-            error={error?.message}
+            returnKeyType="done"
           />
         )}
       />
@@ -226,10 +320,11 @@ export function CreatePetForm() {
         name="size"
         control={control}
         render={({ field: { onChange, value } }) => (
-          <PickerSelectInput
-            onValueChange={onChange}
-            value={value}
+          <SelectInput
+            label="Tamanho"
             items={sizeSelectItems}
+            currentValue={value}
+            onChangeValue={onChange}
           />
         )}
       />
@@ -238,13 +333,20 @@ export function CreatePetForm() {
         name="energyLevel"
         control={control}
         render={({ field: { onChange, value } }) => (
-          <PickerSelectInput
-            onValueChange={onChange}
-            value={value}
+          <SelectInput
+            label="Nível de Energia"
             items={energySelectItems}
+            currentValue={value}
+            onChangeValue={onChange}
           />
         )}
       />
+
+      <Button
+        onPressHandler={handleSubmit(createPetProfile, onFormSubmitError)}
+      >
+        Cadastrar
+      </Button>
     </View>
   );
 }

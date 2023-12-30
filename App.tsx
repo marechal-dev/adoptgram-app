@@ -1,10 +1,9 @@
 import 'react-native-gesture-handler';
 
-import { GluestackUIProvider } from '@gluestack-ui/themed';
 import { loadAsync } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { AppShell } from '@Components/core/primitives/AppShell';
@@ -50,11 +49,9 @@ export default function App() {
       <StatusBar translucent style="dark" />
       <AuthContextProvider>
         <SafeAreaProvider>
-          <GluestackUIProvider>
-            <AppShell>
-              <AppRoutes onReady={onLayoutRootView} />
-            </AppShell>
-          </GluestackUIProvider>
+          <AppShell>
+            <AppRoutes onReady={onLayoutRootView} />
+          </AppShell>
         </SafeAreaProvider>
       </AuthContextProvider>
     </>
