@@ -6,14 +6,9 @@ export type CreateOrganizationPayload = {
   representativeName: string;
   whatsapp: string;
   residentialPhone?: string;
-  address: {
-    firstLine: string;
-    secondLine?: string;
-    number: string;
-    cep: string;
-    neighborhood: string;
-    city: string;
-    state: string;
-  };
+  address: string;
+  cep: string;
+  city: 'RG' | 'PEL';
+  state: 'RS';
   pixKey?: string;
 };

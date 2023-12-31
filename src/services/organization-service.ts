@@ -4,15 +4,14 @@ import { CreateOrganizationPayload } from '@Screens/SignIn/payloads/create-organ
 import { RegisterOrganizationFormData } from '@Screens/SignIn/schemas/register-organization-schema';
 
 export class OrganizationService {
-  public static CREATE_ENDPOINT = '/organizations';
+  public static RESOURCE_ENDPOINT = '/organizations';
   public static FIND_BY_ID_ENDPOINT = '/organizations/:id';
   public static FIND_PROFILE_BY_USERNAME = '/organizations/:username/profile';
-  public static SEARCH_MANY_ENDPOINT = '/organizations';
 
   public static createOrganization(data: RegisterOrganizationFormData) {
     const payload = this.mapDataToHttpPayload(data);
 
-    return axiosSocialApiClient.post(this.CREATE_ENDPOINT, payload);
+    return axiosSocialApiClient.post(this.RESOURCE_ENDPOINT, payload);
   }
 
   private static mapDataToHttpPayload(
@@ -24,15 +23,10 @@ export class OrganizationService {
       password: data.password,
       title: data.title,
       representativeName: data.representativeName,
-      address: {
-        cep: data.cep,
-        firstLine: data.firstLine,
-        secondLine: data.secondLine,
-        city: data.city,
-        neighborhood: data.neighborhood,
-        number: data.number,
-        state: data.state,
-      },
+      address: data.address,
+      cep: data.cep,
+      city: data.city,
+      state: data.state,
       whatsapp: data.whatsapp,
       pixKey: data.pixKey,
       residentialPhone: data.residentialPhone,
@@ -53,7 +47,7 @@ export class OrganizationService {
 
   public static searchMany(searchTerm: string) {
     return axiosSocialApiClient.get(
-      `${this.SEARCH_MANY_ENDPOINT}?query=${searchTerm}`,
+      `${this.RESOURCE_ENDPOINT}?query=${searchTerm}`,
     );
   }
 }

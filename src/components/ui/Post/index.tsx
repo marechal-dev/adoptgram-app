@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Image } from 'expo-image';
 import { Pressable, Text, View } from 'react-native';
 
+import PLACEHOLDER from '@Assets/images/placeholder-profile-picture.jpg';
 import { DrawerRoutesProps } from '@Navigation/PrivateStack/types';
 import { DateFormatService } from '@Services/date-format-service';
 
@@ -48,7 +49,7 @@ export function Post({
         >
           <Image
             style={styles.headerProfilePicture}
-            source={creatorProfilePictureURL}
+            source={creatorProfilePictureURL || PLACEHOLDER}
           />
           <View>
             <Text style={[styles.textBase, styles.headerUsername]}>

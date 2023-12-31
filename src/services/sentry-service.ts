@@ -22,16 +22,14 @@ export interface IStartHttpProcedureParams {
 
 export class SentryService {
   public static setup() {
-    Sentry.init({
+    Sentry.Native.init({
       enabled: true,
       dsn: env.EXPO_PUBLIC_SENTRY_DSN,
       environment: env.EXPO_PUBLIC_APP_ENV,
-      enableInExpoDevelopment: true,
       debug: env.EXPO_PUBLIC_APP_ENV === 'development',
       tracesSampleRate: env.EXPO_PUBLIC_APP_ENV === 'development' ? 1.0 : 0.8,
       _experiments: {
-        profilesSampleRate:
-          env.EXPO_PUBLIC_APP_ENV === 'development' ? 1.0 : 0.8,
+        profilesSampleRate: 1.0,
       },
     });
   }

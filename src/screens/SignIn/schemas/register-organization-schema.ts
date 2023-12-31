@@ -51,25 +51,18 @@ export const registerOrganizationFormSchema = z
         'Formato do Telefone Residencial inválido',
       )
       .optional(),
-    firstLine: z.string({
+    address: z.string({
       required_error: 'Por favor, informe o endereço.',
-    }),
-    secondLine: z.string().optional(),
-    number: z.string({
-      required_error: 'Por favor, informe o número do local.',
     }),
     cep: z
       .string({
         required_error: 'Por favor, informe o CEP do local',
       })
       .regex(/[0-9]{5}[-]{1}[0-9]{3}/, 'CEP inválido'),
-    neighborhood: z.string({
-      required_error: 'Por favor, informe o bairro.',
-    }),
-    city: z.string({
+    city: z.enum(['RG', 'PEL'] as const, {
       required_error: 'Por favor, informe a cidade.',
     }),
-    state: z.string({
+    state: z.enum(['RS'] as const, {
       required_error: 'Por favor, informe o estado.',
     }),
     pixKey: z.string().optional(),

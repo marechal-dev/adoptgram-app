@@ -5,7 +5,7 @@ export interface IMedia {
 
 export interface IPostProps {
   id: string;
-  creatorProfilePictureURL: string;
+  creatorProfilePictureURL?: string;
   creatorUserName: string;
   medias: IMedia[];
   initialLikeCount: number;

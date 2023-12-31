@@ -2,6 +2,7 @@ import { Image } from 'expo-image';
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { Text, View } from 'react-native';
 
+import PLACEHOLDER from '@Assets/images/placeholder-profile-picture.jpg';
 import { IconTab } from '@Components/ui/IconTab';
 import { IOrganizationProfile } from '@Models/organization-profile';
 import { OrganizationProfileScreenProps } from '@Navigation/DetailsStack/types';
@@ -369,7 +370,7 @@ export function OrganizationProfileScreen({
       <View style={styles.profileContainer}>
         <View style={styles.profileHeader}>
           <Image
-            source={MOCK_DATA.profilePictureUrl}
+            source={MOCK_DATA.profilePictureUrl || PLACEHOLDER}
             style={styles.profilePicture}
           />
 

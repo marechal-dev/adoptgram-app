@@ -2,7 +2,7 @@ import Feather from '@expo/vector-icons/Feather';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { TabRoutes } from '@Navigation/BottomTabs';
-import { OptionsScreen } from '@Screens/Options';
+import { CreditsScreen } from '@Screens/Credits';
 import { colors } from '@Theme/colors';
 
 import { CustomDrawerContent } from './components/CustomDrawerContent';
@@ -36,15 +36,15 @@ export function DrawerRoutes() {
       />
 
       <Drawer.Screen
-        name="Options"
+        name="Credits"
         options={{
           title: '',
-          drawerLabel: 'Opções',
+          drawerLabel: 'Créditos',
           drawerIcon: ({ color, size }) => (
-            <Feather name="tool" color={color} size={size} />
+            <Feather name="info" color={color} size={size} />
           ),
         }}
-        component={OptionsScreen}
+        component={CreditsScreen}
       />
     </Drawer.Navigator>
   );

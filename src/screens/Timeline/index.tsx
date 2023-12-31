@@ -1,8 +1,11 @@
-import { FlatList, View } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { Alert, FlatList, RefreshControl, View } from 'react-native';
 
+import { LoadingOverlay } from '@Components/ui/LoadingOverlay';
 import { Post } from '@Components/ui/Post';
 import { Separator } from '@Components/ui/Post/Separator';
 import { IPostProps } from '@Components/ui/Post/types';
+import { SentryService } from '@Services/sentry-service';
 
 import { styles } from './styles';
 
@@ -71,25 +74,64 @@ const posts: IPostProps[] = [
 ];
 
 export function TimelineScreen() {
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isRequesting, setIsRequesting] = useState(false);
+
+  const fetchTimeline = useCallback(async () => {
+    setIsRequesting(true);
+
+    setTimeout(() => {
+      setIsRequesting(false);
+    }, 3000);
+  }, []);
+
+  const onRefresh = useCallback(() => {
+    setIsRefreshing(true);
+
+    fetchTimeline()
+      .then(() => {
+        setIsRefreshing(false);
+      })
+      .catch((error) => {
+        setIsRefreshing(false);
+
+        Alert.alert(
+          'Alerta',
+          'Não foi possível atualizar a linha do tempo. Por favor, verifique sua conexão com a internet e tente novamente.',
+        );
+
+        SentryService.captureException(error);
+      });
+  }, [fetchTimeline]);
+
+  useEffect(() => {}, []);
+
   return (
     <View style={styles.pageContainer}>
-      <FlatList
-        data={posts}
-        keyExtractor={(item) => item.id}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <Post
-            id={item.id}
-            creatorUserName={item.creatorUserName}
-            creatorProfilePictureURL={item.creatorProfilePictureURL}
-            medias={item.medias}
-            initialLikeCount={item.initialLikeCount}
-            textContent={item.textContent}
-            createdAt={item.createdAt}
-          />
-        )}
-        ItemSeparatorComponent={Separator}
-      />
+      {isRequesting ? (
+        <LoadingOverlay message="Aguente firme, o conteúdo está carregando!" />
+      ) : (
+        <FlatList
+          data={posts}
+          keyExtractor={(item) => item.id}
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+          }
+          renderItem={({ item }) => (
+            <Post
+              id={item.id}
+              creatorUserName={item.creatorUserName}
+              creatorProfilePictureURL={item.creatorProfilePictureURL}
+              medias={item.medias}
+              initialLikeCount={item.initialLikeCount}
+              textContent={item.textContent}
+              createdAt={item.createdAt}
+            />
+          )}
+          ItemSeparatorComponent={Separator}
+        />
+      )}
     </View>
   );
 }

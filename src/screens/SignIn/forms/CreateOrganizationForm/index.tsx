@@ -8,6 +8,7 @@ import { Alert, Text, View } from 'react-native';
 import { BrandButton } from '@Components/core/brand/BrandButton/BrandButton';
 import { Input } from '@Components/ui/Input';
 import { MaskedInput } from '@Components/ui/MaskedInput';
+import { SelectInput } from '@Components/ui/SelectInput';
 import { OrganizationService } from '@Services/organization-service';
 import { SentryService } from '@Services/sentry-service';
 import {
@@ -22,12 +23,46 @@ import {
 } from '../../schemas/register-organization-schema';
 import { styles } from '../styles';
 
+type AvailableCity = 'RG' | 'PEL';
+type AvailableState = 'RS';
+
+type AvailableCityOption = {
+  label: string;
+  value: AvailableCity;
+};
+
+type AvailableStateOption = {
+  label: string;
+  value: AvailableState;
+};
+
+const CITY_OPTIONS: AvailableCityOption[] = [
+  {
+    label: 'Rio Grande',
+    value: 'RG',
+  },
+  {
+    label: 'Pelotas',
+    value: 'PEL',
+  },
+];
+const STATE_OPTIONS: AvailableStateOption[] = [
+  {
+    label: 'Rio Grande do Sul',
+    value: 'RS',
+  },
+];
+
 export function CreateOrganizationForm() {
   const navigation = useNavigation();
 
   const { control, handleSubmit, setFocus } =
     useForm<RegisterOrganizationFormData>({
       resolver: zodResolver(registerOrganizationFormSchema),
+      defaultValues: {
+        city: 'RG',
+        state: 'RS',
+      },
     });
 
   const focusOnNext = useMemo(
@@ -40,13 +75,8 @@ export function CreateOrganizationForm() {
       password: () => setFocus('password'),
       confirmPassword: () => setFocus('confirmPassword'),
       pixKey: () => setFocus('pixKey'),
-      firstLine: () => setFocus('firstLine'),
-      secondLine: () => setFocus('secondLine'),
-      number: () => setFocus('number'),
+      address: () => setFocus('address'),
       cep: () => setFocus('cep'),
-      neighborhood: () => setFocus('neighborhood'),
-      city: () => setFocus('city'),
-      state: () => setFocus('state'),
     }),
     [setFocus],
   );
@@ -58,7 +88,7 @@ export function CreateOrganizationForm() {
       context: 'organization:create',
       description: 'Request for creating a new Organization',
       microservice: 'social',
-      endpoint: OrganizationService.CREATE_ENDPOINT,
+      endpoint: OrganizationService.RESOURCE_ENDPOINT,
       method: 'POST',
       payload: data,
     });
@@ -84,16 +114,20 @@ export function CreateOrganizationForm() {
         );
       }
     } catch (error) {
+      SentryService.captureException(error);
+
       if (axios.isAxiosError(error)) {
         Alert.alert(
           'Erro',
-          `Houve um erro no cadastro! Erro: ${
+          `Erro ao cadastrar nova conta: ${
             error.response?.data?.message ?? 'Erro desconhecido'
           }`,
         );
       }
 
-      SentryService.captureException(error);
+      if (error instanceof Error) {
+        Alert.alert('Erro', `Erro inesperado: ${error.message}`);
+      }
     }
 
     registerOrganizationTransaction.finish();
@@ -291,8 +325,8 @@ export function CreateOrganizationForm() {
               keyboardType="default"
               autoCapitalize="none"
               returnKeyType="next"
+              onSubmitEditing={focusOnNext.address}
               inputRef={ref}
-              onSubmitEditing={focusOnNext.firstLine}
               error={error?.message}
             />
           )}
@@ -303,7 +337,7 @@ export function CreateOrganizationForm() {
 
       <View style={styles.inputsContainer}>
         <Controller
-          name="firstLine"
+          name="address"
           control={control}
           render={({
             field: { onChange, onBlur, value, ref },
@@ -313,55 +347,13 @@ export function CreateOrganizationForm() {
               onChangeText={onChange}
               onBlur={onBlur}
               value={value}
-              placeholder="Endereço"
+              placeholder="Endereço Completo"
               keyboardType="default"
               autoCapitalize="words"
               returnKeyType="next"
               error={error?.message}
-              inputRef={ref}
-              onSubmitEditing={focusOnNext.secondLine}
-            />
-          )}
-        />
-        <Controller
-          name="secondLine"
-          control={control}
-          render={({
-            field: { onChange, onBlur, value, ref },
-            fieldState: { error },
-          }) => (
-            <Input
-              onChangeText={onChange}
-              onBlur={onBlur}
-              value={value}
-              placeholder="Complemento (Opcional)"
-              keyboardType="default"
-              autoCapitalize="words"
-              returnKeyType="next"
-              inputRef={ref}
-              onSubmitEditing={focusOnNext.number}
-              error={error?.message}
-            />
-          )}
-        />
-        <Controller
-          name="number"
-          control={control}
-          render={({
-            field: { onChange, onBlur, value, ref },
-            fieldState: { error },
-          }) => (
-            <Input
-              onChangeText={onChange}
-              onBlur={onBlur}
-              value={value}
-              placeholder="Número"
-              keyboardType="default"
-              autoCapitalize="none"
-              returnKeyType="next"
               inputRef={ref}
               onSubmitEditing={focusOnNext.cep}
-              error={error?.message}
             />
           )}
         />
@@ -379,73 +371,34 @@ export function CreateOrganizationForm() {
               error={error?.message}
               mask={cepMask}
               inputRef={ref}
-              onSubmitEditing={focusOnNext.neighborhood}
               placeholder="CEP"
               keyboardType="number-pad"
               autoCapitalize="none"
-              returnKeyType="next"
-            />
-          )}
-        />
-        <Controller
-          name="neighborhood"
-          control={control}
-          render={({
-            field: { onChange, onBlur, value, ref },
-            fieldState: { error },
-          }) => (
-            <Input
-              onChangeText={onChange}
-              onBlur={onBlur}
-              value={value}
-              placeholder="Bairro"
-              keyboardType="default"
-              autoCapitalize="words"
-              returnKeyType="next"
-              inputRef={ref}
-              onSubmitEditing={focusOnNext.city}
-              error={error?.message}
+              returnKeyType="done"
             />
           )}
         />
         <Controller
           name="city"
           control={control}
-          render={({
-            field: { onChange, onBlur, value, ref },
-            fieldState: { error },
-          }) => (
-            <Input
-              onChangeText={onChange}
-              onBlur={onBlur}
-              value={value}
-              placeholder="Cidade"
-              keyboardType="default"
-              autoCapitalize="words"
-              returnKeyType="next"
-              inputRef={ref}
-              onSubmitEditing={focusOnNext.state}
-              error={error?.message}
+          render={({ field: { onChange, value } }) => (
+            <SelectInput
+              items={CITY_OPTIONS}
+              label="Cidade"
+              onChangeValue={onChange}
+              currentValue={value}
             />
           )}
         />
         <Controller
           name="state"
           control={control}
-          render={({
-            field: { onChange, onBlur, value, ref },
-            fieldState: { error },
-          }) => (
-            <Input
-              onChangeText={onChange}
-              onBlur={onBlur}
-              value={value}
-              placeholder="Estado"
-              keyboardType="default"
-              autoCapitalize="words"
-              returnKeyType="done"
-              inputRef={ref}
-              error={error?.message}
+          render={({ field: { onChange, value } }) => (
+            <SelectInput
+              items={STATE_OPTIONS}
+              label="Estado"
+              onChangeValue={onChange}
+              currentValue={value}
             />
           )}
         />

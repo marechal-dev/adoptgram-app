@@ -15,7 +15,7 @@ export function AppRoutes({ onReady }: IAppNavigationProps) {
 
   return (
     <NavigationContainer onReady={onReady} theme={appTheme}>
-      {isAuthenticated ? <PublicStackRoutes /> : <PrivateStackRoutes />}
+      {!isAuthenticated ? <PublicStackRoutes /> : <PrivateStackRoutes />}
     </NavigationContainer>
   );
 }
