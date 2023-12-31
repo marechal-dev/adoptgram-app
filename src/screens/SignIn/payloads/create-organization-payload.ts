@@ -4,6 +4,7 @@ export type CreateOrganizationPayload = {
   password: string;
   title: string;
   representativeName: string;
+  cnpj: string;
   whatsapp: string;
   residentialPhone?: string;
   address: string;

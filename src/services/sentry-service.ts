@@ -27,10 +27,7 @@ export class SentryService {
       dsn: env.EXPO_PUBLIC_SENTRY_DSN,
       environment: env.EXPO_PUBLIC_APP_ENV,
       debug: env.EXPO_PUBLIC_APP_ENV === 'development',
-      tracesSampleRate: env.EXPO_PUBLIC_APP_ENV === 'development' ? 1.0 : 0.8,
-      _experiments: {
-        profilesSampleRate: 1.0,
-      },
+      tracesSampleRate: env.EXPO_PUBLIC_APP_ENV === 'development' ? 1.0 : 0.7,
     });
   }
 

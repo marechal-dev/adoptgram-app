@@ -28,6 +28,7 @@ export class OrganizationService {
       city: data.city,
       state: data.state,
       whatsapp: data.whatsapp,
+      cnpj: data.cnpj,
       pixKey: data.pixKey,
       residentialPhone: data.residentialPhone,
     };

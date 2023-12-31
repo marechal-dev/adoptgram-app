@@ -36,6 +36,12 @@ export const registerOrganizationFormSchema = z
           'Por favor, informe o nome do representante da sua ONG.',
       })
       .min(2),
+    cnpj: z
+      .string()
+      .regex(
+        /(?<Subscription>[0-9]{2}.{1}[0-9]{3}.{1}[0-9]{3})\/{1}(?<CompanyTypeIdentifier>0001|0002)-{1}(?<VerifierDigits>[0-9]{2})/,
+        'CNPJ com formato inválido.',
+      ),
     whatsapp: z
       .string({
         required_error: 'Por favor, informe o número de WhatsApp da sua ONG.',

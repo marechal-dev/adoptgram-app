@@ -14,6 +14,7 @@ import { SentryService } from '@Services/sentry-service';
 import {
   cellphoneNumberMask,
   cepMask,
+  cnpjMask,
   residentialPhoneNumberMask,
 } from '@Utils/masks';
 
@@ -68,6 +69,7 @@ export function CreateOrganizationForm() {
   const focusOnNext = useMemo(
     () => ({
       representativeName: () => setFocus('representativeName'),
+      cnpj: () => setFocus('cnpj'),
       whatsapp: () => setFocus('whatsapp'),
       residentialPhone: () => setFocus('residentialPhone'),
       username: () => setFocus('username'),
@@ -172,10 +174,32 @@ export function CreateOrganizationForm() {
               value={value}
               error={error?.message}
               inputRef={ref}
-              onSubmitEditing={focusOnNext.whatsapp}
+              onSubmitEditing={focusOnNext.cnpj}
               placeholder="Nome do Representante"
               keyboardType="default"
               autoCapitalize="words"
+              returnKeyType="next"
+            />
+          )}
+        />
+        <Controller
+          name="cnpj"
+          control={control}
+          render={({
+            field: { onChange, onBlur, value, ref },
+            fieldState: { error },
+          }) => (
+            <MaskedInput
+              onChangeText={(masked) => onChange(masked)}
+              onBlur={onBlur}
+              value={value}
+              mask={cnpjMask}
+              inputRef={ref}
+              onSubmitEditing={focusOnNext.whatsapp}
+              error={error?.message}
+              placeholder="CNPJ"
+              keyboardType="number-pad"
+              autoCapitalize="none"
               returnKeyType="next"
             />
           )}
