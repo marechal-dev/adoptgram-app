@@ -30,7 +30,7 @@ const MOCK_DATA: IOrganizationProfile = {
       medias: [
         {
           id: '1',
-          type: 'image',
+          type: 'Photo',
           url: 'https://source.unsplash.com/random/300x300',
         },
       ],
@@ -43,7 +43,7 @@ const MOCK_DATA: IOrganizationProfile = {
       medias: [
         {
           id: '1',
-          type: 'image',
+          type: 'Photo',
           url: 'https://source.unsplash.com/random/300x300',
         },
       ],
@@ -56,7 +56,7 @@ const MOCK_DATA: IOrganizationProfile = {
       medias: [
         {
           id: '1',
-          type: 'image',
+          type: 'Photo',
           url: 'https://source.unsplash.com/random/300x300',
         },
       ],
@@ -69,7 +69,7 @@ const MOCK_DATA: IOrganizationProfile = {
       medias: [
         {
           id: '1',
-          type: 'image',
+          type: 'Photo',
           url: 'https://source.unsplash.com/random/300x300',
         },
       ],
@@ -82,7 +82,7 @@ const MOCK_DATA: IOrganizationProfile = {
       medias: [
         {
           id: '1',
-          type: 'image',
+          type: 'Photo',
           url: 'https://source.unsplash.com/random/300x300',
         },
       ],
@@ -95,7 +95,7 @@ const MOCK_DATA: IOrganizationProfile = {
       medias: [
         {
           id: '1',
-          type: 'image',
+          type: 'Photo',
           url: 'https://source.unsplash.com/random/300x300',
         },
       ],
@@ -108,7 +108,7 @@ const MOCK_DATA: IOrganizationProfile = {
       medias: [
         {
           id: '1',
-          type: 'image',
+          type: 'Photo',
           url: 'https://source.unsplash.com/random/300x300',
         },
       ],
@@ -121,7 +121,7 @@ const MOCK_DATA: IOrganizationProfile = {
       medias: [
         {
           id: '1',
-          type: 'image',
+          type: 'Photo',
           url: 'https://source.unsplash.com/random/300x300',
         },
       ],
@@ -134,7 +134,7 @@ const MOCK_DATA: IOrganizationProfile = {
       medias: [
         {
           id: '1',
-          type: 'image',
+          type: 'Photo',
           url: 'https://source.unsplash.com/random/300x300',
         },
       ],
@@ -147,7 +147,7 @@ const MOCK_DATA: IOrganizationProfile = {
       medias: [
         {
           id: '1',
-          type: 'image',
+          type: 'Photo',
           url: 'https://source.unsplash.com/random/300x300',
         },
       ],
@@ -160,7 +160,7 @@ const MOCK_DATA: IOrganizationProfile = {
       medias: [
         {
           id: '1',
-          type: 'image',
+          type: 'Photo',
           url: 'https://source.unsplash.com/random/300x300',
         },
       ],
@@ -173,7 +173,7 @@ const MOCK_DATA: IOrganizationProfile = {
       medias: [
         {
           id: '1',
-          type: 'image',
+          type: 'Photo',
           url: 'https://source.unsplash.com/random/300x300',
         },
       ],
@@ -186,7 +186,7 @@ const MOCK_DATA: IOrganizationProfile = {
       medias: [
         {
           id: '1',
-          type: 'image',
+          type: 'Photo',
           url: 'https://source.unsplash.com/random/300x300',
         },
       ],
@@ -199,7 +199,7 @@ const MOCK_DATA: IOrganizationProfile = {
       medias: [
         {
           id: '1',
-          type: 'image',
+          type: 'Photo',
           url: 'https://source.unsplash.com/random/300x300',
         },
       ],
@@ -212,7 +212,7 @@ const MOCK_DATA: IOrganizationProfile = {
       medias: [
         {
           id: '1',
-          type: 'image',
+          type: 'Photo',
           url: 'https://source.unsplash.com/random/300x300',
         },
       ],
@@ -309,6 +309,7 @@ const MOCK_DATA: IOrganizationProfile = {
 
 type Tab = 'Details' | 'Posts' | 'Pets';
 
+// TODO: Refactor to use FlatList only
 export function OrganizationProfileScreen({
   navigation,
   route,
