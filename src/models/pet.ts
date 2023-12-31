@@ -9,5 +9,6 @@ export interface IPet {
   requireMedicalAttention: boolean;
   size: 'Small' | 'Medium' | 'Big';
   energyLevel: 'VeryLow' | 'Low' | 'Medium' | 'High' | 'VeryHigh';
+  ownerOrganizationID: string;
   createdAt: Date;
 }

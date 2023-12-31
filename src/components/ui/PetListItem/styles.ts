@@ -33,7 +33,10 @@ export const styles = StyleSheet.create({
     fontSize: 16,
   },
   actionsContainer: {
-    alignItems: 'center',
+    marginTop: 8,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    columnGap: 16,
   },
   extraDetailsContainer: {
     marginBottom: 8,

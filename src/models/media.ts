@@ -1,5 +1,5 @@
 export interface IMedia {
   id: string;
   url: string;
-  type: string;
+  type: 'Photo' | 'Video';
 }

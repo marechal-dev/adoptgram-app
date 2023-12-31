@@ -12,6 +12,7 @@ import { styles } from './styles';
 type PetListItemProps = {
   pet: IPet;
   onPressAdopt: () => void;
+  onPressDelete: (petID: string) => void;
 };
 
 function matchSize(size: 'Small' | 'Medium' | 'Big') {
@@ -46,8 +47,21 @@ function matchEnergyLevel(
   }
 }
 
-export function PetListItem({ pet, onPressAdopt }: PetListItemProps) {
-  const { role } = useAuth();
+export function PetListItem({
+  pet,
+  onPressAdopt,
+  onPressDelete,
+}: PetListItemProps) {
+  const { role, currentUserID } = useAuth();
+
+  const currentUserIsOrganization = role === 'Organization';
+  const petIsOwnedByCurrentUser = currentUserID === pet.ownerOrganizationID;
+  const canShowDestructiveActions =
+    currentUserIsOrganization && petIsOwnedByCurrentUser;
+
+  function onPressDeleteButton() {
+    onPressDelete(pet.id);
+  }
 
   return (
     <View style={styles.container}>
@@ -66,12 +80,12 @@ export function PetListItem({ pet, onPressAdopt }: PetListItemProps) {
         <View style={styles.extraDetailsContainer}>
           <Text style={[styles.baseText]}>{matchSize(pet.size)}</Text>
           <Text style={[styles.baseText]}>
-            {matchEnergyLevel(pet.energyLevel)}
+            Energia: {matchEnergyLevel(pet.energyLevel)}
           </Text>
         </View>
 
         <View style={styles.actionsContainer}>
-          {role === 'CommonUser' ? (
+          {currentUserIsOrganization ? null : (
             <PressableIcon
               iconProps={{
                 color: 'white',
@@ -79,6 +93,16 @@ export function PetListItem({ pet, onPressAdopt }: PetListItemProps) {
                 iconName: 'plus-circle',
               }}
               onPress={onPressAdopt}
+            />
+          )}
+          {canShowDestructiveActions ? (
+            <PressableIcon
+              iconProps={{
+                color: 'red',
+                size: 24,
+                iconName: 'trash',
+              }}
+              onPress={onPressDeleteButton}
             />
           ) : null}
         </View>

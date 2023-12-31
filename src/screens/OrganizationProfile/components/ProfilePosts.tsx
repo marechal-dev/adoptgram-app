@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { FlatList, Text, View } from 'react-native';
+import { FlatList, Text } from 'react-native';
 
 import { ListItemSeparator } from '@Components/ui/ListItemSeparator';
 import { PostPreview } from '@Components/ui/PostPreview';
@@ -19,7 +19,7 @@ export function ProfilePosts({ posts }: ProfilePostsProps) {
   const organizationHavePublishedPosts = posts.length > 0;
 
   return (
-    <View>
+    <>
       <Text style={profilePostsStyles.title}>Posts</Text>
 
       {organizationHavePublishedPosts ? (
@@ -48,6 +48,6 @@ export function ProfilePosts({ posts }: ProfilePostsProps) {
       ) : (
         <Text>Essa ONG ainda não tem nenhuma publicação!</Text>
       )}
-    </View>
+    </>
   );
 }

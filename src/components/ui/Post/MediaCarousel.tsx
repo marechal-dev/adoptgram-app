@@ -15,8 +15,7 @@ export function MediaCarousel({ medias }: IMediaCarrouselProps) {
         width={340}
         data={medias}
         panGestureHandlerProps={{
-          activeOffsetX: [-10, 10],
-          activeOffsetY: [-10, 10],
+          activeOffsetX: [-20, 20],
         }}
         renderItem={({ item }) => <Media url={item.url} type={item.type} />}
       />

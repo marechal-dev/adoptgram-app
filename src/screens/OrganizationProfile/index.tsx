@@ -1,5 +1,5 @@
 import { Image } from 'expo-image';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { Text, View } from 'react-native';
 
 import { IconTab } from '@Components/ui/IconTab';
@@ -232,6 +232,7 @@ const MOCK_DATA: IOrganizationProfile = {
       profilePictureURL: 'https://source.unsplash.com/random/300x300',
       requireMedicalAttention: true,
       size: 'Big',
+      ownerOrganizationID: '123',
     },
     {
       id: '5',
@@ -245,6 +246,7 @@ const MOCK_DATA: IOrganizationProfile = {
       profilePictureURL: 'https://source.unsplash.com/random/300x300',
       requireMedicalAttention: true,
       size: 'Big',
+      ownerOrganizationID: '123',
     },
     {
       id: '6',
@@ -258,6 +260,7 @@ const MOCK_DATA: IOrganizationProfile = {
       profilePictureURL: 'https://source.unsplash.com/random/300x300',
       requireMedicalAttention: true,
       size: 'Big',
+      ownerOrganizationID: '123',
     },
     {
       id: '7',
@@ -271,6 +274,7 @@ const MOCK_DATA: IOrganizationProfile = {
       profilePictureURL: 'https://source.unsplash.com/random/300x300',
       requireMedicalAttention: true,
       size: 'Big',
+      ownerOrganizationID: '123',
     },
     {
       id: '8',
@@ -284,6 +288,7 @@ const MOCK_DATA: IOrganizationProfile = {
       profilePictureURL: 'https://source.unsplash.com/random/300x300',
       requireMedicalAttention: true,
       size: 'Big',
+      ownerOrganizationID: '123',
     },
     {
       id: '9',
@@ -297,6 +302,7 @@ const MOCK_DATA: IOrganizationProfile = {
       profilePictureURL: 'https://source.unsplash.com/random/300x300',
       requireMedicalAttention: true,
       size: 'Big',
+      ownerOrganizationID: '123',
     },
   ],
 };
@@ -321,28 +327,40 @@ export function OrganizationProfileScreen({
     setCurrentTab(tab);
   }
 
-  let currentTabToRender = (
-    <ProfileDetails
-      representativeName={MOCK_DATA.representativeName}
-      cnpj={MOCK_DATA.cnpj}
-      whatsapp={MOCK_DATA.whatsapp}
-      bio={MOCK_DATA.bio}
-      pixKey={MOCK_DATA.pixKey}
-      telephone={MOCK_DATA.telephone}
-    />
+  const detailsTab = useMemo(
+    () => (
+      <ProfileDetails
+        representativeName={MOCK_DATA.representativeName}
+        cnpj={MOCK_DATA.cnpj}
+        whatsapp={MOCK_DATA.whatsapp}
+        bio={MOCK_DATA.bio}
+        pixKey={MOCK_DATA.pixKey}
+        telephone={MOCK_DATA.telephone}
+      />
+    ),
+    [],
   );
 
-  if (currentTab === 'Posts') {
-    currentTabToRender = <ProfilePosts posts={MOCK_DATA.posts} />;
-  }
+  const postsTab = useMemo(() => <ProfilePosts posts={MOCK_DATA.posts} />, []);
 
-  if (currentTab === 'Pets') {
-    currentTabToRender = (
+  const petsTab = useMemo(
+    () => (
       <ProfilePets
         pets={MOCK_DATA.availablePets}
         whatsapp={MOCK_DATA.whatsapp}
       />
-    );
+    ),
+    [],
+  );
+
+  let currentTabToRender = detailsTab;
+
+  if (currentTab === 'Posts') {
+    currentTabToRender = postsTab;
+  }
+
+  if (currentTab === 'Pets') {
+    currentTabToRender = petsTab;
   }
 
   return (
