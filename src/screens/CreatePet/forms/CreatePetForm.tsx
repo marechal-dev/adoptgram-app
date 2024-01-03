@@ -142,10 +142,16 @@ export function CreatePetForm() {
     // See: https://github.com/facebook/react-native/blob/90faf0f254fef89eface8d30b72402359991c67b/Libraries/Network/FormData.js#L31-L50
     formData.append('image', file as any);
 
-    const uploadResponse = await UploadService.uploadSingleFile(formData);
+    const uploadResponse = await UploadService.uploadSingleFile({
+      image: {
+        uri: profilePicture.uri,
+        type: 'image/jpeg',
+        name: profilePicture.fileName,
+      },
+    } as any);
 
     if (uploadResponse.status === 200) {
-      setUploadedProfilePictureURL(uploadResponse.data.imageURL);
+      setUploadedProfilePictureURL(uploadResponse.data.url);
     }
   }
 

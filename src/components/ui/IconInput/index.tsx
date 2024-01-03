@@ -26,10 +26,10 @@ export function IconInput({ error, iconProps, inputRef, ...rest }: InputProps) {
           color={iconProps.color}
         />
         <TextInput
+          {...rest}
           style={styles.input}
           cursorColor={colors.text.main}
           ref={inputRef}
-          {...rest}
         />
       </View>
 

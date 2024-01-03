@@ -8,11 +8,15 @@ interface ISearchManyOrganizationsResponse {
   queryResult: IOrganization[];
 }
 
+interface IFetchDetailsResponse {
+  details: IOrganizationProfile;
+}
+
 export class OrganizationService {
   public static RESOURCE_ENDPOINT = '/organizations';
   public static TEXT_SEARCH_ENDPOINT = '/organizations/text-search';
   public static FIND_BY_ID_ENDPOINT = '/organizations/:id';
-  public static FIND_PROFILE_BY_USERNAME = '/organizations/:username/profile';
+  public static FIND_DETAILS_BY_USERNAME = '/organizations/:username/details';
 
   public static createOrganization(data: RegisterOrganizationFormData) {
     const payload = this.mapDataToHttpPayload(data);
@@ -47,8 +51,8 @@ export class OrganizationService {
   }
 
   public static fetchProfileByUsername(username: string) {
-    return axiosSocialApiClient.get<IOrganizationProfile>(
-      this.FIND_PROFILE_BY_USERNAME.replace(':username', username),
+    return axiosSocialApiClient.get<IFetchDetailsResponse>(
+      this.FIND_DETAILS_BY_USERNAME.replace(':username', username),
     );
   }
 

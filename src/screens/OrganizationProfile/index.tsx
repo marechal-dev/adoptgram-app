@@ -1,320 +1,29 @@
 import { Image } from 'expo-image';
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 
 import PLACEHOLDER from '@Assets/images/placeholder-profile-picture.jpg';
 import { IconTab } from '@Components/ui/IconTab';
+import { LoadingOverlay } from '@Components/ui/LoadingOverlay';
 import { IOrganizationProfile } from '@Models/organization-profile';
 import { OrganizationProfileScreenProps } from '@Navigation/DetailsStack/types';
+import { OrganizationService } from '@Services/organization-service';
 
 import { ProfileDetails } from './components/ProfileDetails';
 import { ProfilePets } from './components/ProfilePets';
 import { ProfilePosts } from './components/ProfilePosts';
 import { styles } from './styles';
 
-const MOCK_DATA: IOrganizationProfile = {
-  id: '123',
-  title: 'Lambeijos de Luz',
-  representativeName: 'Pietro Piva Vieira',
-  cnpj: 'XX.XXX.XXX/0001-XX',
-  whatsapp: '(53) 98118-3178',
-  followersCount: 1337,
-  bio: 'Conheça a Lambeijos de Luz dqmwfqwoksmfqoawmsfqaokwsmfkoqamwskfmqowksmfqokwmfqokmwsfokqmawsokfmqaokwsmfokqamwsfkmqaokwsfmqkoeiqghiwjesngqwmfqokwsmfkqmawkeosmfqkowemngoqwjhogfqnwjsfnqowsmfdqkowmfokqmworoqjwoktqjkowsnfqokwmsfoqwmfokqwnmrqwijornq :)',
-  telephone: '(53) 3222-4444',
-  pixKey: '049.000.350-84',
-  profilePictureUrl: 'https://source.unsplash.com/random/300x300',
-  posts: [
-    {
-      id: '1',
-      createdAt: new Date(),
-      likes: 2,
-      medias: [
-        {
-          id: '1',
-          type: 'Photo',
-          url: 'https://source.unsplash.com/random/300x300',
-        },
-      ],
-      textContent: 'Teste teste',
-    },
-    {
-      id: '2',
-      createdAt: new Date(),
-      likes: 2,
-      medias: [
-        {
-          id: '1',
-          type: 'Photo',
-          url: 'https://source.unsplash.com/random/300x300',
-        },
-      ],
-      textContent: 'Teste teste',
-    },
-    {
-      id: '3',
-      createdAt: new Date(),
-      likes: 2,
-      medias: [
-        {
-          id: '1',
-          type: 'Photo',
-          url: 'https://source.unsplash.com/random/300x300',
-        },
-      ],
-      textContent: 'Teste teste',
-    },
-    {
-      id: '4',
-      createdAt: new Date(),
-      likes: 2,
-      medias: [
-        {
-          id: '1',
-          type: 'Photo',
-          url: 'https://source.unsplash.com/random/300x300',
-        },
-      ],
-      textContent: 'Teste teste',
-    },
-    {
-      id: '5',
-      createdAt: new Date(),
-      likes: 2,
-      medias: [
-        {
-          id: '1',
-          type: 'Photo',
-          url: 'https://source.unsplash.com/random/300x300',
-        },
-      ],
-      textContent: 'Teste teste',
-    },
-    {
-      id: '6',
-      createdAt: new Date(),
-      likes: 2,
-      medias: [
-        {
-          id: '1',
-          type: 'Photo',
-          url: 'https://source.unsplash.com/random/300x300',
-        },
-      ],
-      textContent: 'Teste teste',
-    },
-    {
-      id: '7',
-      createdAt: new Date(),
-      likes: 2,
-      medias: [
-        {
-          id: '1',
-          type: 'Photo',
-          url: 'https://source.unsplash.com/random/300x300',
-        },
-      ],
-      textContent: 'Teste teste',
-    },
-    {
-      id: '8',
-      createdAt: new Date(),
-      likes: 2,
-      medias: [
-        {
-          id: '1',
-          type: 'Photo',
-          url: 'https://source.unsplash.com/random/300x300',
-        },
-      ],
-      textContent: 'Teste teste',
-    },
-    {
-      id: '9',
-      createdAt: new Date(),
-      likes: 2,
-      medias: [
-        {
-          id: '1',
-          type: 'Photo',
-          url: 'https://source.unsplash.com/random/300x300',
-        },
-      ],
-      textContent: 'Teste teste',
-    },
-    {
-      id: '10',
-      createdAt: new Date(),
-      likes: 2,
-      medias: [
-        {
-          id: '1',
-          type: 'Photo',
-          url: 'https://source.unsplash.com/random/300x300',
-        },
-      ],
-      textContent: 'Teste teste',
-    },
-    {
-      id: '11',
-      createdAt: new Date(),
-      likes: 2,
-      medias: [
-        {
-          id: '1',
-          type: 'Photo',
-          url: 'https://source.unsplash.com/random/300x300',
-        },
-      ],
-      textContent: 'Teste teste',
-    },
-    {
-      id: '12',
-      createdAt: new Date(),
-      likes: 2,
-      medias: [
-        {
-          id: '1',
-          type: 'Photo',
-          url: 'https://source.unsplash.com/random/300x300',
-        },
-      ],
-      textContent: 'Teste teste',
-    },
-    {
-      id: '13',
-      createdAt: new Date(),
-      likes: 2,
-      medias: [
-        {
-          id: '1',
-          type: 'Photo',
-          url: 'https://source.unsplash.com/random/300x300',
-        },
-      ],
-      textContent: 'Teste teste',
-    },
-    {
-      id: '14',
-      createdAt: new Date(),
-      likes: 2,
-      medias: [
-        {
-          id: '1',
-          type: 'Photo',
-          url: 'https://source.unsplash.com/random/300x300',
-        },
-      ],
-      textContent: 'Teste teste',
-    },
-    {
-      id: '15',
-      createdAt: new Date(),
-      likes: 2,
-      medias: [
-        {
-          id: '1',
-          type: 'Photo',
-          url: 'https://source.unsplash.com/random/300x300',
-        },
-      ],
-      textContent: 'Teste teste',
-    },
-  ],
-  availablePets: [
-    {
-      id: '4',
-      name: 'Floppa',
-      bio: 'Gosha Karr',
-      age: 2,
-      energyLevel: 'Medium',
-      createdAt: new Date(),
-      isCastrated: true,
-      isVaccinated: true,
-      profilePictureURL: 'https://source.unsplash.com/random/300x300',
-      requireMedicalAttention: true,
-      size: 'Big',
-      ownerOrganizationID: '123',
-    },
-    {
-      id: '5',
-      name: 'Floppa',
-      bio: 'Gosha Karr',
-      age: 2,
-      energyLevel: 'Medium',
-      createdAt: new Date(),
-      isCastrated: true,
-      isVaccinated: true,
-      profilePictureURL: 'https://source.unsplash.com/random/300x300',
-      requireMedicalAttention: true,
-      size: 'Big',
-      ownerOrganizationID: '123',
-    },
-    {
-      id: '6',
-      name: 'Floppa',
-      bio: 'Gosha Karr',
-      age: 2,
-      energyLevel: 'Medium',
-      createdAt: new Date(),
-      isCastrated: true,
-      isVaccinated: true,
-      profilePictureURL: 'https://source.unsplash.com/random/300x300',
-      requireMedicalAttention: true,
-      size: 'Big',
-      ownerOrganizationID: '123',
-    },
-    {
-      id: '7',
-      name: 'Floppa',
-      bio: 'Gosha Karr',
-      age: 2,
-      energyLevel: 'Medium',
-      createdAt: new Date(),
-      isCastrated: true,
-      isVaccinated: true,
-      profilePictureURL: 'https://source.unsplash.com/random/300x300',
-      requireMedicalAttention: true,
-      size: 'Big',
-      ownerOrganizationID: '123',
-    },
-    {
-      id: '8',
-      name: 'Floppa',
-      bio: 'Gosha Karr',
-      age: 2,
-      energyLevel: 'Medium',
-      createdAt: new Date(),
-      isCastrated: true,
-      isVaccinated: true,
-      profilePictureURL: 'https://source.unsplash.com/random/300x300',
-      requireMedicalAttention: true,
-      size: 'Big',
-      ownerOrganizationID: '123',
-    },
-    {
-      id: '9',
-      name: 'Floppa',
-      bio: 'Gosha Karr',
-      age: 2,
-      energyLevel: 'Medium',
-      createdAt: new Date(),
-      isCastrated: true,
-      isVaccinated: true,
-      profilePictureURL: 'https://source.unsplash.com/random/300x300',
-      requireMedicalAttention: true,
-      size: 'Big',
-      ownerOrganizationID: '123',
-    },
-  ],
-};
-
 type Tab = 'Details' | 'Posts' | 'Pets';
 
-// TODO: Refactor to use FlatList only
 export function OrganizationProfileScreen({
   navigation,
   route,
 }: OrganizationProfileScreenProps) {
+  const [isLoading, setIsLoading] = useState(true);
+  const [profile, setProfile] = useState<IOrganizationProfile>(
+    {} as IOrganizationProfile,
+  );
   const [currentTab, setCurrentTab] = useState<Tab>('Details');
 
   useLayoutEffect(() => {
@@ -323,7 +32,31 @@ export function OrganizationProfileScreen({
     });
   }, [navigation, route]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        setIsLoading(true);
+
+        const result = await OrganizationService.fetchProfileByUsername(
+          route.params.username,
+        );
+
+        console.log(result);
+
+        if (result.status === 200) {
+          setProfile(result.data.details);
+        }
+      } catch (error) {
+        Alert.alert('Erro', 'Erro ao buscar dados do perfil.');
+
+        navigation.goBack();
+      }
+
+      setIsLoading(false);
+    };
+
+    fetchProfile();
+  }, []);
 
   function onChangeCurrentTab(tab: Tab) {
     setCurrentTab(tab);
@@ -332,27 +65,34 @@ export function OrganizationProfileScreen({
   const detailsTab = useMemo(
     () => (
       <ProfileDetails
-        representativeName={MOCK_DATA.representativeName}
-        cnpj={MOCK_DATA.cnpj}
-        whatsapp={MOCK_DATA.whatsapp}
-        bio={MOCK_DATA.bio}
-        pixKey={MOCK_DATA.pixKey}
-        telephone={MOCK_DATA.telephone}
+        representativeName={profile.representativeName}
+        cnpj={profile.cnpj}
+        whatsapp={profile.whatsapp}
+        bio={profile.bio}
+        pixKey={profile.pixKey}
+        telephone={profile.telephone}
       />
     ),
-    [],
+    [
+      profile.bio,
+      profile.cnpj,
+      profile.pixKey,
+      profile.representativeName,
+      profile.telephone,
+      profile.whatsapp,
+    ],
   );
 
-  const postsTab = useMemo(() => <ProfilePosts posts={MOCK_DATA.posts} />, []);
+  const postsTab = useMemo(
+    () => <ProfilePosts posts={profile.posts} />,
+    [profile.posts],
+  );
 
   const petsTab = useMemo(
     () => (
-      <ProfilePets
-        pets={MOCK_DATA.availablePets}
-        whatsapp={MOCK_DATA.whatsapp}
-      />
+      <ProfilePets pets={profile.availablePets} whatsapp={profile.whatsapp} />
     ),
-    [],
+    [profile.availablePets, profile.whatsapp],
   );
 
   let currentTabToRender = detailsTab;
@@ -365,12 +105,14 @@ export function OrganizationProfileScreen({
     currentTabToRender = petsTab;
   }
 
-  return (
+  return isLoading ? (
+    <LoadingOverlay message="Carregando perfil..." />
+  ) : (
     <View style={styles.container}>
       <View style={styles.profileContainer}>
         <View style={styles.profileHeader}>
           <Image
-            source={MOCK_DATA.profilePictureUrl || PLACEHOLDER}
+            source={profile.profilePictureUrl || PLACEHOLDER}
             style={styles.profilePicture}
           />
 
@@ -378,10 +120,10 @@ export function OrganizationProfileScreen({
 
           <View style={styles.headerDetailsSection}>
             <Text style={[styles.baseText, styles.profileTitle]}>
-              {MOCK_DATA.title}
+              {profile.title}
             </Text>
             <Text style={[styles.baseText, styles.followersCount]}>
-              {MOCK_DATA.followersCount} seguidores
+              {profile.followersCount} seguidores
             </Text>
           </View>
         </View>

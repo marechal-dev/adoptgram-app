@@ -63,6 +63,7 @@ export function ProfilePets({ pets, whatsapp }: ProfilePetsProps) {
           />
         )}
         ItemSeparatorComponent={() => <ListItemSeparator size={1} />}
+        ListEmptyComponent={<Text>Nenhum Pet... ainda!</Text>}
       />
     </View>
   );

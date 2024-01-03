@@ -22,6 +22,7 @@ export const styles = StyleSheet.create({
   input: {
     flex: 1,
     alignItems: 'center',
+    minHeight: 56,
     height: '100%',
     fontFamily: 'Poppins',
     fontSize: 16,

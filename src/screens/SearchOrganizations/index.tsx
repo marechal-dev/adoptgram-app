@@ -15,7 +15,7 @@ import { styles } from './styles';
 export function SearchOrganizationsScreen() {
   const [searchResult, setSearchResult] = useState<IOrganization[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const debouncedSearchTerm = useDebounce(searchTerm, 950);
 
   function onChangeSearchTerm(value: string) {
     setSearchTerm(value);
@@ -24,6 +24,12 @@ export function SearchOrganizationsScreen() {
   useEffect(() => {
     const searchOrganizations = async () => {
       try {
+        if (!searchTerm) {
+          setSearchResult([]);
+
+          return;
+        }
+
         if (debouncedSearchTerm) {
           const result =
             await OrganizationService.searchMany(debouncedSearchTerm);
@@ -44,33 +50,32 @@ export function SearchOrganizationsScreen() {
   }, [debouncedSearchTerm]);
 
   return (
-    <View style={styles.screenContainer}>
-      <IconInput
-        iconProps={{
-          iconName: 'search',
-          color: colors.text.main,
-          size: 24,
-        }}
-        placeholder="Procurar por ONGs"
-        onChangeText={onChangeSearchTerm}
-        value={searchTerm}
+    <View style={styles.searchItemsListContainer}>
+      <FlatList
+        data={searchResult}
+        keyExtractor={(item) => item.id}
+        ItemSeparatorComponent={SearchItemSeparator}
+        ListHeaderComponent={
+          <IconInput
+            iconProps={{
+              iconName: 'search',
+              color: colors.text.main,
+              size: 24,
+            }}
+            placeholder="Procurar por ONGs"
+            onChangeText={onChangeSearchTerm}
+            value={searchTerm}
+          />
+        }
+        renderItem={({ item }) => (
+          <SearchItem
+            profilePictureURL={item.profilePictureURL}
+            title={item.title}
+            username={item.username}
+          />
+        )}
+        ListEmptyComponent={<EmptySearchList query={debouncedSearchTerm} />}
       />
-
-      <View style={styles.searchItemsListContainer}>
-        <FlatList
-          data={searchResult}
-          keyExtractor={(item) => item.id}
-          ItemSeparatorComponent={SearchItemSeparator}
-          renderItem={({ item }) => (
-            <SearchItem
-              profilePictureURL={item.profilePictureURL}
-              title={item.title}
-              username={item.username}
-            />
-          )}
-          ListEmptyComponent={<EmptySearchList query={debouncedSearchTerm} />}
-        />
-      </View>
     </View>
   );
 }
