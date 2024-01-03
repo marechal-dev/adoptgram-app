@@ -1,6 +1,7 @@
 import React from 'react';
 import { FlatList, Text, View } from 'react-native';
 
+import PLACEHOLDER from '@Assets/images/placeholder-profile-picture.jpg';
 import { Comment } from '@Components/ui/Comment';
 import { IconButton } from '@Components/ui/IconButton';
 import { Input } from '@Components/ui/Input';
@@ -31,11 +32,11 @@ const MOCK_DATA: IPostDetails = {
     },
   ],
   comments: [
-    // {
-    //   id: '1',
-    //   commenterUsername: 'teste',
-    //   content: 'Teste teste',
-    // },
+    {
+      id: '1',
+      commenterUsername: 'teste',
+      content: 'Teste teste',
+    },
     // {
     //   id: '2',
     //   commenterUsername: 'teste1',
@@ -89,7 +90,9 @@ export function PostDetailsScreen({ route }: PostDetailsScreenProps) {
           <>
             <Post
               id={route.params.id}
-              creatorProfilePictureURL={MOCK_DATA.creatorProfilePictureURL}
+              creatorProfilePictureURL={
+                MOCK_DATA.creatorProfilePictureURL || PLACEHOLDER
+              }
               creatorUserName={MOCK_DATA.creatorUsername}
               textContent={MOCK_DATA.textContent}
               initialLikeCount={MOCK_DATA.likes}
@@ -109,7 +112,11 @@ export function PostDetailsScreen({ route }: PostDetailsScreenProps) {
         ItemSeparatorComponent={() => <HorizontalSeparator size={6} />}
         contentContainerStyle={styles.contentContainer}
         renderItem={({ item }) => (
-          <Comment username={item.commenterUsername} content={item.content} />
+          <Comment
+            profilePicture={item.commenterProfilePictureURL}
+            username={item.commenterUsername}
+            content={item.content}
+          />
         )}
         ListFooterComponentStyle={styles.footerContainer}
         ListFooterComponent={() =>

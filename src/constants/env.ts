@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 const envSchema = z.object({
   EXPO_PUBLIC_APP_ENV: z
-    .enum(['development', 'production'] as const)
+    .enum(['development', 'staging', 'production'] as const)
     .default('development'),
   EXPO_PUBLIC_SOCIAL_API_URL: z
     .string()

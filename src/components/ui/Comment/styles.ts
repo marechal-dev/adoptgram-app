@@ -7,11 +7,21 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: colors.brand.blue800,
     borderRadius: 12,
-    padding: 8,
+    padding: 12,
   },
   baseText: {
     fontFamily: 'Poppins',
     color: 'white',
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    columnGap: 8,
+    marginBottom: 8,
+  },
+  image: {
+    height: 30,
+    width: 30,
+    borderRadius: 20,
   },
   username: {
     fontStyle: 'italic',

@@ -3,7 +3,7 @@ import { IMedia } from './media';
 
 export interface IPostDetails {
   id: string;
-  creatorProfilePictureURL: string;
+  creatorProfilePictureURL?: string;
   creatorUsername: string;
   textContent: string;
   likes: number;

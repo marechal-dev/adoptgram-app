@@ -1,41 +1,23 @@
 import { useDebounce } from '@uidotdev/usehooks';
 import { useEffect, useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { Alert, FlatList, View } from 'react-native';
 
 import { IconInput } from '@Components/ui/IconInput';
+import { IOrganization } from '@Models/organization';
 import { OrganizationService } from '@Services/organization-service';
 import { colors } from '@Theme/colors';
 
+import { EmptySearchList } from './components/EmptySearchList';
 import { SearchItem } from './components/SearchItem';
 import { SearchItemSeparator } from './components/SearchItemSeparator';
 import { styles } from './styles';
 
-const mocks = [
-  {
-    id: '1',
-    profilePictureURL: 'https://source.unsplash.com/random/300x300',
-    title: 'Lambeijos de Luz',
-    username: 'lambeijos',
-  },
-  {
-    id: '2',
-    profilePictureURL: 'https://source.unsplash.com/random/300x300',
-    title: 'Lambeijos de Luz',
-    username: 'lambeijos',
-  },
-  {
-    id: '3',
-    profilePictureURL: 'https://source.unsplash.com/random/300x300',
-    title: 'Lambeijos de Luz',
-    username: 'lambeijos',
-  },
-];
-
 export function SearchOrganizationsScreen() {
+  const [searchResult, setSearchResult] = useState<IOrganization[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  function handleOnChangeSearchTerm(value: string) {
+  function onChangeSearchTerm(value: string) {
     setSearchTerm(value);
   }
 
@@ -46,9 +28,16 @@ export function SearchOrganizationsScreen() {
           const result =
             await OrganizationService.searchMany(debouncedSearchTerm);
 
-          console.log(result);
+          if (result.status === 200) {
+            setSearchResult(result.data.queryResult);
+          }
         }
-      } catch (error) {}
+      } catch (error) {
+        Alert.alert(
+          'Erro',
+          'Não foi possível concluir sua requisição. Por favor, tente novamente mais tarde.',
+        );
+      }
     };
 
     searchOrganizations();
@@ -63,13 +52,13 @@ export function SearchOrganizationsScreen() {
           size: 24,
         }}
         placeholder="Procurar por ONGs"
-        onChangeText={handleOnChangeSearchTerm}
+        onChangeText={onChangeSearchTerm}
         value={searchTerm}
       />
 
       <View style={styles.searchItemsListContainer}>
         <FlatList
-          data={mocks}
+          data={searchResult}
           keyExtractor={(item) => item.id}
           ItemSeparatorComponent={SearchItemSeparator}
           renderItem={({ item }) => (
@@ -79,6 +68,7 @@ export function SearchOrganizationsScreen() {
               username={item.username}
             />
           )}
+          ListEmptyComponent={<EmptySearchList query={debouncedSearchTerm} />}
         />
       </View>
     </View>

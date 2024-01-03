@@ -1,10 +1,16 @@
 import { axiosSocialApiClient } from '@Lib/axios';
+import { IOrganization } from '@Models/organization';
 import { IOrganizationProfile } from '@Models/organization-profile';
 import { CreateOrganizationPayload } from '@Screens/SignIn/payloads/create-organization-payload';
 import { RegisterOrganizationFormData } from '@Screens/SignIn/schemas/register-organization-schema';
 
+interface ISearchManyOrganizationsResponse {
+  queryResult: IOrganization[];
+}
+
 export class OrganizationService {
   public static RESOURCE_ENDPOINT = '/organizations';
+  public static TEXT_SEARCH_ENDPOINT = '/organizations/text-search';
   public static FIND_BY_ID_ENDPOINT = '/organizations/:id';
   public static FIND_PROFILE_BY_USERNAME = '/organizations/:username/profile';
 
@@ -47,8 +53,8 @@ export class OrganizationService {
   }
 
   public static searchMany(searchTerm: string) {
-    return axiosSocialApiClient.get(
-      `${this.RESOURCE_ENDPOINT}?query=${searchTerm}`,
+    return axiosSocialApiClient.get<ISearchManyOrganizationsResponse>(
+      `${this.TEXT_SEARCH_ENDPOINT}?query=${searchTerm}`,
     );
   }
 }
