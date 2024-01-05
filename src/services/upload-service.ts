@@ -17,7 +17,10 @@ export class UploadService {
       this.SINGLE_FILE_UPLOAD_ENDPOINT,
       formData,
       {
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+        transformRequest: (data) => data,
       },
     );
   }
@@ -27,7 +30,10 @@ export class UploadService {
       this.BULK_UPLOAD_ENDPOINT,
       formData,
       {
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+        transformRequest: (data) => data,
       },
     );
   }

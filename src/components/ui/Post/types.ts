@@ -5,12 +5,12 @@ export interface IMedia {
 
 export interface IPostProps {
   id: string;
-  creatorProfilePictureURL?: string;
+  creatorProfilePictureURL?: string | null;
   creatorUserName: string;
   medias: IMedia[];
   initialLikeCount: number;
   textContent: string;
-  createdAt: Date;
+  createdAt: Date | string;
 }
 
 export interface IMediaCarrouselProps {

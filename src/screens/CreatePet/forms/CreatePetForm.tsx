@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ImagePickerAsset } from 'expo-image-picker';
+import mime from 'mime';
 import { useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Alert, View } from 'react-native';
@@ -11,6 +12,7 @@ import { ProfilePictureImagePicker } from '@Components/ui/ProfilePictureImagePic
 import { SelectInput } from '@Components/ui/SelectInput';
 import { SwitchInput } from '@Components/ui/SwitchInput';
 import { TextArea } from '@Components/ui/TextArea';
+import { FileService } from '@Services/file-service';
 import { PetService } from '@Services/pet-service';
 import { UploadService } from '@Services/upload-service';
 
@@ -39,7 +41,7 @@ const createPetSchema = z.object({
   ] as const),
 });
 
-const petAgeSchema = z.number().int().nonnegative();
+const petAgeSchema = z.coerce.number().int().nonnegative();
 
 type CreatePetFormInputData = z.input<typeof createPetSchema>;
 export type CreatePetFormData = Omit<
@@ -133,24 +135,21 @@ export function CreatePetForm() {
 
     const formData = new FormData();
 
+    const uri = FileService.getURI(profilePicture.uri);
+
+    const name = FileService.getFileName(profilePicture.uri);
+
     const file = {
-      uri: profilePicture.uri,
-      type: 'image/jpeg',
-      name: profilePicture.fileName,
+      uri,
+      type: mime.getType(uri),
+      name,
     };
 
-    // See: https://github.com/facebook/react-native/blob/90faf0f254fef89eface8d30b72402359991c67b/Libraries/Network/FormData.js#L31-L50
     formData.append('image', file as any);
 
-    const uploadResponse = await UploadService.uploadSingleFile({
-      image: {
-        uri: profilePicture.uri,
-        type: 'image/jpeg',
-        name: profilePicture.fileName,
-      },
-    } as any);
+    const uploadResponse = await UploadService.uploadSingleFile(formData);
 
-    if (uploadResponse.status === 200) {
+    if (uploadResponse.status === 201) {
       setUploadedProfilePictureURL(uploadResponse.data.url);
     }
   }

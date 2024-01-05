@@ -1,6 +1,7 @@
 import { Image } from 'expo-image';
 import { Text, View } from 'react-native';
 
+import PLACEHOLDER from '@Assets/images/placeholder-profile-picture.jpg';
 import { useAuth } from '@Hooks/use-auth';
 import { IPet } from '@Models/pet';
 
@@ -63,9 +64,13 @@ export function PetListItem({
     onPressDelete(pet.id);
   }
 
+  const imageSource = pet.profilePictureURL
+    ? `https://pub-c4a5b57b9f444b199cecadd2c07022b7.r2.dev/${pet.profilePictureURL}`
+    : PLACEHOLDER;
+
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={pet.profilePictureURL} />
+      <Image style={styles.image} source={imageSource} />
 
       <ListItemSeparator color="white" size="90%" />
 

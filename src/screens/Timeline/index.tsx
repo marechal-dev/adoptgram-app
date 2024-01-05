@@ -4,115 +4,59 @@ import { Alert, FlatList, RefreshControl, View } from 'react-native';
 import { LoadingOverlay } from '@Components/ui/LoadingOverlay';
 import { Post } from '@Components/ui/Post';
 import { Separator } from '@Components/ui/Post/Separator';
-import { IPostProps } from '@Components/ui/Post/types';
+import { TimelinePost } from '@Models/timeline-post';
+import { PostService } from '@Services/post-service';
 import { SentryService } from '@Services/sentry-service';
 
 import { styles } from './styles';
 
-const posts: IPostProps[] = [
-  {
-    id: '1',
-    creatorProfilePictureURL: 'https://source.unsplash.com/random/300x300',
-    creatorUserName: 'lambeijos',
-    initialLikeCount: 30,
-    medias: [
-      {
-        url: 'https://source.unsplash.com/random/340x340',
-        type: 'Photo',
-      },
-      {
-        url: 'https://source.unsplash.com/random/340x340',
-        type: 'Photo',
-      },
-    ],
-    textContent:
-      'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi mollitia inventore impedit eaque nesciunt modi...',
-    createdAt: new Date(2023, 1, 23),
-  },
-  {
-    id: '2',
-    creatorProfilePictureURL: 'https://source.unsplash.com/random/300x300',
-    creatorUserName: 'lambeijos',
-    initialLikeCount: 24,
-    medias: [
-      {
-        url: 'https://source.unsplash.com/random/340x340',
-        type: 'Photo',
-      },
-      {
-        url: 'https://source.unsplash.com/random/340x340',
-        type: 'Photo',
-      },
-    ],
-    textContent:
-      'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi mollitia inventore impedit eaque nesciunt modi...',
-    createdAt: new Date(2023, 3, 23),
-  },
-  {
-    id: '3',
-    creatorProfilePictureURL: 'https://source.unsplash.com/random/300x300',
-    creatorUserName: 'lambeijos',
-    initialLikeCount: 14,
-    medias: [
-      {
-        url: 'https://source.unsplash.com/random/340x340',
-        type: 'Photo',
-      },
-      {
-        url: 'https://source.unsplash.com/random/340x340',
-        type: 'Photo',
-      },
-      {
-        url: 'https://source.unsplash.com/random/340x340',
-        type: 'Photo',
-      },
-    ],
-    textContent:
-      'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi mollitia inventore impedit eaque nesciunt modi...',
-    createdAt: new Date(2023, 10, 15, 21, 50),
-  },
-];
-
 export function TimelineScreen() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isRequesting, setIsRequesting] = useState(false);
+  const [timelinePosts, setTimelinePosts] = useState<TimelinePost[]>([]);
 
   const fetchTimeline = useCallback(async () => {
     setIsRequesting(true);
 
-    setTimeout(() => {
-      setIsRequesting(false);
-    }, 3000);
+    try {
+      const response = await PostService.fetchTimeline();
+
+      if (response.status === 200) {
+        setTimelinePosts(() => response.data.timelinePosts);
+      }
+    } catch (error) {
+      SentryService.captureException(error);
+    }
+
+    setIsRequesting(false);
   }, []);
 
-  const onRefresh = useCallback(() => {
+  const onRefresh = useCallback(async () => {
     setIsRefreshing(true);
 
-    fetchTimeline()
-      .then(() => {
-        setIsRefreshing(false);
-      })
-      .catch((error) => {
-        setIsRefreshing(false);
+    try {
+      await fetchTimeline();
+    } catch (error) {
+      Alert.alert(
+        'Alerta',
+        'Não foi possível atualizar a linha do tempo. Por favor, verifique sua conexão com a internet e tente novamente.',
+      );
+    }
 
-        Alert.alert(
-          'Alerta',
-          'Não foi possível atualizar a linha do tempo. Por favor, verifique sua conexão com a internet e tente novamente.',
-        );
-
-        SentryService.captureException(error);
-      });
+    setIsRefreshing(false);
   }, [fetchTimeline]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    fetchTimeline();
+  }, [fetchTimeline]);
 
   return (
     <View style={styles.pageContainer}>
-      {isRequesting ? (
+      {isRequesting || isRefreshing ? (
         <LoadingOverlay message="Aguente firme, o conteúdo está carregando!" />
       ) : (
         <FlatList
-          data={posts}
+          data={timelinePosts}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
           refreshControl={
@@ -121,10 +65,10 @@ export function TimelineScreen() {
           renderItem={({ item }) => (
             <Post
               id={item.id}
-              creatorUserName={item.creatorUserName}
-              creatorProfilePictureURL={item.creatorProfilePictureURL}
+              creatorUserName={item.organization.username}
+              creatorProfilePictureURL={item.organization.profilePictureURL}
               medias={item.medias}
-              initialLikeCount={item.initialLikeCount}
+              initialLikeCount={item.likes}
               textContent={item.textContent}
               createdAt={item.createdAt}
             />

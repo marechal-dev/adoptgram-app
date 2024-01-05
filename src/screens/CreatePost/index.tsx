@@ -1,44 +1,113 @@
+import { isAxiosError } from 'axios';
+import { ImagePickerAsset } from 'expo-image-picker';
+import mime from 'mime';
 import React, { useState } from 'react';
 import { Alert, ScrollView, Text, View } from 'react-native';
 
 import { Button } from '@Components/ui/Button';
 import { TextArea } from '@Components/ui/TextArea';
+import { FileService } from '@Services/file-service';
+import { ICreatePostRequest, PostService } from '@Services/post-service';
+import { UploadService } from '@Services/upload-service';
 
 import { PostImagePicker } from './components/PostImagePicker';
+import { BulkUploadFailedError } from './errors/bulk-upload-failed';
 import { styles } from './styles';
 
 export function CreatePostScreen() {
   const [textContent, setTextContent] = useState('');
-  const [medias, setMedias] = useState<string[]>([]);
+  const [medias, setMedias] = useState<ImagePickerAsset[]>([]);
+  const [uploadedMediasUrls, setUploadedMediasUrls] = useState<string[]>([]);
 
   function onChangeTextContent(text: string) {
     setTextContent(text);
   }
 
-  function onChangeMedias(uris: string[]) {
-    setMedias((oldState) => [...uris, ...oldState]);
+  function onChangeMedias(pickedMedias: ImagePickerAsset[]) {
+    setMedias((oldState) => [...pickedMedias, ...oldState]);
   }
 
   function onClearMedias() {
     setMedias([]);
   }
 
-  function onCreatePost() {
-    const textContentIsValid = textContent.length > 0;
+  async function uploadImages() {
+    try {
+      const formData = new FormData();
 
-    if (!textContentIsValid) {
-      Alert.alert('Aviso', 'O texto da postagem não pode estar vazio.');
+      medias.forEach((media) => {
+        const uri = FileService.getURI(media.uri);
+        const name = FileService.getFileName(media.uri);
+        const type = mime.getType(media.uri);
 
-      return;
+        formData.append('files[]', {
+          uri,
+          name,
+          type,
+        } as any);
+      });
+
+      const uploadResult = await UploadService.bulkUploadFiles(formData);
+
+      if (uploadResult.status === 201) {
+        setUploadedMediasUrls(uploadResult.data.urls);
+      }
+    } catch (error) {
+      throw new BulkUploadFailedError();
     }
+  }
 
-    const haveSelectedMedias = medias.length > 0;
+  async function onCreatePost() {
+    try {
+      const textContentIsValid = textContent.length > 0;
 
-    if (!haveSelectedMedias) {
-      Alert.alert('Aviso', 'Selecione ao menos uma imagem.');
+      if (!textContentIsValid) {
+        Alert.alert('Aviso', 'O texto da postagem não pode estar vazio.');
+
+        return;
+      }
+
+      if (textContent.length < 10) {
+        Alert.alert(
+          'Aviso',
+          'O texto da postagem é muito curto, por favor, conte-nos mais :).',
+        );
+
+        return;
+      }
+
+      const haveSelectedMedias = medias.length > 0;
+
+      if (!haveSelectedMedias) {
+        Alert.alert('Aviso', 'Selecione ao menos uma imagem.');
+      }
+
+      await uploadImages();
+
+      const mediasMetadatas = uploadedMediasUrls.map((url) => ({
+        type: 'Image',
+        url,
+      }));
+
+      const payload = {
+        textContent,
+        mediasMetadatas,
+      } as ICreatePostRequest;
+
+      const response = await PostService.create(payload);
+
+      if (response.status === 201) {
+        Alert.alert('Sucesso', 'Post criado com sucesso!');
+      }
+    } catch (error) {
+      if (error instanceof BulkUploadFailedError) {
+        Alert.alert('Erro', error.message);
+      }
+
+      if (isAxiosError(error)) {
+        Alert.alert('Erro ao criar postagem', error.message);
+      }
     }
-
-    console.log(textContent, medias);
   }
 
   return (

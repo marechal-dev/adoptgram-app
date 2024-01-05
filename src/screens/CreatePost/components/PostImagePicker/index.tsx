@@ -1,4 +1,5 @@
 import {
+  ImagePickerAsset,
   ImagePickerOptions,
   MediaTypeOptions,
   PermissionStatus,
@@ -22,7 +23,7 @@ const IMAGE_PICKER_OPTIONS: ImagePickerOptions = {
 };
 
 interface IPostImagePickerProps {
-  onPickImagesHandler: (uris: string[]) => void;
+  onPickImagesHandler: (uris: ImagePickerAsset[]) => void;
   onClearMedias: () => void;
 }
 
@@ -30,7 +31,7 @@ export function PostImagePicker({
   onPickImagesHandler,
   onClearMedias,
 }: IPostImagePickerProps) {
-  const [pickedImages, setPickedImages] = useState<string[]>([]);
+  const [pickedImages, setPickedImages] = useState<ImagePickerAsset[]>([]);
 
   const [mediaLibraryPermissionStatus, requestPermission] =
     useMediaLibraryPermissions();
@@ -71,10 +72,8 @@ export function PostImagePicker({
       return;
     }
 
-    const photosUris = assets.map((asset) => asset.uri);
-
-    setPickedImages((oldState) => [...photosUris, ...oldState]);
-    onPickImagesHandler(photosUris);
+    setPickedImages((oldState) => [...assets, ...oldState]);
+    onPickImagesHandler(assets);
   }
 
   function onClearImages() {
@@ -91,7 +90,7 @@ export function PostImagePicker({
           <MediaCarousel
             medias={pickedImages.map((image) => ({
               type: 'Photo',
-              url: image,
+              url: image.uri,
             }))}
           />
         ) : (

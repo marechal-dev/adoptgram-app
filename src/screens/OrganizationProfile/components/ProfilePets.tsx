@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios';
 import * as Linking from 'expo-linking';
+import { useState } from 'react';
 import { Alert, FlatList, Text, View } from 'react-native';
 
 import { ListItemSeparator } from '@Components/ui/ListItemSeparator';
@@ -15,6 +16,8 @@ type ProfilePetsProps = {
 };
 
 export function ProfilePets({ pets, whatsapp }: ProfilePetsProps) {
+  const [currentPets, setCurrentPets] = useState<IPet[]>(pets);
+
   async function onPressAdopt() {
     const normalizedWhatsAppNumber = whatsapp
       .replace('(', '')
@@ -32,6 +35,9 @@ export function ProfilePets({ pets, whatsapp }: ProfilePetsProps) {
       const response = await PetService.delete(petID);
 
       if (response.status === 204) {
+        setCurrentPets((oldState) =>
+          oldState.filter((pet) => pet.id !== petID),
+        );
         Alert.alert('Sucesso!', 'Pet deletado com sucesso!');
       }
     } catch (error) {
@@ -53,7 +59,7 @@ export function ProfilePets({ pets, whatsapp }: ProfilePetsProps) {
       <Text style={profilePetsStyles.title}>Pets disponíveis para adoção</Text>
 
       <FlatList
-        data={pets}
+        data={currentPets}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <PetListItem

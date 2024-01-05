@@ -41,8 +41,6 @@ export function OrganizationProfileScreen({
           route.params.username,
         );
 
-        console.log(result);
-
         if (result.status === 200) {
           setProfile(result.data.details);
         }

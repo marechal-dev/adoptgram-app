@@ -31,6 +31,9 @@ export function Post({
     });
   }
 
+  const parsedDate =
+    typeof createdAt === 'string' ? new Date(createdAt) : createdAt;
+
   return (
     <View style={styles.outerContainer}>
       <View style={styles.headerContainer}>
@@ -45,7 +48,7 @@ export function Post({
                 {creatorUserName}
               </Text>
               <Text style={[styles.textBase, styles.headerPublishedAt]}>
-                {DateFormatService.formatToRelativeDateTimeString(createdAt)}
+                {DateFormatService.formatToRelativeDateTimeString(parsedDate)}
               </Text>
             </View>
           </View>
