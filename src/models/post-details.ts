@@ -1,13 +1,13 @@
-import { IComment } from './comment';
+import { ICommentWithAuthor } from './comment-with-author';
 import { IMedia } from './media';
+import { IOrganization } from './organization';
 
 export interface IPostDetails {
   id: string;
-  creatorProfilePictureURL?: string;
-  creatorUsername: string;
   textContent: string;
   likes: number;
   medias: IMedia[];
-  comments: IComment[];
+  comments: ICommentWithAuthor[];
+  organization: IOrganization;
   createdAt: Date;
 }

@@ -29,7 +29,7 @@ export function ProfilePosts({ posts }: ProfilePostsProps) {
           columnWrapperStyle={{ justifyContent: 'space-around' }}
           renderItem={({ item }) => (
             <PostPreview
-              firstMediaURL={item.medias[0].url}
+              firstMediaURL={`https://pub-c4a5b57b9f444b199cecadd2c07022b7.r2.dev/${item.medias[0].url}`}
               onPress={() =>
                 navigate('DetailsStack', {
                   screen: 'PostDetails',

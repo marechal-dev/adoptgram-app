@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Alert, FlatList, RefreshControl, View } from 'react-native';
+import { Alert, FlatList, RefreshControl, Text, View } from 'react-native';
 
 import { LoadingOverlay } from '@Components/ui/LoadingOverlay';
 import { Post } from '@Components/ui/Post';
@@ -73,6 +73,9 @@ export function TimelineScreen() {
               createdAt={item.createdAt}
             />
           )}
+          ListEmptyComponent={
+            <Text style={styles.text}>Ainda não temos nada para exibir...</Text>
+          }
           ItemSeparatorComponent={Separator}
         />
       )}

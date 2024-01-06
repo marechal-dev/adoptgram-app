@@ -22,6 +22,8 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   footerContainer: {
+    paddingHorizontal: 20,
+
     marginTop: 10,
   },
   inputContainer: {

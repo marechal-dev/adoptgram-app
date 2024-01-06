@@ -1,5 +1,6 @@
 import { Feather } from '@expo/vector-icons';
-import { View } from 'react-native';
+import React from 'react';
+import { TouchableWithoutFeedback, View } from 'react-native';
 
 import { styles } from './styles';
 
@@ -9,16 +10,19 @@ type IconButtonProps = {
     size: number;
     color: string;
   };
+  onPress: () => void;
 };
 
-export function IconButton({ iconProps }: IconButtonProps) {
+export function IconButton({ iconProps, onPress }: IconButtonProps) {
   return (
-    <View style={styles.container}>
-      <Feather
-        name={iconProps.iconName}
-        size={iconProps.size}
-        color={iconProps.color}
-      />
-    </View>
+    <TouchableWithoutFeedback onPress={onPress}>
+      <View style={styles.container}>
+        <Feather
+          name={iconProps.iconName}
+          size={iconProps.size}
+          color={iconProps.color}
+        />
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
